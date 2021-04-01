@@ -6,6 +6,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
 
 import { PagesModule } from './pages/pages.module';
 
@@ -19,9 +20,10 @@ import { PagesModule } from './pages/pages.module';
     BrowserModule,
     AppRoutingModule,
     RouterModule,
-    PagesModule
+    PagesModule,
+    LazyLoadImageModule
   ],
-  providers: [],
+  providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
