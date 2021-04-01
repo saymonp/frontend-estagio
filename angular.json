@@ -20,52 +20,43 @@
 				"build": {
 					"builder": "@angular-devkit/build-angular:browser",
 					"options": {
-						"outputPath": "dist/frontend-estagio",
-						"index": "src/index.html",
-						"main": "src/main.ts",
-						"polyfills": "src/polyfills.ts",
-						"tsConfig": "tsconfig.app.json",
-						"aot": true,
-						"styles": [
-							"node_modules/bootstrap/dist/css/bootstrap.min.css",
-							"src/assets/sass/paper-kit.scss"
-						  ],
-						  "assets": [
-							"src/assets",
-							"src/favicon.ico"
-						  ],
-						"scripts": []
+					  "outputPath": "dist",
+					  "index": "src/index.html",
+					  "main": "src/main.ts",
+					  "tsConfig": "src/tsconfig.app.json",
+					  "polyfills": "src/polyfills.ts",
+					  "assets": [
+						"src/assets",
+						"src/favicon.ico"
+					  ],
+					  "styles": [
+						"node_modules/bootstrap/dist/css/bootstrap.min.css",
+						"src/assets/sass/paper-kit.scss",
+						"src/assets/css/demo.css",
+						"src/assets/css/nucleo-icons.css"
+					  ],
+					  "scripts": []
 					},
 					"configurations": {
-						"production": {
-							"fileReplacements": [
-								{
-									"replace": "src/environments/environment.ts",
-									"with": "src/environments/environment.prod.ts"
-								}
-							],
-							"optimization": true,
-							"outputHashing": "all",
-							"sourceMap": false,
-							"namedChunks": false,
-							"extractLicenses": true,
-							"vendorChunk": false,
-							"buildOptimizer": true,
-							"budgets": [
-								{
-									"type": "initial",
-									"maximumWarning": "500kb",
-									"maximumError": "1mb"
-								},
-								{
-									"type": "anyComponentStyle",
-									"maximumWarning": "2kb",
-									"maximumError": "4kb"
-								}
-							]
-						}
+					  "production": {
+						"optimization": true,
+						"outputHashing": "all",
+						"sourceMap": false,
+						"extractCss": true,
+						"namedChunks": false,
+						"aot": true,
+						"extractLicenses": true,
+						"vendorChunk": false,
+						"buildOptimizer": true,
+						"fileReplacements": [
+						  {
+							"replace": "src/environments/environment.ts",
+							"with": "src/environments/environment.prod.ts"
+						  }
+						]
+					  }
 					}
-				},
+				  },
 				"serve": {
 					"builder": "@angular-devkit/build-angular:dev-server",
 					"options": {
