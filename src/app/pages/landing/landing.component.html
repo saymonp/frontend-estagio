@@ -1,4 +1,4 @@
-<div [defaultImage]="defaultImage" [lazyLoad]="image" class="page-header" data-parallax="true" style="background-image: url('./assets/img/Landing3O.jpg');">
+<div [attr.defaultImage]="defaultImage" [attr.lazyLoad]="image" class="page-header" data-parallax="true" style="background-image: url('./assets/img/Landing3O.jpg');">
     <div class="filter"></div>
     <div class="container">
         <div class="motto text-center">
@@ -73,6 +73,9 @@
 <div class="section section-dark text-center">
     <div id="trabalhos" class="container">
         <h2 class="title">Conheça nossos trabalhos</h2>
+        <div class="card-footer text-center">
+            <a heref="https://imobpoc.online/trabalhos"><button type="button" class="btn btn-outline-neutral btn-round btn-sm">Veja todos os trabalhos</button></a>
+        </div>
         <div class="row">
             <div class="col-md-4">
                 <div class="card card-profile card-plain">
@@ -134,51 +137,52 @@
     </div>
 </div>
 
-    <div id="bottom" class="section landing-section">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-8 mr-auto ml-auto">
-                    <h2 class="text-center">Faça um Orçamento</h2>
-                    <form class="contact-form">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <label>Nome</label>
-                                <div class="input-group" [ngClass]="{'input-group-focus':focus===true}">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text"><i class="nc-icon nc-single-02"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Name" (focus)="focus=true" (blur)="focus=false" >
+<div id="bottom" class="section landing-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8 mr-auto ml-auto">
+                <h2 class="text-center">Tem um projeto para imprimir?</h2>
+                <h3 class="text-center">Faça um orçamento</h3>
+                <form class="contact-form">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label>Nome</label>
+                            <div class="input-group" [ngClass]="{'input-group-focus':focus===true}">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text"><i class="nc-icon nc-single-02"></i></span>
                                 </div>
+                                <input type="text" class="form-control" placeholder="Name" (focus)="focus=true" (blur)="focus=false" >
                             </div>
-                            <div class="col-md-6">
-                                <label>Email</label>
-                                <div class="input-group" [ngClass]="{'input-group-focus':focus1===true}">
-                                    <div class="input-group-prepend">
-                                      <span class="input-group-text">  <i class="nc-icon nc-email-85"></i></span>
-                                    </div>
-                                    <input type="text" class="form-control" placeholder="Email" (focus)="focus1=true" (blur)="focus1=false" >
+                        </div>
+                        <div class="col-md-6">
+                            <label>Email</label>
+                            <div class="input-group" [ngClass]="{'input-group-focus':focus1===true}">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">  <i class="nc-icon nc-email-85"></i></span>
                                 </div>
+                                <input type="text" class="form-control" placeholder="Email" (focus)="focus1=true" (blur)="focus1=false" >
                             </div>
-                        
-                        
-                        <div class="col-md-8">
-                            <label>Tem imagens ou um modelo 3D?</label>
-                            <div>
-                                <button class="btn btn-danger btn-fill btn-sm">Fazer upload</button>
-                            </div>
+                        </div>
+                    
+                    
+                    <div class="col-md-8">
+                        <label>Tem imagens ou um modelo 3D?</label>
+                        <div>
+                            <button class="btn btn-danger btn-fill btn-sm">Fazer upload</button>
                         </div>
                     </div>
-                    <br>
-                        <label>Conte sobre o seu projeto, iremos adorar poder tirar as suas ideias do papel!!!</label>
-                        <textarea class="form-control" rows="4" placeholder="Nos diga o que está planejando..."></textarea>
-                        <div class="row">
-                            <div class="col-md-4 mr-auto ml-auto">
-                                <button class="btn btn-danger btn-lg btn-fill">Fazer orçamento</button>
-                            </div>
-                        </div>
-                    </form>
                 </div>
+                <br>
+                    <label>Conte sobre o seu projeto, iremos adorar poder tirar as suas ideias do papel!!!</label>
+                    <textarea class="form-control" rows="4" placeholder="Nos diga o que está planejando..."></textarea>
+                    <div class="row">
+                        <div class="col-md-4 mr-auto ml-auto">
+                            <button class="btn btn-danger btn-lg btn-fill">Fazer orçamento</button>
+                        </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
+</div>
 </div>

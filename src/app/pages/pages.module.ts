@@ -4,6 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 import { LandingComponent } from './landing/landing.component';
+import { ProductsListComponent } from './productsList/productsList.component';
 
 @NgModule({
     imports: [
@@ -13,6 +14,7 @@ import { LandingComponent } from './landing/landing.component';
     ],
     declarations: [
         LandingComponent,
+        ProductsListComponent
     ]
 })
 export class PagesModule { }

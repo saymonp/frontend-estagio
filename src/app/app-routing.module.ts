@@ -4,10 +4,12 @@ import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 
 import { LandingComponent } from './pages/landing/landing.component';
+import { ProductsListComponent } from './pages/productsList/productsList.component';
 
 const routes: Routes = [
   
-  { path: '',          component: LandingComponent }
+  { path: '',          component: LandingComponent },
+  { path: 'trabalhos',          component: ProductsListComponent },
 ];
 
 @NgModule({
