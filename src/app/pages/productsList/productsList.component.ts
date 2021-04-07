@@ -9,7 +9,6 @@ import { Component, OnInit } from '@angular/core';
 export class ProductsListComponent implements OnInit {
   focus: any;
   focus1: any;
-  simpleSlider = 40;
   doubleSlider = [20, 60];
   state_default: boolean = true;
 

@@ -8,137 +8,127 @@
        </div>
     </div>
     <div class="wrapper">
-       <div class="section section-gray">
-          <div class="container">
-             <h3 class="section-title">Encontre o que procura</h3>
-             <div class="row">
-                <div class="col-md-3">
-                  
-                     
-                         <!----><!---->
-                         
-                           
-                                  <!---->
-               <div class="col-sm-6 col-lg-3">
-                  <div class="tim-title">
-                      <h3>Sliders</h3>
-                  </div>
-                  <br>
-                  <nouislider class="slider slider-info" [connect]="true" [min]="0" [max]="100" [step]="1" [(ngModel)]="doubleSlider" [tooltips]="false"></nouislider>
-              </div>
-                         
-                     
-                  
-                </div>
-                <div class="col-md-9">
-                   <div class="products">
-                      <div class="row">
-                         <div class="col-md-4 col-sm-4">
-                            <div class="card card-product card-plain">
-                               <div class="card-image">
-                                  <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                                  <div class="card-body">
-                                     <div class="card-description">
-                                        <h5 class="card-title">One Shoulder Dress</h5>
-                                        <p class="card-description">Dresses &amp; Skirts</p>
-                                     </div>
-                                     <div class="price">
-                                        <h5>2.900 €</h5>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="col-md-4 col-sm-4">
-                            <div class="card card-product card-plain">
-                               <div class="card-image">
-                                  <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                                  <div class="card-body">
-                                     <div class="card-description">
-                                        <h5 class="card-title">Stretch-Knit Dress</h5>
-                                        <p class="card-description">Dresses &amp; Skirts</p>
-                                     </div>
-                                     <div class="price">
-                                        <h5>1.700 €</h5>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="col-md-4 col-sm-4">
-                            <div class="card card-product card-plain">
-                               <div class="card-image">
-                                  <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                                  <div class="card-body">
-                                     <div class="card-description">
-                                        <h5 class="card-title">Chrystal Sheer Dress</h5>
-                                        <p class="card-description">Dresses &amp; Skirts</p>
-                                     </div>
-                                     <div class="price">
-                                        <h5>1.500 €</h5>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="col-md-4 col-sm-4">
-                            <div class="card card-product card-plain">
-                               <div class="card-image">
-                                  <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                                  <div class="card-body">
-                                     <div class="card-description">
-                                        <h5 class="card-title">One Shoulder Dress</h5>
-                                        <p class="card-description">Dresses &amp; Skirts</p>
-                                     </div>
-                                     <div class="price">
-                                        <h5>2.600 €</h5>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="col-md-4 col-sm-4">
-                            <div class="card card-product card-plain">
-                               <div class="card-image">
-                                  <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                                  <div class="card-body">
-                                     <div class="card-description">
-                                        <h5 class="card-title">Glass Beads Skirt</h5>
-                                        <p class="card-description">Dresses &amp; Skirts</p>
-                                     </div>
-                                     <div class="price">
-                                        <h5>7.500 €</h5>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="col-md-4 col-sm-4">
-                            <div class="card card-product card-plain">
-                               <div class="card-image">
-                                  <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                                  <div class="card-body">
-                                     <div class="card-description">
-                                        <h5 class="card-title">Velvet Mini Dress</h5>
-                                        <p class="card-description">Dresses &amp; Skirts</p>
-                                     </div>
-                                     <div class="price">
-                                        <h5>3.500 €</h5>
-                                     </div>
-                                  </div>
-                               </div>
-                            </div>
-                         </div>
-                         <div class="col-md-3 offset-md-4">
-                            <button class="btn btn-round btn-outline-default" data-rotation-color="gray" data-toggle="morphing" id="successBtn" rel="tooltip" title="This is a morphing button">Load more...</button>
-                         </div>
-                      </div>
+
+      <div class="section section-gray">
+         <div class="container">
+           <div class="row">
+             <div class="col-md-3">
+               <div class="card card-refine">
+                 <div class="panel-group" id="accordion" aria-multiselectable="true" aria-expanded="true">
+                   <div class="card-header" role="tab" id="priceRanger">
+                     <h5 class="mb-0 panel-title">
+                       <h5 class="" data-toggle="collapse" data-parent="#accordion" aria-expanded="true" aria-controls="collapseOne">
+                         Preço
+                       </h5>
+                     </h5>
+                     <span class="text-center">R${{ doubleSlider[0] }} - R${{ doubleSlider[1] }}</span>
+                     <nouislider class="slider slider-info" [connect]="true" [min]="0" [max]="150" [step]="1" [(ngModel)]="doubleSlider" [tooltips]="false"></nouislider>
+
                    </div>
-                </div>
+                   
+                 </div>
+               </div> <!-- end card -->
              </div>
-          </div>
+             <div class="col-md-9">
+               <div class="products">
+                  <div class="row">
+                     <div class="col-md-4 col-sm-4">
+                        <div class="card card-product card-plain">
+                           <div class="card-image">
+                              <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <div class="card-body">
+                                 <div class="card-description">
+                                    <h5 class="card-title">Baby Groot</h5>
+                                 </div>
+                                 <div class="price">
+                                    <h5>R$ 29,50</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 col-sm-4">
+                        <div class="card card-product card-plain">
+                           <div class="card-image">
+                              <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <div class="card-body">
+                                 <div class="card-description">
+                                    <h5 class="card-title">Baby Groot</h5>
+                                 </div>
+                                 <div class="price">
+                                    <h5>R$29,50</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 col-sm-4">
+                        <div class="card card-product card-plain">
+                           <div class="card-image">
+                              <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <div class="card-body">
+                                 <div class="card-description">
+                                    <h5 class="card-title">Baby Groot</h5>
+                                 </div>
+                                 <div class="price">
+                                    <h5>R$29,50</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 col-sm-4">
+                        <div class="card card-product card-plain">
+                           <div class="card-image">
+                              <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <div class="card-body">
+                                 <div class="card-description">
+                                    <h5 class="card-title">Baby Groot</h5>
+                                 </div>
+                                 <div class="price">
+                                    <h5>R$29,50</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 col-sm-4">
+                        <div class="card card-product card-plain">
+                           <div class="card-image">
+                              <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <div class="card-body">
+                                 <div class="card-description">
+                                    <h5 class="card-title">Baby Groot</h5>
+                                 </div>
+                                 <div class="price">
+                                    <h5>R$29,50</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="col-md-4 col-sm-4">
+                        <div class="card card-product card-plain">
+                           <div class="card-image">
+                              <a href="javascript:void(0)"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <div class="card-body">
+                                 <div class="card-description">
+                                    <h5 class="card-title">Baby Groot</h5>
+                                 </div>
+                                 <div class="price">
+                                    <h5>R$29,50</h5>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+             </div>
+           </div>
+         </div>
        </div>
-       <div id="bottom" class="section landing-section">
+      </div>
+   </div>
+       <div id="bottom" class="section">
          <div class="container">
              <div class="row">
                  <div class="col-md-8 mr-auto ml-auto">
@@ -152,7 +142,7 @@
                                      <div class="input-group-prepend">
                                        <span class="input-group-text"><i class="nc-icon nc-single-02"></i></span>
                                      </div>
-                                     <input type="text" class="form-control" placeholder="Name" (focus)="focus=true" (blur)="focus=false" >
+                                     <input type="text" class="form-control" placeholder="Seu nome" (focus)="focus=true" (blur)="focus=false" >
                                  </div>
                              </div>
                              <div class="col-md-6">
@@ -186,4 +176,9 @@
              </div>
          </div>
      </div>
-    </div>
+
+
+      
+                   
+       
+    
