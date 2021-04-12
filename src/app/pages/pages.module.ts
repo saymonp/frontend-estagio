@@ -7,6 +7,10 @@ import { NouisliderModule } from 'ng2-nouislider';
 
 import { LandingComponent } from './landing/landing.component';
 import { ProductsListComponent } from './productsList/productsList.component';
+import { ProductDetailComponent } from './productDetail/productDetail.component';
+import { RouterModule } from '@angular/router';
+
+
 
 @NgModule({
     imports: [
@@ -14,12 +18,14 @@ import { ProductsListComponent } from './productsList/productsList.component';
         FormsModule,
         NgbModule,
         LazyLoadImageModule,
-        NouisliderModule
+        NouisliderModule,
+        RouterModule,
     ],
     providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
     declarations: [
         LandingComponent,
-        ProductsListComponent
+        ProductsListComponent,
+        ProductDetailComponent
     ]
 })
 export class PagesModule { }
