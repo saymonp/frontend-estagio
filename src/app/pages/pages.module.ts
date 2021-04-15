@@ -10,6 +10,7 @@ import { ProductsListComponent } from './productsList/productsList.component';
 import { ProductDetailComponent } from './productDetail/productDetail.component';
 import { CreateProductComponent } from './createProduct/createProduct.component';
 import { UpdateProductComponent } from './updateProduct/updateProduct.component';
+import { Page404Component } from './page404/page404.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -29,7 +30,8 @@ import { RouterModule } from '@angular/router';
         ProductsListComponent,
         ProductDetailComponent,
         CreateProductComponent,
-        UpdateProductComponent
+        UpdateProductComponent,
+        Page404Component
     ]
 })
 export class PagesModule { }
