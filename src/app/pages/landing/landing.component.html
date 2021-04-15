@@ -6,8 +6,9 @@
             <h3>Tire as suas ideias do papel</h3>
             <h3>Enviamos para todo BR</h3>
             <br />
-            <a class="btn btn-outline-neutral btn-round">Encomende a sua peça</a>
-            <a class="btn btn-outline-neutral btn-round">Nossos Trabalhos</a>
+            <button class="btn btn-outline-neutral btn-round"
+            (click)="scrollToElement(encomenda)">Encomende a sua peça</button>
+            <a (click)="scrollToElement(trabalhos)" class="btn btn-outline-neutral btn-round">Nossos Trabalhos</a>
         </div>
     </div>
 </div>
@@ -20,7 +21,7 @@
                 <h5 class="description">Imprimimos em 3d seus projetos com impressoras de alta qualidade e diversos materiais.
                     Tire agora o seu projeto do papel por um preço acessível.</h5>
                 <br>
-                <a class="btn btn-danger btn-round">Solicitar Orçamento</a>
+                <a (click)="scrollToElement(encomenda)" class="btn btn-danger btn-round">Solicitar Orçamento</a>
             </div>
         </div>
         <br/><br/>
@@ -70,8 +71,8 @@
     </div>
 </div>
 
-<div class="section section-dark text-center">
-    <div id="trabalhos" class="container">
+<div #trabalhos class="section section-dark text-center">
+    <div class="container">
         <h2 class="title">Conheça nossos trabalhos</h2>
         <div class="card-footer text-center">
             <a [routerLink]="['/trabalhos']"><button type="button" class="btn btn-outline-neutral btn-round btn-sm">Veja todos os trabalhos</button></a>
@@ -137,7 +138,7 @@
     </div>
 </div>
 
-<div id="bottom" class="section landing-section">
+<div #encomenda class="section landing-section">
     <div class="container">
         <div class="row">
             <div class="col-md-8 mr-auto ml-auto">
