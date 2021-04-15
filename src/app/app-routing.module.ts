@@ -6,12 +6,15 @@ import { BrowserModule  } from '@angular/platform-browser';
 import { LandingComponent } from './pages/landing/landing.component';
 import { ProductsListComponent } from './pages/productsList/productsList.component';
 import { ProductDetailComponent } from './pages/productDetail/productDetail.component';
+import { CreateProductComponent } from './pages/createProduct/createProduct.component';
+
 
 const routes: Routes = [
   
   { path: '',          component: LandingComponent },
   { path: 'trabalhos',          component: ProductsListComponent },
-  { path: 'trabalho/:id',          component: ProductDetailComponent },
+  { path: 'trabalho/:id',       component: ProductDetailComponent },
+  { path: 'criar-trabalho',     component: CreateProductComponent },
 ];
 
 @NgModule({

@@ -8,6 +8,7 @@ import { NouisliderModule } from 'ng2-nouislider';
 import { LandingComponent } from './landing/landing.component';
 import { ProductsListComponent } from './productsList/productsList.component';
 import { ProductDetailComponent } from './productDetail/productDetail.component';
+import { CreateProductComponent } from './createProduct/createProduct.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -25,7 +26,8 @@ import { RouterModule } from '@angular/router';
     declarations: [
         LandingComponent,
         ProductsListComponent,
-        ProductDetailComponent
+        ProductDetailComponent,
+        CreateProductComponent
     ]
 })
 export class PagesModule { }
