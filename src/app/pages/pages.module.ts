@@ -9,6 +9,7 @@ import { LandingComponent } from './landing/landing.component';
 import { ProductsListComponent } from './productsList/productsList.component';
 import { ProductDetailComponent } from './productDetail/productDetail.component';
 import { CreateProductComponent } from './createProduct/createProduct.component';
+import { UpdateProductComponent } from './updateProduct/updateProduct.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -27,7 +28,8 @@ import { RouterModule } from '@angular/router';
         LandingComponent,
         ProductsListComponent,
         ProductDetailComponent,
-        CreateProductComponent
+        CreateProductComponent,
+        UpdateProductComponent
     ]
 })
 export class PagesModule { }

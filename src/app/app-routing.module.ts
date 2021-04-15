@@ -7,6 +7,8 @@ import { LandingComponent } from './pages/landing/landing.component';
 import { ProductsListComponent } from './pages/productsList/productsList.component';
 import { ProductDetailComponent } from './pages/productDetail/productDetail.component';
 import { CreateProductComponent } from './pages/createProduct/createProduct.component';
+import { UpdateProductComponent } from './pages/updateProduct/updateProduct.component';
+
 
 
 const routes: Routes = [
@@ -15,6 +17,7 @@ const routes: Routes = [
   { path: 'trabalhos',          component: ProductsListComponent },
   { path: 'trabalho/:id',       component: ProductDetailComponent },
   { path: 'criar-trabalho',     component: CreateProductComponent },
+  { path: 'atualizar-trabalho/:id',     component: UpdateProductComponent },
 ];
 
 @NgModule({
