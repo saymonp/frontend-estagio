@@ -5,31 +5,76 @@
             <div class="row">
                 <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                     <div class="card card-register">
-                        <h3 class="title">Login de Funcionários</h3>
-                        <form novalidate=""
-                            class="register-form ng-untouched ng-pristine ng-valid"><label
-                            >Email</label>
-                            <div class="input-group form-group-no-border"
-                                ng-reflect-ng-class="[object Object]">
-                                <div class="input-group-prepend"><span
-                                        class="input-group-text"><i
-                                            class="nc-icon nc-email-85"></i></span></div><input
-                                    type="text" placeholder="Email" class="form-control">
-                            </div><label>Senha</label>
-                            <div class="input-group form-group-no-border"
-                                ng-reflect-ng-class="[object Object]">
-                                <div class="input-group-prepend"><span
-                                        class="input-group-text"><i
-                                            class="nc-icon nc-key-25"></i></span></div><input
-                                    type="text" placeholder="Senha" class="form-control">
-                            </div><button
-                                class="btn btn-danger btn-block btn-round">Login</button>
+                        <h3 class="title">Cadastro de Funcionário</h3>
+                        <form novalidate="" class="register-form ng-untouched ng-pristine ng-valid"><label>Email</label>
+                            <div class="input-group form-group-no-border" ng-reflect-ng-class="[object Object]">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="nc-icon nc-email-85"></i></span></div><input type="text"
+                                    placeholder="Email" class="form-control">
+                            </div>
+                            <label>Senha</label>
+                            <div class="input-group form-group-no-border" ng-reflect-ng-class="[object Object]">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="nc-icon nc-key-25"></i></span></div><input type="text"
+                                    placeholder="Senha" class="form-control">
+                            </div>
+                            <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
+                                <a class="btn btn-default" id="dropdownBasic1" ngbDropdownToggle>Permissões</a>
+                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1" class="dropdown-primary">
+                                    <a class="dropdown-header">Permissões de Produto</a>
+                                    <div class="form-check ml-2 mr-2">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="create:product">
+                                            Criar Produto
+                                            <span class="form-check-sign"></span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check ml-2 mr-2">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="update:product">
+                                            Atualizar Produto
+                                            <span class="form-check-sign"></span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check ml-2 mr-2">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="delete:product">
+                                            Deletar Produto
+                                            <span class="form-check-sign"></span>
+                                        </label>
+                                    </div>
+                                    <div class="dropdown-divider"></div>
+                                    <a class="dropdown-header">Permissões de Usuários</a>
+                                    <div class="form-check ml-2 mr-2">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="create:user">
+                                            Criar Usuários
+                                            <span class="form-check-sign"></span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check ml-2 mr-2">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="update:user">
+                                            Atualizar Permissões de Usuários
+                                            <span class="form-check-sign"></span>
+                                        </label>
+                                    </div>
+                                    <div class="form-check ml-2 mr-2">
+                                        <label class="form-check-label">
+                                            <input class="form-check-input" type="checkbox" value="delete:user">
+                                            Deletar Usuários
+                                            <span class="form-check-sign"></span>
+                                        </label>
+                                    </div>                                
+                                </div>
+                            </div>
+                            <button class="btn btn-danger btn-block btn-round">Cadastrar</button>
                         </form>
-                        <div class="forgot"><a href="#"
-                                class="btn btn-link btn-danger">Esqueceu a senha?</a></div>
                     </div>
                 </div>
             </div>
+            <br>
+            <br>
             <div class="footer register-footer text-center">
                 <h6>&copy;{{test | date: 'yyyy'}}
                     &lt;BeMaker&gt;</h6>

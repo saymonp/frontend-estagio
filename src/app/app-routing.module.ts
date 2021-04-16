@@ -9,6 +9,7 @@ import { ProductDetailComponent } from './pages/productDetail/productDetail.comp
 import { CreateProductComponent } from './pages/createProduct/createProduct.component';
 import { UpdateProductComponent } from './pages/updateProduct/updateProduct.component';
 import { SignupComponent } from './pages/signup/signup.component';
+import { SigninComponent } from './pages/signin/signin.component';
 import { Page404Component } from './pages/page404/page404.component';
 
 
@@ -21,6 +22,7 @@ const routes: Routes = [
   { path: 'criar-trabalho',     component: CreateProductComponent },
   { path: 'atualizar-trabalho/:id',     component: UpdateProductComponent },
   { path: 'signup',     component: SignupComponent },
+  { path: 'signin',     component: SigninComponent },
   {
     path        : '**',
     pathMatch   : 'full',
