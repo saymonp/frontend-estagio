@@ -27,17 +27,23 @@
               </div>
             </div>
             <div class="form-group row">
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <h6>Nome Cliente</h6><input type="text"
                   placeholder="Coloque o nome do produto" value="Thurinasadan" class="form-control border-input"
                   readonly="">
               </div>
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <h6>Email do cliente</h6>
                 <div class="input-group border-input"><input type="text"
                     value="thurinasadan123@yahoo.com" placeholder="thurinasadan123@yahoo.com"
                     class="form-control border-input" readonly=""></div>
               </div>
+              <div class="col-md-4">
+                <label>Whatsapp</label>
+                <div class="input-group" [ngClass]="{'input-group-focus':focus1===true}">
+                    <input type="text" value="(55) 991234567" class="form-control" readonly="" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
+                </div>
+            </div>
             </div>
             <div class="form-group row">
               <div class="col-md-3">

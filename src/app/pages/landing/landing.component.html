@@ -15,7 +15,7 @@
 <div class="main">
     <div class="section text-center">
     <div id="middle" class="container">
-        <div class="row">
+        <div class="row mb-4">
             <div class="col-md-8 mr-auto ml-auto">
                 <h2 class="title">Conheça nossos serviços</h2>
                 <h5 class="description">Imprimimos em 3d seus projetos com impressoras de alta qualidade e diversos materiais.
@@ -162,6 +162,15 @@
                                   <span class="input-group-text">  <i class="nc-icon nc-email-85"></i></span>
                                 </div>
                                 <input type="text" class="form-control" placeholder="Email" (focus)="focus1=true" (blur)="focus1=false" >
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <label>Whatsapp</label>
+                            <div class="input-group" [ngClass]="{'input-group-focus':focus1===true}">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">  <i class="nc-icon nc-email-85"></i></span>
+                                </div>
+                                <input type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
                             </div>
                         </div>
                     
