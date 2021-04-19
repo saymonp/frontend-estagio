@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-productsList',
-    templateUrl: './productsList.component.html',
-    styleUrls: ['./productsList.component.scss']
+    selector: 'app-ordersList',
+    templateUrl: './ordersList.component.html',
+    styleUrls: ['./ordersList.component.scss']
 })
 
-export class ProductsListComponent implements OnInit {
+export class OrdersListComponent implements OnInit {
   focus: any;
   focus1: any;
-  doubleSlider = [20, 60];
-  state_default: boolean = true;
 
   constructor() { }
 

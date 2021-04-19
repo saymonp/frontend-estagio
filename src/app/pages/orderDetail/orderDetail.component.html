@@ -1,0 +1,114 @@
+<div class="page-header page-header-xs" style="background-image: url('./assets/img/productDetail.jpg');">
+  <div class="filter"></div>
+</div>
+
+<div class="main">
+  <div class="section">
+    <div class="container">
+      <h3 class="mb-3">Dados da encomenda</h3>
+      <div>
+        <div class="row">
+          <div class="col-md-12 col-sm-7">
+            <div class="form-group row">
+              <div class="col-md-4">
+                <h6>Status</h6><select class="form-control border-input">
+                  <option value="1" ng-reflect-value="1">Pendente</option>
+                  <option value="2" ng-reflect-value="2">Em entrega</option>
+                  <option value="3" ng-reflect-value="3">Produto em produção</option>
+                </select>
+              </div>
+              <div class="col-md-4">
+                <h6>Preço do Produto</h6><input type="text" value="30"
+                  placeholder="Preço" class="form-control border-input">
+              </div>
+              <div class="col-md-4">
+                <h6>Total com frete</h6><input type="text" value="39,99"
+                  placeholder="Preço" class="form-control border-input" readonly="">
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-6">
+                <h6>Nome Cliente</h6><input type="text"
+                  placeholder="Coloque o nome do produto" value="Thurinasadan" class="form-control border-input"
+                  readonly="">
+              </div>
+              <div class="col-md-6">
+                <h6>Email do cliente</h6>
+                <div class="input-group border-input"><input type="text"
+                    value="thurinasadan123@yahoo.com" placeholder="thurinasadan123@yahoo.com"
+                    class="form-control border-input" readonly=""></div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="col-md-3">
+                <h6>Data do Pedido</h6><input type="text"
+                  placeholder="Coloque o nome do produto" value="19/04/2021" class="form-control border-input"
+                  readonly="">
+              </div>
+            </div>
+            <div class="row price-row">
+              <div class="col-md-3">
+                <h6>Modo de entrega</h6>
+                <div class="input-group border-input"><input type="text"
+                    value="PAC" placeholder="" class="form-control border-input" readonly=""></div>
+              </div>
+              <div class="col-md-3">
+                <h6>Cep</h6>
+                <div class="input-group border-input"><input type="text"
+                    value="98700000" placeholder="Em cm" class="form-control border-input" readonly=""></div>
+              </div>
+              <div class="col-md-3">
+                <h6>Estado</h6>
+                <div class="input-group border-input"><input type="text"
+                    value="RS" placeholder="" class="form-control border-input" readonly=""></div>
+              </div>
+              <div class="col-md-3">
+                <h6>Frete</h6>
+                <div class="input-group border-input"><input type="text"
+                    value="9,99" placeholder="" class="form-control border-input" readonly=""></div>
+              </div>
+            </div>
+            <div class="form-group mt-3">
+              <h6>Descrição do Porduto</h6><textarea
+                placeholder="Adicione uma descrição para o produto" rows="13" maxlength="150"
+                class="form-control textarea-limited"
+                readonly="">Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.</textarea>
+              <h5><small></small></h5>
+            </div>
+          </div>
+        </div>
+        <div class="row col-md-5 col-sm-6 ml-auto mr-auto">
+          <ngb-carousel>
+            <ng-template ngbSlide>
+                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random first slide">
+                <div class="carousel-caption">
+                </div>
+            </ng-template>
+            <ng-template ngbSlide>
+                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random second slide">
+                <div class="carousel-caption">
+                </div>
+            </ng-template>
+            <ng-template ngbSlide>
+                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random third slide">
+                <div class="carousel-caption"> 
+                </div>
+            </ng-template>
+        </ngb-carousel>
+        </div>
+        <div class="col-md-2 ml-auto mr-auto mt-4 mb-5">
+          <h6 class="text-center">Baixar Modelo 3d</h6><button
+            type="button" class="btn btn-default btn-round ml-3">Download</button>
+        </div>
+        <div class="row buttons-row">
+          <div class="col-md-4 col-sm-4"><button type="reset"
+              class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
+          <div class="col-md-4 col-sm-4"><button type="submit"
+              class="btn btn-outline-danger btn-block btn-round">Excluir</button></div>
+          <div class="col-md-4 col-sm-4"><button type="submit"
+              class="btn btn-primary btn-block btn-round">Salvar</button></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

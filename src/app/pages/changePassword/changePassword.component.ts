@@ -1,16 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-productsList',
-    templateUrl: './productsList.component.html',
-    styleUrls: ['./productsList.component.scss']
+    selector: 'app-changePassword',
+    templateUrl: './changePassword.component.html',
+    styleUrls: ['./changePassword.component.scss']
 })
 
-export class ProductsListComponent implements OnInit {
+export class ChangePasswordComponent implements OnInit {
   focus: any;
   focus1: any;
-  doubleSlider = [20, 60];
-  state_default: boolean = true;
 
   constructor() { }
 

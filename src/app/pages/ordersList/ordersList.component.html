@@ -1,0 +1,159 @@
+<div class="page-header page-header-xs" style="background-image: url('./assets/img/productDetail.jpg');">
+    <div class="filter"></div>
+ </div>
+ <div class="main-content">
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="col-md-12">
+                <div class="card card-plain">
+                    <div class="card-header card-header-icon card-header-rose">
+                        <h4 class="card-title">Encomendas</h4>
+                        <div class="form-group row">
+                        <div class="col-md-3">
+                            <label>Pesquisar por nome do cliente</label>
+                            <input class="form-control" placeholder="Nome" type="text">
+                        </div>
+                        <div class="col-md-3">
+                            <label>Filtrar por Status</label>
+                            <select class="form-control border-input">
+                                <option value="0">Todos</option>
+                                <option value="1">Pendente</option>
+                                <option value="2">Em entrega</option>
+                                <option value="3">Produto em produção</option>
+                                <option value="3">Concluído</option>
+                              </select>
+                        </div>
+                        <div class="col-md-3">
+                            <label>Filtrar por produto</label>
+                            <input class="form-control" placeholder="Nome produto" type="text">
+                        </div>
+                    </div>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Encomenda</th>
+                                        <th>Cliente</th>
+                                        <th>Cliente Email</th>
+                                        <th>Produto</th>
+                                        <th>Status</th>
+                                        <!---->
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="tr-click" [routerLink]="['/encomenda/1']">
+                                        <td>
+                                            <h6>Encomenda 1</h6>
+                                        </td>
+                                        <td>
+                                            Thurinasadan
+                                        </td>
+                                        <td>
+                                            thurinasadan123@yahoo.com
+                                        </td>
+                                        <td>
+                                            Baby Grooth
+                                        </td>
+                                        <td>
+                                            Pendente
+                                        </td>
+                                    </tr>
+                                    <tr class="tr-click" [routerLink]="['/encomenda/1']">
+                                        <td>
+                                            <h6>Encomenda 2</h6>
+                                        </td>
+                                        <td>
+                                            Thurinasadan
+                                        </td>
+                                        <td>
+                                            thurinasadan123@yahoo.com
+                                        </td>
+                                        <td>
+                                            Baby Grooth
+                                        </td>
+                                        <td>
+                                            Produto Em produção
+                                        </td>
+                                    </tr>
+                                    <tr class="tr-click" [routerLink]="['/encomenda/1']">
+                                        <td>
+                                            <h6>Encomenda 3</h6>
+                                        </td>
+                                        <td>
+                                            Thurinasadan
+                                        </td>
+                                        <td>
+                                            thurinasadan123@yahoo.com
+                                        </td>
+                                        <td>
+                                            Baby Grooth
+                                        </td>
+                                        <td>
+                                            Em entrega
+                                        </td>
+                                    </tr>
+                                    <tr class="tr-click" [routerLink]="['/encomenda/1']">
+                                        <td>
+                                            <h6>Encomenda 4</h6>
+                                        </td>
+                                        <td>
+                                            Thurinasadan
+                                        </td>
+                                        <td>
+                                            thurinasadan123@yahoo.com
+                                        </td>
+                                        <td>
+                                            Baby Grooth
+                                        </td>
+                                        <td>
+                                            Em entrega
+                                        </td>
+                                    </tr>
+                                    <tr class="tr-click" [routerLink]="['/encomenda/1']">
+                                        <td>
+                                            <h6>Encomenda 5</h6>
+                                        </td>
+                                        <td>
+                                            Thurinasadan
+                                        </td>
+                                        <td>
+                                            thurinasadan123@yahoo.com
+                                        </td>
+                                        <td>
+                                            Baby Grooth
+                                        </td>
+                                        <td>
+                                            Concluído
+                                        </td>
+                                    </tr>
+                                    <tr class="tr-click" [routerLink]="['/encomenda/1']">
+                                        <td>
+                                            <h6>Encomenda 6</h6>
+                                        </td>
+                                        <td>
+                                            Thurinasadan
+                                        </td>
+                                        <td>
+                                            thurinasadan123@yahoo.com
+                                        </td>
+                                        <td>
+                                            Baby Grooth
+                                        </td>
+                                        <td>
+                                            Concluído
+                                        </td>
+                                    </tr>
+                                    <!---->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>

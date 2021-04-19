@@ -13,6 +13,10 @@ import { UpdateProductComponent } from './updateProduct/updateProduct.component'
 import { Page404Component } from './page404/page404.component';
 import { SignupComponent } from './signup/signup.component';
 import { SigninComponent } from './signin/signin.component';
+import { ChangePasswordComponent } from './changePassword/changePassword.component';
+import { UsersListComponent } from './usersList/usersList.component';
+import { OrdersListComponent } from './ordersList/ordersList.component';
+import { OrderDetailComponent } from './orderDetail/orderDetail.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -35,6 +39,10 @@ import { RouterModule } from '@angular/router';
         UpdateProductComponent,
         SignupComponent,
         SigninComponent,
+        ChangePasswordComponent,
+        UsersListComponent,
+        OrdersListComponent,
+        OrderDetailComponent,
         Page404Component
     ]
 })
