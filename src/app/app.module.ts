@@ -7,6 +7,8 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { NavbarComponent } from './shared/navbar/navbar.component';
 import { FooterComponent } from './shared/footer/footer.component';
+import { JwBootstrapSwitchNg2Module } from 'jw-bootstrap-switch-ng2';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { PagesModule } from './pages/pages.module';
@@ -22,6 +24,8 @@ import { PagesModule } from './pages/pages.module';
     AppRoutingModule,
     RouterModule,
     PagesModule,
+    JwBootstrapSwitchNg2Module,
+    NgbModule
   ],
   bootstrap: [AppComponent],
 })

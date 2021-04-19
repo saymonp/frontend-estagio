@@ -1,17 +1,6 @@
-<div [defaultImage]="defaultImage" [lazyLoad]="image" class="page-header" data-parallax="true" style="background-image: url('./assets/img/Landing3O.jpg');">
+<div class="page-header page-header-xs" style="background-image: url('./assets/img/productDetail.jpg');">
     <div class="filter"></div>
-    <div class="container">
-        <div class="motto text-center">
-            <h1>Encomende a sua impressão 3d</h1>
-            <h3>Tire as suas ideias do papel</h3>
-            <h3>Enviamos para todo BR</h3>
-            <br />
-            <button class="btn btn-outline-neutral btn-round"
-            (click)="scrollToElement(encomenda)">Encomende a sua peça</button>
-            <a (click)="scrollToElement(trabalhos)" class="btn btn-outline-neutral btn-round">Nossos Trabalhos</a>
-        </div>
-    </div>
-</div>
+ </div>
 <div class="main">
     <div class="section text-center">
     <div id="middle" class="container">
@@ -68,73 +57,6 @@
             </div>
         </div>
 
-    </div>
-</div>
-
-<div #trabalhos class="section section-dark text-center">
-    <div class="container">
-        <h2 class="title">Conheça nossos trabalhos</h2>
-        <div class="card-footer text-center">
-            <a [routerLink]="['/trabalhos']"><button type="button" class="btn btn-outline-neutral btn-round btn-sm">Veja todos os trabalhos</button></a>
-        </div>
-        <div class="row">
-            <div class="col-md-4">
-                <div class="card card-profile card-plain">
-                    <div class="text-center" routerLinkActive="active">
-                            <img [defaultImage]="defaultImage" [lazyLoad]="images" [useSrcset]="true" src="./assets/img/trabalho1.jpg" alt="Rounded Image" class="img-rounded img-responsive" style="width: 100%">
-                    </div>
-                    <div class="card-block">
-                            <div class="author">
-                                <h4 class="card-title">Baby Groot</h4>
-                            </div>
-                        <p class="card-description text-center">
-                            Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.
-                        </p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button [routerLink]="['/trabalho/1']" type="button" class="btn btn-outline-neutral btn-round btn-sm">Encomendar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card card-profile card-plain">
-                    <div class="text-center" routerLinkActive="active">
-                            <img [defaultImage]="defaultImage" [lazyLoad]="images" [useSrcset]="true" src="./assets/img/trabalho2.jpg" alt="Rounded Image" class="img-rounded img-responsive" style="width: 100%">
-                    </div>
-                    <div class="card-block">
-                            <div class="author">
-                                <h4 class="card-title">Vasinhos Robert Plant</h4>
-                            </div>
-                        <p class="card-description text-center">
-                            Nossos vasinhos Robert Plant. 🍃 Temos em vários modelos e cores, faça já sua encomenda.
-                        </p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button [routerLink]="['/trabalho/1']" type="button" class="btn btn-outline-neutral btn-round btn-sm">Encomendar</button>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card card-profile card-plain">
-                    <div class="text-center" routerLinkActive="active">
-                            <img [defaultImage]="defaultImage" [lazyLoad]="images" [useSrcset]="true" src="./assets/img/trabalho3.jpg" alt="Rounded Image" class="img-rounded img-responsive" style="width: 100%">
-                    </div>
-                    <div class="card-block">
-                            <div class="author">
-                                <h4 class="card-title">Origami</h4>
-                            </div>
-                        <p class="card-description text-center">
-                            Já imaginou como ficaria lindo na sua decoração estes origamis.
-                        </p>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button [routerLink]="['/trabalho/1']" type="button" class="btn btn-outline-neutral btn-round btn-sm">Encomendar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

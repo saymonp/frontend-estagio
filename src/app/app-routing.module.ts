@@ -14,6 +14,7 @@ import { ChangePasswordComponent } from './pages/changePassword/changePassword.c
 import { UsersListComponent } from './pages/usersList/usersList.component';
 import { OrdersListComponent } from './pages/ordersList/ordersList.component';
 import { OrderDetailComponent } from './pages/orderDetail/orderDetail.component';
+import { OrderComponent } from './pages/order/order.component';
 import { Page404Component } from './pages/page404/page404.component';
 
 
@@ -31,6 +32,7 @@ const routes: Routes = [
   { path: 'funcionarios',     component: UsersListComponent },
   { path: 'encomendas',     component: OrdersListComponent },
   { path: 'encomenda/:id',     component: OrderDetailComponent },
+  { path: 'encomendar',     component: OrderComponent },
   {
     path        : '**',
     pathMatch   : 'full',

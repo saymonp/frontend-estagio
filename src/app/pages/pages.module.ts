@@ -17,6 +17,7 @@ import { ChangePasswordComponent } from './changePassword/changePassword.compone
 import { UsersListComponent } from './usersList/usersList.component';
 import { OrdersListComponent } from './ordersList/ordersList.component';
 import { OrderDetailComponent } from './orderDetail/orderDetail.component';
+import { OrderComponent } from './order/order.component';
 import { RouterModule } from '@angular/router';
 
 
@@ -43,6 +44,7 @@ import { RouterModule } from '@angular/router';
         UsersListComponent,
         OrdersListComponent,
         OrderDetailComponent,
+        OrderComponent,
         Page404Component
     ]
 })
