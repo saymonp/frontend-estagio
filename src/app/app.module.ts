@@ -1,5 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { RouterModule } from '@angular/router';
 
@@ -25,7 +26,9 @@ import { PagesModule } from './pages/pages.module';
     RouterModule,
     PagesModule,
     JwBootstrapSwitchNg2Module,
-    NgbModule
+    NgbModule,
+    FormsModule,
+    ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
 })

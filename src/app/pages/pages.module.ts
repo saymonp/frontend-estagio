@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
 import { NouisliderModule } from 'ng2-nouislider';
@@ -26,6 +26,7 @@ import { RouterModule } from '@angular/router';
     imports: [
         CommonModule,
         FormsModule,
+        ReactiveFormsModule,
         NgbModule,
         LazyLoadImageModule,
         NouisliderModule,
