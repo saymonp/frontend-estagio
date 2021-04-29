@@ -100,7 +100,18 @@
                     <div class="col-md-8">
                         <label>Tem imagens ou um modelo 3D?</label>
                         <div>
-                            <button class="btn btn-danger btn-fill btn-sm">Fazer upload</button>
+                            <input style="display: none;" (change)="uploadImage($event)" type="file" multiple
+                                    class="form-control-file" #onUpload>
+                            <button (click)="onUpload.click()" class="btn btn-danger btn-fill btn-sm">Fazer upload</button>
+                        </div>
+                        <div  class="mt-3 col-md-12 row">
+                            <div *ngFor="let file of filesToUpload; ; let i=index" class="m-2 mr-4">
+                                <div class="info">
+                                    <i class="icon nc-icon nc-app"></i> 
+                                </div>
+                                    <p>{{ file.fileName }}</p>
+                                    <a (click)="removeFile(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
