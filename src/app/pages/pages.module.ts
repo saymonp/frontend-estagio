@@ -4,6 +4,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
 import { NouisliderModule } from 'ng2-nouislider';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 
 import { LandingComponent } from './landing/landing.component';
 import { ProductsListComponent } from './productsList/productsList.component';
@@ -31,6 +32,7 @@ import { RouterModule } from '@angular/router';
         LazyLoadImageModule,
         NouisliderModule,
         RouterModule,
+        HttpClientModule
     ],
     providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
     declarations: [

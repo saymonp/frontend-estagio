@@ -5,6 +5,8 @@ import {
   Validators
 } from '@angular/forms';
 
+import { UploadService } from "../../services/upload.service";
+
 @Component({
     selector: 'app-landing',
     templateUrl: './landing.component.html',
@@ -19,7 +21,7 @@ export class LandingComponent implements OnInit {
   orderForm: FormGroup;
   disabledSubmitButton: boolean = true;
 
-  constructor(private formBuilder: FormBuilder) { }
+  constructor(private formBuilder: FormBuilder, private uploadService: UploadService) { }
 
   @Input() name: string;
   @Input() email: string;
@@ -89,20 +91,19 @@ export class LandingComponent implements OnInit {
     const images = [];
 
     this.filesToUpload.map((file) => {
-      // Upload file
-      console.log(file);
-      models3d.push({"file_url": "https....", "key": "....."})
+      this.uploadService.uploadFile(file).subscribe((data) => {
+        models3d.push(JSON.parse(data.body));
+        console.log(models3d);
+      })
     })
 
     this.imagesToUpload.map((file) => {
-      // Upload file
-      console.log(file);
-      images.push({"file_url": "https....", "key": "....."})
-
-  })
-      
-      
-    
+      this.uploadService.uploadFile(file).subscribe((data) => {
+        images.push(JSON.parse(data.body))
+        console.log(images);
+      })
+    })
+         
     let valueSubmit = Object.assign({}, this.orderForm.value);
 
     valueSubmit.images = images;
