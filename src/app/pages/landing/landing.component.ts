@@ -68,9 +68,9 @@ export class LandingComponent implements OnInit {
       const that = this;
       reader.onload = function () {
         if (file.name.endsWith("jpg") || file.name.endsWith("jpeg") || file.name.endsWith("png")){
-          that.imagesToUpload.push({"path": "orders/images", "fileName":file.name, "data": reader.result});
+          that.imagesToUpload.push({"path": "orders/images/", "fileName":file.name, "data": reader.result});
         } else {
-          that.filesToUpload.push({"path": "orders/files", "fileName":file.name, "data": reader.result});
+          that.filesToUpload.push({"path": "orders/files/", "fileName":file.name, "data": reader.result});
         }     
           }
         reader.onerror = function (error) {

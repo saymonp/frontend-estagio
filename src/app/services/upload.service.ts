@@ -17,4 +17,13 @@ export class UploadService {
       observe: 'response',
     });
   }
+
+  deleteFile(data: any) {
+    return this.http.post(`${this.url}/dev/api/v1/deleteFile`, JSON.stringify(data), {
+      headers: new HttpHeaders({ 'Content-type': 'application/json' }),
+      responseType: 'text',
+      observe: 'response',
+    });
+  }
+
 }
