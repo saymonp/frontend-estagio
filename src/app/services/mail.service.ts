@@ -17,20 +17,12 @@ export class MailService {
 
   constructor(private http: HttpClient) { }
 
-//   sendEmail(email): Observable<any> {
-//     const url = `${this.baseUrl}/api/v1/sendContactEmail`;
-//     return this.http.post<any>(url, email, {headers: new HttpHeaders({ 'Content-type': 'application/json' })}).pipe(
-//       map((obj) => obj),
-//       catchError((e) => this.errorHandler(e))
-//     );
-//   }
-
 sendEmail(email) {
     return this.http.post(`${this.baseUrl}/api/v1/sendContactEmail`, JSON.stringify(email), {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',
-    }).pipe(catchError((e) => this.errorHandler(e)));
+    });
   }
 
   errorHandler(e: Error): Observable<any> {

@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Observable } from 'rxjs';
+import { UserService } from '../../services/user.service';
 
 @Component({
     selector: 'app-usersList',
@@ -9,10 +11,21 @@ import { Component, OnInit } from '@angular/core';
 export class UsersListComponent implements OnInit {
   focus: any;
   focus1: any;
+  users$: Observable<any>;
+  contentLoaded = false;
 
-  constructor() { }
+  constructor(private userService: UserService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    setTimeout(() => {
+      this.contentLoaded = true;
+    }, 2000);
+   // this.users$ = this.userService.listUsers();
+  }
+
+  //listUsers(){
+  //  this.users$ = this.userService.listUsers();
+  //}
 
   scrollToElement($element): void {
     console.log($element);

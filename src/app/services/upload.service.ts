@@ -17,7 +17,7 @@ export class UploadService {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',
-    }).pipe(catchError((e) => this.errorHandler(e)));
+    });
   }
 
   errorHandler(e: Error): Observable<any> {

@@ -11,12 +11,10 @@ import { LocalStorageService } from '../../services/localStorage.service';
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
+    private userPermissions = this.user.get('permissions') ? this.user.get('permissions').split(',') : [];
 
     constructor(private user: LocalStorageService, public location: Location, private element : ElementRef) {
         this.sidebarVisible = false;
-        console.log(user.get("email"));
-        console.log(user.get('permissions').split(',').includes('create:user'));
-        console.log(user.get('permissions'));
     }
 
     ngOnInit() {

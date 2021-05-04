@@ -61,11 +61,11 @@
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic3" class="dropdown-danger dropdown-menu-right">
                             <a [routerLink]="['/encomendas']" class="dropdown-item">Listagem de Encomendas</a>
                             <div class="dropdown-divider"></div>
-                            <a *ngIf="user.get('permissions').split(',').includes('update:user')" [routerLink]="['/funcionarios']" class="dropdown-item">Listagem de Usuários</a>
+                            <a *ngIf="userPermissions.includes('update:user')" [routerLink]="['/funcionarios']" class="dropdown-item">Listagem de Usuários</a>
                             <div class="dropdown-divider"></div>
-                            <a *ngIf="user.get('permissions').split(',').includes('create:product')" [routerLink]="['/criar-trabalho']" class="dropdown-item">Criar Produto</a>
+                            <a *ngIf="userPermissions.includes('create:product')" [routerLink]="['/criar-trabalho']" class="dropdown-item">Criar Produto</a>
                             <div class="dropdown-divider"></div>
-                            <a *ngIf="user.get('permissions').split(',').includes('create:user')" [routerLink]="['/signup']" class="dropdown-item">Cadastrar novo Usuário</a>
+                            <a *ngIf="userPermissions.includes('create:user')" [routerLink]="['/signup']" class="dropdown-item">Cadastrar novo Usuário</a>
                         </div>
                     </div>
                 </li>

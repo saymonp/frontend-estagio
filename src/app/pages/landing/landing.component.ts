@@ -81,7 +81,7 @@ export class LandingComponent implements OnInit {
       return alert("Nome, E-mail, Whatsapp e Concordar com Política de Privacidade é obrigatório.") 
     }
     else{
-      
+
     this.loading = true;
     
     const models3d = [];
@@ -109,7 +109,10 @@ export class LandingComponent implements OnInit {
     //   this.apartamentoService.showMessage('Apartamento criado!');
     //   this.router.navigate(['/lista-apartamento']);
     //
-    // });
+    // }(err) => {
+      //this.loading = false;
+      //alert("Erro ao enviar"); 
+     // });
 
     this.sendEmail("123", images, models3d, this.orderForm.value.name, this.orderForm.value.email, this.orderForm.value.clientPhone, this.orderForm.value.notes)
     }
@@ -149,12 +152,12 @@ export class LandingComponent implements OnInit {
     // send email
     this.mailService.sendEmail(emailToSend).subscribe((res) => {
       console.log(res);
-      if(res["ok"] == "Email sent"){
-        alert("Seu pedido foi enviado")
-        this.loading = false;
-      }
+      alert("Seu pedido foi enviado")
       this.loading = false;
-    });
+    },(err) => {
+      this.loading = false;
+      alert("Erro ao enviar, tente novamente"); 
+      });
     this.loading = false;
    console.log(emailToSend);
 

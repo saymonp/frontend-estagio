@@ -44,14 +44,17 @@ export class SigninComponent implements OnInit {
   login() {
     this.loading = true;
     this.userService.login(this.loginForm.value).subscribe((user) => {
-      console.log(user);
       this.localStorageService.set("name", user.user.name);
       this.localStorageService.set("email", user.user.email);
       this.localStorageService.set("permissions", user.user.permissions.toString());
       this.localStorageService.set("token", user.user.token);
       this.loading = false;
       this.router.navigate(['/']);
-    })
+    }, (err) => {
+      this.loading = false;
+      alert("Senha ou Email inválidos"); 
+      }
+      );
   }
 
   private getDismissReason(reason: any): string {

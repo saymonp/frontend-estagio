@@ -18,14 +18,13 @@ export class UserService {
   listUsers(): Observable<any> {
       return this.http.get<any>(
         `${this.baseUrl}/api/v1/listUsers`
-      );
+      ).pipe(catchError((e) => this.errorHandler(e)));
     }
 
   login(userData): Observable<any> {
     const url = `${this.baseUrl}/api/v1/login`;
     return this.http.post<any>(url, userData, httpHeaders).pipe(
-      map((obj) => obj),
-      catchError((e) => this.errorHandler(e))
+      map((obj) => obj)
     );
   }
 
@@ -36,7 +35,6 @@ export class UserService {
       catchError((e) => this.errorHandler(e))
     );
   }
-
 
   errorHandler(e: Error): Observable<any> {
     alert('Ocorreu um erro!' + e.message);
