@@ -31,15 +31,17 @@ export class UsersListComponent implements OnInit {
     const updateuser = document.getElementById(`updateuser${id}`) as HTMLInputElement;
     const deleteuser = document.getElementById(`deleteuser${id}`) as HTMLInputElement;
     
-    const permissions = [
-      createproduct.checked ? "create:product" : null,
-      updateproduct.checked ? "update:product" : null,
-      deleteproduct.checked ? "delete:product" : null,
+    let permissions = [
+      createproduct.checked ? "create:product" : undefined,
+      updateproduct.checked ? "update:product" : undefined,
+      deleteproduct.checked ? "delete:product" : undefined,
 
-      createuser.checked ? "create:user" : null,
-      updateuser.checked ? "update:user" : null,
-      deleteuser.checked ? "delete:user" : null,
+      createuser.checked ? "create:user" : undefined,
+      updateuser.checked ? "update:user" : undefined,
+      deleteuser.checked ? "delete:user" : undefined,
     ]
+
+    permissions = permissions.filter(function (p) { return p !== undefined });
 
     console.log(permissions)
  }
