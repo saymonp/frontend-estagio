@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { UserService } from '../../services/user.service';
 
@@ -13,23 +14,59 @@ export class UsersListComponent implements OnInit {
   focus1: any;
   users$: Observable<any>;
   contentLoaded = false;
+  usersForm: FormGroup;
 
-  constructor(private userService: UserService) { }
+  constructor(private userService: UserService, private formBuilder: FormBuilder) { }
 
   ngOnInit() {
-    setTimeout(() => {
-      this.contentLoaded = true;
-    }, 2000);
-   // this.users$ = this.userService.listUsers();
+   this.users$ = this.userService.listUsers();
   }
 
-  //listUsers(){
-  //  this.users$ = this.userService.listUsers();
-  //}
+  onSubmit(id) {
+    const createproduct = document.getElementById(`createproduct${id}`) as HTMLInputElement;
+    const updateproduct = document.getElementById(`updateproduct${id}`) as HTMLInputElement;
+    const deleteproduct = document.getElementById(`deleteproduct${id}`) as HTMLInputElement;
+
+    const createuser = document.getElementById(`createuser${id}`) as HTMLInputElement;
+    const updateuser = document.getElementById(`updateuser${id}`) as HTMLInputElement;
+    const deleteuser = document.getElementById(`deleteuser${id}`) as HTMLInputElement;
+    
+    const permissions = [
+      createproduct.checked ? "create:product" : null,
+      updateproduct.checked ? "update:product" : null,
+      deleteproduct.checked ? "delete:product" : null,
+
+      createuser.checked ? "create:user" : null,
+      updateuser.checked ? "update:user" : null,
+      deleteuser.checked ? "delete:user" : null,
+    ]
+
+    console.log(permissions)
+ }
 
   scrollToElement($element): void {
     console.log($element);
     $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
+  }
+
+  updatePermissions(id) {
+    if (confirm('Are you sure you want to save this thing into the database?')) {
+      // Save it!
+      console.log('Thing was saved to the database.'+id);
+    } else {
+      // Do nothing!
+      console.log('Thing was not saved to the database.');
+    }
+
+  }
+
+  deleteUser(name, id){
+    if (confirm(`Você tem certeza que deseja excluir o usuário ${name}?`)) {
+      // Save it!
+      console.log('Deleta '+id);
+    } else { 
+      // Do nothing
+    }
   }
 
 }

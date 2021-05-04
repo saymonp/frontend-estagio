@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <ng-container *ngIf="users$ | async; let users; else: carregando">
+                            <ng-container *ngIf="users$ | async; let users">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -28,17 +28,10 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <ngx-skeleton-loader *ngIf="!contentLoaded" count="1" animation="progress"
-                                                appearance="circle" [theme]="{
-                                        width: '230px',
-                                        height: '350px',
-                                        'border-radius': '5px'
-                                      }">
-                                    </ngx-skeleton-loader>
                                     <ng-container *ngFor="let user of users.users;">
                                     <tr>
                                         <td>
-                                            <h6>{{ user.name }}</h6>
+                                            <h6>{{ user.name }}</h6> 
                                         </td>
                                         <td>
                                             <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
@@ -46,27 +39,28 @@
                                                     ngbDropdownToggle>Permissões</a>
                                                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
                                                     class="dropdown-primary">
+                                                    <form (ngSubmit)="onSubmit($event)">
                                                     <a class="dropdown-header">Permissões de Produto</a>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" [disabled]="user.permissions.includes('create:product') ? true : false">
+                                                            <input id="createproduct{{user._id}}" name="createproduct" class="form-check-input" type="checkbox"
+                                                                value="create:product" [checked]="user.permissions.includes('create:product') ? true : false">
                                                             Criar Produto 
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
+                                                            <input id="updateproduct{{user._id}}" name="updateproduct" class="form-check-input" type="checkbox"
+                                                                value="update:product" [checked]="user.permissions.includes('update:product') ? true : false">
                                                             Atualizar Produto
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
+                                                            <input id="deleteproduct{{user._id}}" name="deleteproduct{{user._id}}" class="form-check-input" type="checkbox"
+                                                                value="delete:product" [checked]="user.permissions.includes('delete:product') ? true : false">
                                                             Deletar Produto
                                                             <span class="form-check-sign"></span>
                                                         </label>
@@ -75,36 +69,37 @@
                                                     <a class="dropdown-header">Permissões de Usuários</a>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
+                                                            <input id="createuser{{user._id}}" name="createuser" class="form-check-input" type="checkbox"
+                                                                value="create:user" [checked]="user.permissions.includes('create:user') ? true : false">
                                                             Criar Usuários
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
+                                                            <input id="updateuser{{user._id}}" name="updateuser" class="form-check-input" type="checkbox"
+                                                                value="update:user" [checked]="user.permissions.includes('update:user') ? true : false">
                                                             Atualizar Permissões de Usuários
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
+                                                            <input id="deleteuser{{user._id}}" name="deleteuser" class="form-check-input" type="checkbox"
+                                                                value="delete:user" [checked]="user.permissions.includes('delete:user') ? true : false">
                                                             Deletar Usuários
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <a class="btn btn-link btn-default btn-sm td-excluir">Salvar Permissões</a>
+                                            <a type="submit" (click)="onSubmit(user._id)" class="btn btn-link btn-default btn-sm td-excluir">Salvar Permissões</a>
                                         </td>
                                         <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
+                                            <a type="button" (click)="deleteUser(user.name, user._id)" class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
                                         </td>
                                         <!---->
                                     </tr>
