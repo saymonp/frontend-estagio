@@ -26,6 +26,7 @@
     "jw-bootstrap-switch-ng2": "^2.0.5",
     "ng-lazyload-image": "^9.1.0",
     "ng2-nouislider": "^1.8.2",
+    "ngx-mask": "^11.1.5",
     "nouislider": "^14.6.3",
     "popper.js": "^1.16.1",
     "rxjs": "^6.6.7",

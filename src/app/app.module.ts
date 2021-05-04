@@ -13,6 +13,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 
 import { PagesModule } from './pages/pages.module';
+import { LocalStorageService } from './services/localStorage.service';
 
 @NgModule({
   declarations: [
@@ -30,6 +31,7 @@ import { PagesModule } from './pages/pages.module';
     FormsModule,
     ReactiveFormsModule
   ],
+  providers: [LocalStorageService],
   bootstrap: [AppComponent],
 })
 export class AppModule { }

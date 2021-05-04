@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
+import { catchError } from 'rxjs/operators';
+import { EMPTY, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -10,12 +12,17 @@ export class UploadService {
 
   constructor(private http: HttpClient) { }
 
-  uploadFile(file: any) {
+  uploadFile(file: any): any {
     return this.http.post(`${this.url}/dev/api/v1/uploadFile`, JSON.stringify(file), {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',
-    });
+    }).pipe(catchError((e) => this.errorHandler(e)));
+  }
+
+  errorHandler(e: Error): Observable<any> {
+    alert('Ocorreu um erro!' + e.message);
+    return EMPTY;
   }
 
   deleteFile(data: any) {

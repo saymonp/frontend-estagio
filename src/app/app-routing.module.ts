@@ -3,6 +3,9 @@ import { Routes, RouterModule } from '@angular/router';
 import { CommonModule, } from '@angular/common';
 import { BrowserModule  } from '@angular/platform-browser';
 
+import { AuthGuard } from './services/guards/auth.guard';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { InterceptorService } from './interceptors/interceptor.service';
 import { LandingComponent } from './pages/landing/landing.component';
 import { ProductsListComponent } from './pages/productsList/productsList.component';
 import { ProductDetailComponent } from './pages/productDetail/productDetail.component';
@@ -24,14 +27,14 @@ const routes: Routes = [
   { path: '',          component: LandingComponent },
   { path: 'trabalhos',          component: ProductsListComponent },
   { path: 'trabalho/:id',       component: ProductDetailComponent },
-  { path: 'criar-trabalho',     component: CreateProductComponent },
-  { path: 'atualizar-trabalho/:id',     component: UpdateProductComponent },
-  { path: 'signup',     component: SignupComponent },
+  { path: 'criar-trabalho',     component: CreateProductComponent, canActivate: [AuthGuard], data: { permissions: ['create:product'] } },
+  { path: 'atualizar-trabalho/:id',     component: UpdateProductComponent, canActivate: [AuthGuard], data: { permissions: ['update:product'] } },
+  { path: 'signup',     component: SignupComponent, canActivate: [AuthGuard], data: { permissions: ['create:user'] } },
   { path: 'signin',     component: SigninComponent },
   { path: 'change-password/:passwordResetToken',     component: ChangePasswordComponent },
-  { path: 'funcionarios',     component: UsersListComponent },
-  { path: 'encomendas',     component: OrdersListComponent },
-  { path: 'encomenda/:id',     component: OrderDetailComponent },
+  { path: 'funcionarios',     component: UsersListComponent, canActivate: [AuthGuard], data: { permissions: ['update:user'] } },
+  { path: 'encomendas',     component: OrdersListComponent, canActivate: [AuthGuard], data: { permissions: [] } },
+  { path: 'encomenda/:id',     component: OrderDetailComponent, canActivate: [AuthGuard], data: { permissions: [] } },
   { path: 'encomendar',     component: OrderComponent },
   {
     path        : '**',
@@ -49,6 +52,13 @@ const routes: Routes = [
     })
   ],
   exports: [
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: InterceptorService,
+      multi: true,
+    },
   ],
 })
 export class AppRoutingModule { }

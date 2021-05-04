@@ -1,11 +1,8 @@
 import { Component, OnInit, HostListener, Input } from '@angular/core';
-import {
-  FormGroup,
-  FormBuilder,
-  Validators
-} from '@angular/forms';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { UploadService } from "../../services/upload.service";
+import { MailService } from "../../services/mail.service";
 
 @Component({
     selector: 'app-landing',
@@ -19,25 +16,20 @@ export class LandingComponent implements OnInit {
   public filesToUpload = [];
   public imagesToUpload = [];
   orderForm: FormGroup;
-  disabledSubmitButton: boolean = true;
+  loading = false;
 
-  constructor(private formBuilder: FormBuilder, private uploadService: UploadService) { }
+  constructor(private formBuilder: FormBuilder, private uploadService: UploadService, private mailService: MailService) { }
 
   @Input() name: string;
   @Input() email: string;
   @Input() clientPhone: string;
 
-  @HostListener('input') onInput() {
-    if (this.orderForm.valid) {
-      this.disabledSubmitButton = false;
-    }
-  }
-
   ngOnInit() {
     this.orderForm = this.formBuilder.group({
-        name: ['', Validators.required],
-        email: ['', Validators.required],
+        clientName: ['', Validators.required],
+        clientEmail: ['', Validators.required],
         clientPhone: ['', Validators.required],
+        allowContact: ['', Validators.required],
         notes: [null],
         images: [null],
         models3d: [null]
@@ -81,41 +73,91 @@ export class LandingComponent implements OnInit {
       console.log(this.imagesToUpload)
   }
 
-  createOrder() {
+  async createOrder() {
+    if (this.orderForm.value.allowContact == false) {
+      return alert("Você precisa permitir o contato.") 
+    }
     if (!this.orderForm.valid) {
-      
+      return alert("Nome, E-mail, Whatsapp e Concordar com Política de Privacidade é obrigatório.") 
     }
     else{
-
+      
+    this.loading = true;
+    
     const models3d = [];
     const images = [];
+    
+    for (let file of this.imagesToUpload) {
+        const data = await this.uploadService.uploadFile(file).toPromise();
+        images.push(JSON.parse(data.body))            
+    }
 
-    this.filesToUpload.map((file) => {
-      this.uploadService.uploadFile(file).subscribe((data) => {
-        models3d.push(JSON.parse(data.body));
-        console.log(models3d);
-      })
-    })
+    for (let file of this.filesToUpload) {
+      const data = await this.uploadService.uploadFile(file).toPromise();
+      models3d.push(JSON.parse(data.body))            
+  }
 
-    this.imagesToUpload.map((file) => {
-      this.uploadService.uploadFile(file).subscribe((data) => {
-        images.push(JSON.parse(data.body))
-        console.log(images);
-      })
-    })
-         
+
     let valueSubmit = Object.assign({}, this.orderForm.value);
 
     valueSubmit.images = images;
     valueSubmit.models3d = models3d
 
-    console.log(valueSubmit);
+    console.log("Value", valueSubmit);
 
     // this.apartamentoService.addApartamento(valueSubmit).subscribe(() => {
     //   this.apartamentoService.showMessage('Apartamento criado!');
     //   this.router.navigate(['/lista-apartamento']);
+    //
     // });
+
+    this.sendEmail("123", images, models3d, this.orderForm.value.name, this.orderForm.value.email, this.orderForm.value.clientPhone, this.orderForm.value.notes)
     }
+  }
+
+  sendEmail(orderId, images, files, name, email, phone, notes) {
+    const subject = "Novo pedido de orçamento"
+
+    let emailText = `Novo pedido de orçamento. \nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\n${notes}\nEncomenda: https://imobpoc.online/encomenda/${orderId}\n`
+    console.log("Aqui", images)
+    if (images && images.length > 0) {
+      let imagesText = "Imagens:";
+      images.map((img) => {
+        console.log(img.file_url)
+        console.log(img["file_url"])
+          imagesText = imagesText + `\n    ${img.file_url}`;
+      });
+
+      emailText = emailText + imagesText + "\n";
+    }
+    if (files && files.length > 0) {
+      let filesText = "Arquivos:";
+      files.map((f) => {
+          filesText = filesText + `\n    ${f.file_url}`;
+      });
+      emailText = emailText + filesText + "\n";
+    }
+
+    const emailToSend = {
+      "clientFirstName": name,
+      "clientLastName": "",
+      "clientEmail": email,
+      "subject": subject,
+      "message": emailText
+    }
+
+    // send email
+    this.mailService.sendEmail(emailToSend).subscribe((res) => {
+      console.log(res);
+      if(res["ok"] == "Email sent"){
+        alert("Seu pedido foi enviado")
+        this.loading = false;
+      }
+      this.loading = false;
+    });
+    this.loading = false;
+   console.log(emailToSend);
+
   }
 
 }

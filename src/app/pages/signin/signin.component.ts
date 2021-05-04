@@ -1,6 +1,10 @@
-import { Component, OnInit } from '@angular/core';
-import {NgbModal, ModalDismissReasons} from '@ng-bootstrap/ng-bootstrap';
+import { Component, Input, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
+import { Router } from '@angular/router';
 
+import { UserService } from '../../services/user.service';
+import { LocalStorageService } from '../../services/localStorage.service';
 
 @Component({
     selector: 'app-signin',
@@ -11,12 +15,23 @@ export class SigninComponent implements OnInit {
     test : Date = new Date();
     focus;
     focus1;
+    loginForm: FormGroup;
+    loading = false;
+
+    constructor(private router: Router, private localStorageService: LocalStorageService,private formBuilder: FormBuilder, private modalService: NgbModal, private userService: UserService) {}
     
-    ngOnInit() {}
+    @Input() name: string;
+    @Input() email: string;
+
+    ngOnInit() {
+      this.loginForm = this.formBuilder.group({
+          email: ['', Validators.required],
+          password: ['', Validators.required],
+      });
+    }
 
     closeResult = '';
 
-  constructor(private modalService: NgbModal) {}
 
   open(content) {
     this.modalService.open(content, {ariaLabelledBy: 'modal-basic-title'}).result.then((result) => {
@@ -24,6 +39,19 @@ export class SigninComponent implements OnInit {
     }, (reason) => {
       this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
     });
+  }
+ 
+  login() {
+    this.loading = true;
+    this.userService.login(this.loginForm.value).subscribe((user) => {
+      console.log(user);
+      this.localStorageService.set("name", user.user.name);
+      this.localStorageService.set("email", user.user.email);
+      this.localStorageService.set("permissions", user.user.permissions.toString());
+      this.localStorageService.set("token", user.user.token);
+      this.loading = false;
+      this.router.navigate(['/']);
+    })
   }
 
   private getDismissReason(reason: any): string {
