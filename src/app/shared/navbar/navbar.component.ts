@@ -15,6 +15,8 @@ export class NavbarComponent implements OnInit {
     constructor(private user: LocalStorageService, public location: Location, private element : ElementRef) {
         this.sidebarVisible = false;
         console.log(user.get("email"));
+        console.log(user.get('permissions').split(',').includes('create:user'));
+        console.log(user.get('permissions'));
     }
 
     ngOnInit() {

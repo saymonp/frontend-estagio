@@ -32,7 +32,7 @@ const routes: Routes = [
   { path: 'signup',     component: SignupComponent, canActivate: [AuthGuard], data: { permissions: ['create:user'] } },
   { path: 'signin',     component: SigninComponent },
   { path: 'change-password/:passwordResetToken',     component: ChangePasswordComponent },
-  { path: 'funcionarios',     component: UsersListComponent, canActivate: [AuthGuard], data: { permissions: ['update:user'] } },
+  { path: 'funcionarios',     component: UsersListComponent, canActivate: [AuthGuard], data: { permissions: ['update:user', 'delete:user'] } },
   { path: 'encomendas',     component: OrdersListComponent, canActivate: [AuthGuard], data: { permissions: [] } },
   { path: 'encomenda/:id',     component: OrderDetailComponent, canActivate: [AuthGuard], data: { permissions: [] } },
   { path: 'encomendar',     component: OrderComponent },
