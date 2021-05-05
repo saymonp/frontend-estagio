@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { LocalStorageService } from 'app/services/localStorage.service';
 
 import { UserService } from '../../services/user.service';
-import { TimestampObservableCache } from '../../types/models';
 
 const USERSLISTKEY = "httpuserlist"
 
@@ -15,26 +16,23 @@ export class UsersListComponent implements OnInit {
   focus: any;
   focus1: any;
   users: any;
-  nameFilter: string = "";
   searchText: string;
 
-  constructor(private userService: UserService) { 
+  constructor(private userService: UserService, private userData: LocalStorageService, private router: Router) { 
   }
 
   ngOnInit() {
-    this.getUsers()
+    if (this.tokenExpired(this.userData.get('token'))) {
+      // token expired
+      this.router.navigate(['/signin']);
+    } else {
+      this.getUsers()
+    }
   }
 
-  filterUsers(user, nameFilter) {
-    console.log(this.nameFilter)
-    if (this.nameFilter == "") { 
-      return true;
-    }
-    else if (user.name == this.nameFilter) {
-      return true;
-    } else {
-      return false;
-    }
+  private tokenExpired(token: string) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
 
   getUsers() {
@@ -102,13 +100,31 @@ export class UsersListComponent implements OnInit {
 
     permissions = permissions.filter(function (p) { return p !== undefined });
 
-    console.log(permissions)
+    console.log(permissions);
+
+    this.userService.updateUser({id, permissions}).subscribe((res) => {
+      console.log(res);
+      this.deleteCacheItem();
+      const index = this.users.users.findIndex(u => u._id === id);
+      console.log(this.users.users[index].permissions);
+      this.users.users[index].permissions = permissions;
+      console.log(this.users.users[index].permissions);
+      this.setCacheItem(this.users);
+    },(err) => {
+      alert("Ocorreu um erro"); 
+      })
  }
 
   deleteUser(name, email, id){
     if (confirm(`Você tem certeza que deseja excluir o usuário ${name}?`)) {
-      this.userService.deleteUser({id, email})
-      this.users.users = this.users.users.filter(user => user._id != id);
+      this.userService.deleteUser({id, email}).subscribe((res) => {
+        console.log(res);
+        this.users.users = this.users.users.filter(user => user._id != id);
+
+        this.deleteCacheItem()
+
+        this.setCacheItem(this.users)
+      })
     } else { 
       // Do nothing
     }

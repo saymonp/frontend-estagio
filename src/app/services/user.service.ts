@@ -29,10 +29,27 @@ export class UserService {
   }
 
   deleteUser(userData): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        id: userData.id,
+        email: userData.email,
+      },
+    };
+
     const url = `${this.baseUrl}/api/v1/deleteUser`;
-    return this.http.delete<any>(url, userData).pipe(
+    return this.http.delete<any>(url, options).pipe(
       map((obj) => obj),
       catchError((e) => this.errorHandler(e))
+    );
+  }
+
+  updateUser(permissions): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/updatePermissions`;
+    return this.http.post<any>(url, permissions, httpHeaders).pipe(
+      map((obj) => obj)
     );
   }
 
