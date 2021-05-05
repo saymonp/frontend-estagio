@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup } from '@angular/forms';
-import { Observable } from 'rxjs';
+
 import { UserService } from '../../services/user.service';
+import { TimestampObservableCache } from '../../types/models';
+
+const USERSLISTKEY = "httpuserlist"
 
 @Component({
     selector: 'app-usersList',
@@ -12,14 +14,60 @@ import { UserService } from '../../services/user.service';
 export class UsersListComponent implements OnInit {
   focus: any;
   focus1: any;
-  users$: Observable<any>;
-  contentLoaded = false;
-  usersForm: FormGroup;
+  userCache: { [id: string]: TimestampObservableCache<any> };
+  users: any;
+  users$: any;
 
-  constructor(private userService: UserService, private formBuilder: FormBuilder) { }
+  constructor(private userService: UserService) { 
+    this.userCache = {};
+  }
 
   ngOnInit() {
-   this.users$ = this.userService.listUsers();
+    this.getUsers()
+  }
+
+  getUsers() {
+    const chacheItem = this.getCacheItem();
+    if (chacheItem) {
+      console.log('Retrieved item from cache');
+      this.users = chacheItem;
+    }
+    else {
+    
+    this.userService.listUsers().subscribe((data) => {
+      this.users = data;
+      this.setCacheItem(data);
+    });
+    
+    console.log('Retrieved item from API');
+  }
+  }
+
+  getCacheItem() {
+    const cacheItem = JSON.parse(localStorage[USERSLISTKEY] || null)
+    console.log(cacheItem);
+    if (!cacheItem) {
+        return null;
+    }
+
+    // delete the cache item if it has expired
+    if (cacheItem.expires <= Date.now()) {
+        console.log("item has expired");
+        this.deleteCacheItem();
+        return null;
+    }
+
+    return cacheItem.data;
+  }
+
+  setCacheItem(data): void {
+    const EXPIRES = Date.now() + (1000 * 60 * 60) / 2; // 30 min
+    console.log(EXPIRES)
+    localStorage[USERSLISTKEY] = JSON.stringify({ expires: EXPIRES, data })
+  }
+
+  deleteCacheItem() {
+      localStorage.removeItem(USERSLISTKEY)
   }
 
   onSubmit(id) {
@@ -46,29 +94,15 @@ export class UsersListComponent implements OnInit {
     console.log(permissions)
  }
 
-  scrollToElement($element): void {
-    console.log($element);
-    $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
-  }
-
-  updatePermissions(id) {
-    if (confirm('Are you sure you want to save this thing into the database?')) {
-      // Save it!
-      console.log('Thing was saved to the database.'+id);
-    } else {
-      // Do nothing!
-      console.log('Thing was not saved to the database.');
-    }
-
-  }
-
-  deleteUser(name, id){
+  deleteUser(name, email, id){
     if (confirm(`Você tem certeza que deseja excluir o usuário ${name}?`)) {
-      // Save it!
-      console.log('Deleta '+id);
+      this.userService.deleteUser({id, email})
+      this.users.users = this.users.users.filter(user => user._id != id);
     } else { 
       // Do nothing
     }
   }
+
+
 
 }

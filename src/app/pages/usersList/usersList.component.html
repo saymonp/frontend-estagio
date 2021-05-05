@@ -16,7 +16,7 @@
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
-                            <ng-container *ngIf="users$ | async; let users">
+                            <ng-container *ngIf="users">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
@@ -99,7 +99,7 @@
                                             <a type="submit" (click)="onSubmit(user._id)" class="btn btn-link btn-default btn-sm td-excluir">Salvar Permissões</a>
                                         </td>
                                         <td>
-                                            <a type="button" (click)="deleteUser(user.name, user._id)" class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
+                                            <a type="button" (click)="deleteUser(user.name, user.email, user._id)" class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
                                         </td>
                                         <!---->
                                     </tr>
