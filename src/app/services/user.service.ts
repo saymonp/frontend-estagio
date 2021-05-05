@@ -53,6 +53,13 @@ export class UserService {
     );
   }
 
+  registerUser(user): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/register`;
+    return this.http.post<any>(url, user, httpHeaders).pipe(
+      map((obj) => obj)
+    );
+  }
+
   errorHandler(e: Error): Observable<any> {
     alert('Ocorreu um erro!' + e.message);
     return EMPTY;

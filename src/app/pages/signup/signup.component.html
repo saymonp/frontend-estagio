@@ -1,22 +1,36 @@
 <div class="wrapper">
     <div class="page-header" style="background-image: url('./assets/img/signup.jpg');">
         <div class="filter"></div>
-        <div class="container">
+        <div *ngIf="loading==true" id="loading-wrapper">
+            <div id="loading-text">Carregando</div>
+            <div id="loading-content"></div>
+          </div>
+        <div *ngIf="loading==false" class="container">
             <div class="row">
                 <div class="col-lg-4 col-sm-6 mr-auto ml-auto">
                     <div class="card card-register">
                         <h3 class="title">Cadastro de Funcionário</h3>
-                        <form novalidate="" class="register-form ng-untouched ng-pristine ng-valid"><label>Email</label>
+                        <form novalidate="" class="register-form ng-untouched ng-pristine ng-valid" [formGroup]="signupForm" (ngSubmit)="registerUser()">
+                            <label>Nome</label>
+                            <span *ngIf="(signupForm.controls['name'].invalid && (signupForm.controls['name'].dirty || signupForm.controls['name'].touched)) && signupForm.controls['name'].errors.required" class="text-default"> é obrigatório.</span>
                             <div class="input-group form-group-no-border" ng-reflect-ng-class="[object Object]">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
                                             class="nc-icon nc-email-85"></i></span></div><input type="text"
-                                    placeholder="Email" class="form-control">
+                                    placeholder="Nome" class="form-control" name="name" formControlName="name">
                             </div>
-                            <label>Senha</label>
+                            <label>Email</label>
+                            <span *ngIf="(signupForm.controls['email'].invalid && (signupForm.controls['email'].dirty || signupForm.controls['email'].touched)) && signupForm.controls['email'].errors.required" class="text-default"> é obrigatório.</span>
                             <div class="input-group form-group-no-border" ng-reflect-ng-class="[object Object]">
                                 <div class="input-group-prepend"><span class="input-group-text"><i
-                                            class="nc-icon nc-key-25"></i></span></div><input type="text"
-                                    placeholder="Senha" class="form-control">
+                                            class="nc-icon nc-email-85"></i></span></div><input type="text"
+                                    placeholder="Email" class="form-control"  name="email" formControlName="email">
+                            </div>
+                            <label>Senha</label>
+                            <span *ngIf="(signupForm.controls['password'].invalid && (signupForm.controls['password'].dirty || signupForm.controls['password'].touched)) && signupForm.controls['password'].errors.required" class="text-default"> é obrigatório.</span>
+                            <div class="input-group form-group-no-border" ng-reflect-ng-class="[object Object]">
+                                <div class="input-group-prepend"><span class="input-group-text"><i
+                                            class="nc-icon nc-key-25"></i></span></div><input type="password"
+                                    placeholder="Senha" class="form-control"  name="password" formControlName="password">
                             </div>
                             <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
                                 <a class="btn btn-default" id="dropdownBasic1" ngbDropdownToggle>Permissões</a>
@@ -24,21 +38,21 @@
                                     <a class="dropdown-header">Permissões de Produto</a>
                                     <div class="form-check ml-2 mr-2">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="create:product">
+                                            <input  name="createproduct" formControlName="createproduct" class="form-check-input" type="checkbox" value="create:product"> 
                                             Criar Produto
                                             <span class="form-check-sign"></span>
                                         </label>
                                     </div>
                                     <div class="form-check ml-2 mr-2">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="update:product">
+                                            <input name="updateproduct" formControlName="updateproduct" class="form-check-input" type="checkbox" value="update:product">
                                             Atualizar Produto
                                             <span class="form-check-sign"></span>
                                         </label>
                                     </div>
                                     <div class="form-check ml-2 mr-2">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="delete:product">
+                                            <input name="deleteproduct" formControlName="deleteproduct" class="form-check-input" type="checkbox" value="delete:product">
                                             Deletar Produto
                                             <span class="form-check-sign"></span>
                                         </label>
@@ -47,28 +61,28 @@
                                     <a class="dropdown-header">Permissões de Usuários</a>
                                     <div class="form-check ml-2 mr-2">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="create:user">
+                                            <input name="createuser" formControlName="createuser" class="form-check-input" type="checkbox" value="create:user">
                                             Criar Usuários
                                             <span class="form-check-sign"></span>
                                         </label>
                                     </div>
                                     <div class="form-check ml-2 mr-2">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="update:user">
+                                            <input name="updateuser" formControlName="updateuser" class="form-check-input" type="checkbox" value="update:user">
                                             Atualizar Permissões de Usuários
                                             <span class="form-check-sign"></span>
                                         </label>
                                     </div>
                                     <div class="form-check ml-2 mr-2">
                                         <label class="form-check-label">
-                                            <input class="form-check-input" type="checkbox" value="delete:user">
+                                            <input name="deleteuser" formControlName="deleteuser" class="form-check-input" type="checkbox" value="delete:user">
                                             Deletar Usuários
                                             <span class="form-check-sign"></span>
                                         </label>
                                     </div>                                
                                 </div>
                             </div>
-                            <button class="btn btn-danger btn-block btn-round">Cadastrar</button>
+                            <button type="submit" class="btn btn-danger btn-block btn-round">Cadastrar</button>
                         </form>
                     </div>
                 </div>
