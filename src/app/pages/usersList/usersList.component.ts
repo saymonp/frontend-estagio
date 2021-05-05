@@ -14,16 +14,27 @@ const USERSLISTKEY = "httpuserlist"
 export class UsersListComponent implements OnInit {
   focus: any;
   focus1: any;
-  userCache: { [id: string]: TimestampObservableCache<any> };
   users: any;
-  users$: any;
+  nameFilter: string = "";
+  searchText: string;
 
   constructor(private userService: UserService) { 
-    this.userCache = {};
   }
 
   ngOnInit() {
     this.getUsers()
+  }
+
+  filterUsers(user, nameFilter) {
+    console.log(this.nameFilter)
+    if (this.nameFilter == "") { 
+      return true;
+    }
+    else if (user.name == this.nameFilter) {
+      return true;
+    } else {
+      return false;
+    }
   }
 
   getUsers() {

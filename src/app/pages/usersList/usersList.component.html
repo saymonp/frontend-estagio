@@ -11,7 +11,7 @@
                         <h4 class="card-title">Funcionários</h4>
                         <div class="col-md-3 ml-auto">
                             <label>Pesquisar por nome</label>
-                            <input class="form-control" placeholder="Nome" type="text">
+                            <input class="form-control" placeholder="Nome" type="text" [(ngModel)]="searchText">
                     </div>
                     </div>
                     <div class="card-body">
@@ -28,7 +28,7 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <ng-container *ngFor="let user of users.users;">
+                                    <ng-container *ngFor="let user of users.users | filterAll: searchText">
                                     <tr>
                                         <td>
                                             <h6>{{ user.name }}</h6> 

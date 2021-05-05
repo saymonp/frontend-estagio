@@ -22,7 +22,8 @@ import { OrderDetailComponent } from './orderDetail/orderDetail.component';
 import { OrderComponent } from './order/order.component';
 import { RouterModule } from '@angular/router';
 import { LocalStorageService } from 'app/services/localStorage.service';
-
+import { CallbackPipe } from 'app/helpers/callback.pipe';
+import { FilterPipe } from 'app/helpers/filter.pipe';
 
 
 @NgModule({
@@ -39,6 +40,8 @@ import { LocalStorageService } from 'app/services/localStorage.service';
     ],
     providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }, LocalStorageService],
     declarations: [
+        FilterPipe,
+        CallbackPipe,
         LandingComponent,
         ProductsListComponent,
         ProductDetailComponent,
