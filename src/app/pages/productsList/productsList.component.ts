@@ -20,6 +20,8 @@ export class ProductsListComponent implements OnInit {
   orderForm: FormGroup;
   disabledSubmitButton: boolean = true;
   products = [];
+  min = 0;
+  max = 150;
 
   constructor(private formBuilder: FormBuilder) { }
 
@@ -42,7 +44,8 @@ export class ProductsListComponent implements OnInit {
         images: [null],
         models3d: [null]
     });
-    this.products = [{'_id': '608ce08a32a9c32438f4a7f4', 'title': 'product', 'price': 150.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf3ebcbf47d1de65c0515', 'title': 'product', 'price': 50.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf40f1cf843c3e20c7464', 'title': 'product', 'price': 55.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4607b2ade0b5195be63', 'title': 'product', 'price': 40.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf477c2d5c9d05c7bc5e2', 'title': 'productUpdate', 'price': 30.00, 'images': [{'key': 'update', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4b419e9c6e52f255238', 'title': 'product', 'price': 23.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4e5667592446f093903', 'title': 'product', 'price': 20.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf5324dfb6537136d8f0a', 'title': 'productUpdate', 'price': 32.34, 'images': [{'key': 'update', 'url': '....'}, {'key': '......', 'url': '....'}]}]
+    this.products = [{'_id': '608ce08a32a9c32438f4a7f4', 'title': 'product', 'price': 559.50, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf3ebcbf47d1de65c0515', 'title': 'product', 'price': 50.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf40f1cf843c3e20c7464', 'title': 'product', 'price': 55.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4607b2ade0b5195be63', 'title': 'product', 'price': 40.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf477c2d5c9d05c7bc5e2', 'title': 'productUpdate', 'price': 30.00, 'images': [{'key': 'update', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4b419e9c6e52f255238', 'title': 'product', 'price': 23.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4e5667592446f093903', 'title': 'product', 'price': 20.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf5324dfb6537136d8f0a', 'title': 'productUpdate', 'price': 32.34, 'images': [{'key': 'update', 'url': '....'}, {'key': '......', 'url': '....'}]}]
+    this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
   }
 
   scrollToElement($element): void {
