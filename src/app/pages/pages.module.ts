@@ -24,6 +24,7 @@ import { RouterModule } from '@angular/router';
 import { LocalStorageService } from 'app/services/localStorage.service';
 import { CallbackPipe } from 'app/helpers/callback.pipe';
 import { FilterPipe } from 'app/helpers/filter.pipe';
+import { RangePipe } from 'app/helpers/range.pipe';
 
 
 @NgModule({
@@ -40,6 +41,7 @@ import { FilterPipe } from 'app/helpers/filter.pipe';
     ],
     providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }, LocalStorageService],
     declarations: [
+        RangePipe,
         FilterPipe,
         CallbackPipe,
         LandingComponent,

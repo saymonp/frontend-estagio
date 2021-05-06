@@ -37,16 +37,18 @@
              <div class="col-md-9">
                <div class="products">
                   <div class="row">
-                     <div class="col-md-4 col-sm-4">
+                     
+                     <ng-container *ngFor="let product of products | range: doubleSlider">
+                        <div class="col-md-4 col-sm-4">
                         <div class="card card-product card-plain">
                            <div class="card-image">
                               <a [routerLink]="['/trabalho', 1]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
                               <div class="card-body">
                                  <div class="card-description">
-                                    <h5 class="card-title">Baby Groot</h5>
+                                    <h5 class="card-title">{{ product.title }}</h5>
                                  </div>
                                  <div class="price">
-                                    <h5>R$ 29,50</h5>
+                                    <h5>R$ {{ product.price }}</h5>
                                  </div>
                               </div>
                            </div>
@@ -54,91 +56,7 @@
                            [routerLink]="['/atualizar-trabalho', 1]">Editar</button>
                         </div>
                      </div>
-                     <div class="col-md-4 col-sm-4">
-                        <div class="card card-product card-plain">
-                           <div class="card-image">
-                              <a [routerLink]="['/trabalho', 1]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                              <div class="card-body">
-                                 <div class="card-description">
-                                    <h5 class="card-title">Baby Groot</h5>
-                                 </div>
-                                 <div class="price">
-                                    <h5>R$29,50</h5>
-                                 </div>
-                              </div>
-                           </div>
-                           <button type="button" class="btn btn-outline-default btn-round btn-sm col-md-4 ml-auto mr-auto"
-                           [routerLink]="['/atualizar-trabalho', 1]">Editar</button>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-4">
-                        <div class="card card-product card-plain">
-                           <div class="card-image">
-                              <a [routerLink]="['/trabalho', 1]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                              <div class="card-body">
-                                 <div class="card-description">
-                                    <h5 class="card-title">Baby Groot</h5>
-                                 </div>
-                                 <div class="price">
-                                    <h5>R$29,50</h5>
-                                 </div>
-                              </div>
-                           </div>
-                           <button type="button" class="btn btn-outline-default btn-round btn-sm col-md-4 ml-auto mr-auto"
-                           [routerLink]="['/atualizar-trabalho', 1]">Editar</button>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-4">
-                        <div class="card card-product card-plain">
-                           <div class="card-image">
-                              <a [routerLink]="['/trabalho', 1]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                              <div class="card-body">
-                                 <div class="card-description">
-                                    <h5 class="card-title">Baby Groot</h5>
-                                 </div>
-                                 <div class="price">
-                                    <h5>R$29,50</h5>
-                                 </div>
-                              </div>
-                           </div>
-                           <button type="button" class="btn btn-outline-default btn-round btn-sm col-md-4 ml-auto mr-auto"
-                           [routerLink]="['/atualizar-trabalho', 1]">Editar</button>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-4">
-                        <div class="card card-product card-plain">
-                           <div class="card-image">
-                              <a [routerLink]="['/trabalho', 1]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                              <div class="card-body">
-                                 <div class="card-description">
-                                    <h5 class="card-title">Baby Groot</h5>
-                                 </div>
-                                 <div class="price">
-                                    <h5>R$29,50</h5>
-                                 </div>
-                              </div>
-                           </div>
-                           <button type="button" class="btn btn-outline-default btn-round btn-sm col-md-4 ml-auto mr-auto"
-                           [routerLink]="['/atualizar-trabalho', 1]">Editar</button>
-                        </div>
-                     </div>
-                     <div class="col-md-4 col-sm-4">
-                        <div class="card card-product card-plain">
-                           <div class="card-image">
-                              <a [routerLink]="['/trabalho', 1]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
-                              <div class="card-body">
-                                 <div class="card-description">
-                                    <h5 class="card-title">Baby Groot</h5>
-                                 </div>
-                                 <div class="price">
-                                    <h5>R$29,50</h5>
-                                 </div>
-                              </div>
-                           </div>
-                           <button type="button" class="btn btn-outline-default btn-round btn-sm col-md-4 ml-auto mr-auto"
-                           [routerLink]="['/atualizar-trabalho', 1]">Editar</button>
-                        </div>
-                     </div>
+                     </ng-container>
              </div>
            </div>
          </div>

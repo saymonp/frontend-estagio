@@ -105,9 +105,8 @@ export class LandingComponent implements OnInit {
 
     console.log("Value", valueSubmit);
 
-    // this.apartamentoService.addApartamento(valueSubmit).subscribe(() => {
-    //   this.apartamentoService.showMessage('Apartamento criado!');
-    //   this.router.navigate(['/lista-apartamento']);
+    // this.orderService.create(valueSubmit).subscribe((res) => {
+    //   this.sendEmail(res._id, images, models3d, this.orderForm.value.name, this.orderForm.value.email, this.orderForm.value.clientPhone, this.orderForm.value.notes)
     //
     // }(err) => {
       //this.loading = false;
