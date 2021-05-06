@@ -33,9 +33,10 @@ export class SigninComponent implements OnInit {
 
   ngOnInit() {
     const re = new RegExp('/user/validation/(.+)');
-    this.validationToken = re.exec(this.router.url)[1];
+    
 
-    if (this.validationToken) {
+    if (re.exec(this.router.url) && re.exec(this.router.url)[1]) {
+      this.validationToken = re.exec(this.router.url)[1];
       this.loading = true;
       this.userService
         .validation({ "confirmationToken": this.validationToken })
