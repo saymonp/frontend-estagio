@@ -76,6 +76,7 @@ export class LandingComponent implements OnInit {
   }
 
   async createOrder() {
+    try {
     if (this.orderForm.value.allowContact == false) {
       return alert("Você precisa permitir o contato.") 
     }
@@ -113,6 +114,12 @@ export class LandingComponent implements OnInit {
       this.loading = false;
       alert("Erro ao enviar"); 
      });
+    }
+     catch (e) {
+      this.loading = false;
+      alert("Ocorreu um erro");
+     }
+
   }
 
   sendEmail(orderId, images, files, name, email, phone, notes) {
