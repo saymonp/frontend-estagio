@@ -13,7 +13,7 @@ export class UploadService {
   constructor(private http: HttpClient) { }
 
   uploadFile(file: any): any {
-    return this.http.post(`${this.url}/dev/api/v1/uploadFile`, JSON.stringify(file), {
+    return this.http.post(`${this.url}/api/v1/uploadFile`, JSON.stringify(file), {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',
@@ -26,7 +26,7 @@ export class UploadService {
   }
 
   deleteFile(data: any) {
-    return this.http.post(`${this.url}/dev/api/v1/deleteFile`, JSON.stringify(data), {
+    return this.http.post(`${this.url}/api/v1/deleteFile`, JSON.stringify(data), {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',

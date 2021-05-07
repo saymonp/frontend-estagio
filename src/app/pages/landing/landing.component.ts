@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 import { UploadService } from "../../services/upload.service";
 import { MailService } from "../../services/mail.service";
+import { OrderService } from "../../services/order.service";
 
 @Component({
     selector: 'app-landing',
@@ -18,10 +19,10 @@ export class LandingComponent implements OnInit {
   orderForm: FormGroup;
   loading = false;
 
-  constructor(private formBuilder: FormBuilder, private uploadService: UploadService, private mailService: MailService) { }
+  constructor(private orderService: OrderService, private formBuilder: FormBuilder, private uploadService: UploadService, private mailService: MailService) { }
 
-  @Input() name: string;
-  @Input() email: string;
+  @Input() clientName: string;
+  @Input() clientEmail: string;
   @Input() clientPhone: string;
 
   ngOnInit() {
@@ -32,8 +33,9 @@ export class LandingComponent implements OnInit {
         allowContact: ['', Validators.required],
         notes: [null],
         images: [null],
-        models3d: [null]
-    });
+        files: [null],
+        quoteOrder: [true]
+    }); 
   }
 
   scrollToElement($element): void {
@@ -80,10 +82,9 @@ export class LandingComponent implements OnInit {
     if (!this.orderForm.valid) {
       return alert("Nome, E-mail, Whatsapp e Concordar com Política de Privacidade é obrigatório.") 
     }
-    else{
 
     this.loading = true;
-    
+     
     const models3d = [];
     const images = [];
     
@@ -97,36 +98,32 @@ export class LandingComponent implements OnInit {
       models3d.push(JSON.parse(data.body))            
   }
 
-
     let valueSubmit = Object.assign({}, this.orderForm.value);
 
     valueSubmit.images = images;
-    valueSubmit.models3d = models3d
+    valueSubmit.files = models3d
 
     console.log("Value", valueSubmit);
 
-    // this.orderService.create(valueSubmit).subscribe((res) => {
-    //   this.sendEmail(res._id, images, models3d, this.orderForm.value.name, this.orderForm.value.email, this.orderForm.value.clientPhone, this.orderForm.value.notes)
-    //
-    // }(err) => {
-      //this.loading = false;
-      //alert("Erro ao enviar"); 
-     // });
-
-    this.sendEmail("123", images, models3d, this.orderForm.value.name, this.orderForm.value.email, this.orderForm.value.clientPhone, this.orderForm.value.notes)
-    }
+    this.orderService.create(valueSubmit).subscribe((res) => {
+      console.log(res);
+      this.sendEmail(res.order_created, images, models3d, valueSubmit.clientName, valueSubmit.clientEmail, valueSubmit.clientPhone, valueSubmit.notes)
+    
+    },(err) => {
+      this.loading = false;
+      alert("Erro ao enviar"); 
+     });
   }
 
   sendEmail(orderId, images, files, name, email, phone, notes) {
     const subject = "Novo pedido de orçamento"
+    const notesTosend = notes ? notes : "";
 
-    let emailText = `Novo pedido de orçamento. \nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\n${notes}\nEncomenda: https://imobpoc.online/encomenda/${orderId}\n`
+    let emailText = `Novo pedido de orçamento. \nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\n${notesTosend}\nEncomenda: https://imobpoc.online/encomenda/${orderId}\n`
     console.log("Aqui", images)
     if (images && images.length > 0) {
       let imagesText = "Imagens:";
       images.map((img) => {
-        console.log(img.file_url)
-        console.log(img["file_url"])
           imagesText = imagesText + `\n    ${img.file_url}`;
       });
 
@@ -147,10 +144,9 @@ export class LandingComponent implements OnInit {
       "subject": subject,
       "message": emailText
     }
-
+    console.log(emailToSend);
     // send email
     this.mailService.sendEmail(emailToSend).subscribe((res) => {
-      console.log(res);
       alert("Seu pedido foi enviado")
       this.loading = false;
     },(err) => {
