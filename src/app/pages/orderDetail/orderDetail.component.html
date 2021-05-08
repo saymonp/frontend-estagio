@@ -3,7 +3,7 @@
 </div>
 
 <div class="main">
-  <div class="section">
+  <div *ngIf="order" class="section">
     <div class="container">
       <h3 class="mb-3">Dados da encomenda</h3>
       <h3 class="mb-3">Orçamento</h3>
@@ -13,27 +13,27 @@
             <div class="form-group row">
               <div class="col-md-4">
                 <h6>Status</h6><select class="form-control border-input">
-                  <option value="1" ng-reflect-value="1">Pendente</option>
-                  <option value="2" ng-reflect-value="2">Em entrega</option>
-                  <option value="3" ng-reflect-value="3">Produto em produção</option>
+                  <option value="Pendente">Pendente</option>
+                  <option value="Em entrega">Em entrega</option>
+                  <option value="Produto em produção">Produto em produção</option>
                 </select>
-                <div class="col-md-2 col-sm-4"><button type="submit"
-                  class="btn btn-primary btn-block btn-round">Salvar</button></div>
               </div>
+                <div class="col-md-2 col-sm-4 mt-4"><button type="submit"
+                  class="btn btn-primary btn-block btn-round">Salvar</button></div>
             </div>
             <div class="form-group row">
               
               <div class="col-md-4">
                 <h6>Nome Cliente</h6>
-                <p>Thurinasadan</p>
+                <p>{{ order.clientName }}</p>
               </div>
               <div class="col-md-4">
                 <h6>Email do cliente</h6>
-                <p>thurinasadan123@yahoo.com</p>
+                <p>{{ order.clientEmail }}</p>
               </div>
               <div class="col-md-4">
                 <h6>Whatsapp</h6>
-                <p>(55) 991234567</p>
+                <p>{{ order.clientPhone }}</p>
             </div>
             </div>
             <div class="form-group row">
@@ -45,29 +45,30 @@
             <div class="form-group row">
               <div class="col-md-3">
                 <h6>Modo de entrega</h6>
-                <p>PAC</p>
+                <p>{{ order.deliverMethod }}</p>
               </div>
               <div class="col-md-3">
                 <h6>Cep</h6>
-                <p>98700000</p>
+                <p>{{ order.cep }}</p>
               </div>
               <div class="col-md-3">
                 <h6>Estado</h6>
-               <p>RS</p>
+               <p>{{ order.state }}</p>
               </div>
               <div class="col-md-3">
                 <h6>Frete</h6>
-                <p>21,23</p>
+                <p>{{ order.deliverPrice }}</p>
               </div>
             </div>
         <div class="form-group row">
           <div class="col-md-12">
           <h6>Descrição do cliente</h6>
-          <p>Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.</p>
+          <p>{{ order.notes }}</p>
         </div>
         </div>
         <br>
         <!-- If not quote Order -->
+        <div *ngIf="order.quoteOrder==false">
         <div class="form-group row">
           <div class="col-md-4">
           <h5>Produto</h5>
@@ -76,18 +77,19 @@
         <div class="form-group row">
           <div class="col-md-3">
           <h6>Produto</h6>
-          <p>Baby Groot</p>
+          <p>{{ order.productData.title }}</p>
         </div>
         <div class="col-md-3">
           <h6>Preço</h6>
-          <p>30.00</p>
+          <p>{{ order.productData.price }}</p>
         </div> 
             <div class="form-group mt-3">
               <div class="col-md-12">
               <h6>Descrição do Porduto</h6>
-              <p>Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.</p>
+              <p>{{ order.productData.description }}</p>
             </div>
             </div>
+          </div>
           </div>
           </div>
         </div>

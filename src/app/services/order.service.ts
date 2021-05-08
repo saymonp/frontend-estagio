@@ -29,6 +29,11 @@ export class OrderService {
     );
   }
 
+  show(id: string): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/showOrder/${id}`;
+    return this.http.get<any>(url);
+  }
+
   errorHandler(e: Error): Observable<any> {
     alert('Ocorreu um erro!' + e.message);
     return EMPTY;
