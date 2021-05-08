@@ -43,6 +43,7 @@
                                         <th>Cliente Email</th>
                                         <th>Whatsapp</th>
                                         <th>Status</th>
+                                        <th>Data</th>
                                         <!---->
                                     </tr>
                                 </thead> 
@@ -63,6 +64,9 @@
                                         </td>
                                         <td>
                                             {{ order.status }}
+                                        </td>
+                                        <td>
+                                            {{ order.createdAt }}
                                         </td>
                                     </tr>
                                     </ng-container>

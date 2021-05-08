@@ -55,6 +55,7 @@ export class OrdersListComponent implements OnInit {
     }
     else {
       this.orderService.list().subscribe((data) => {
+      data.orders.reverse();
       this.orders = data;
       this.setCacheItem(data);
     });
