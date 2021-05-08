@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 import { LocalStorageService } from '../../services/localStorage.service';
@@ -18,28 +18,27 @@ export class SigninComponent implements OnInit {
   loginForm: FormGroup;
   loading = false;
   recoverPassEmail: string;
-  validationToken: string;
 
   constructor(
     private router: Router,
     private localStorageService: LocalStorageService,
     private formBuilder: FormBuilder,
     private modalService: NgbModal,
-    private userService: UserService
+    private userService: UserService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   @Input() name: string;
   @Input() email: string;
 
   ngOnInit() {
-    const re = new RegExp('/user/validation/(.+)');
     
-
-    if (re.exec(this.router.url) && re.exec(this.router.url)[1]) {
-      this.validationToken = re.exec(this.router.url)[1];
+    if (this.activatedRoute.snapshot.paramMap.get('token')) {
+      const validationToken = this.activatedRoute.snapshot.paramMap.get('token');
+      console.log(validationToken);
       this.loading = true;
       this.userService
-        .validation({ "confirmationToken": this.validationToken })
+        .validation({ "confirmationToken": validationToken })
         .subscribe(
           (res) => {
             console.log(res);

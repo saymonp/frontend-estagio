@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { UserService } from '../../services/user.service';
 
@@ -16,11 +16,11 @@ export class ChangePasswordComponent implements OnInit {
   newPassword: string;
   loading = false;
 
-  constructor(private router: Router, private userService: UserService) { }
+  constructor(private router: Router, private userService: UserService, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
-    const re = new RegExp("\/password\/reset\/(.+)");
-    this.passwordResetToken = re.exec(this.router.url)[1];
+    this.passwordResetToken = this.activatedRoute.snapshot.paramMap.get('passwordResetToken');
+    console.log(this.passwordResetToken);
   }
 
   scrollToElement($element): void {
