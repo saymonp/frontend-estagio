@@ -100,14 +100,14 @@
               <div class="card page-carousel">
           <ngb-carousel *ngIf="order.quoteOrder==false">
             <ng-template *ngFor="let img of order.productData[0].images" ngbSlide>
-                <img src="{{img.url}}" alt="img.key">
+                <img src="{{img.file_url}}" alt="img.key">
                 <div class="carousel-caption">
                 </div>
             </ng-template> 
         </ngb-carousel>
         <ngb-carousel *ngIf="order.quoteOrder==true">
           <ng-template *ngFor="let img of order.images" ngbSlide>
-              <img class="img-responsive" src="{{img.url}}" alt="img.key">
+              <img class="img-responsive" src="{{img.file_url}}" alt="img.key">
               <div class="carousel-caption">
               </div>
           </ng-template>
