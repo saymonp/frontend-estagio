@@ -17,13 +17,15 @@
             <div class="form-group row">
               <div class="col-md-4">
                 <h6>Status</h6>
-                <select class="form-control border-input">
-                  <option value="Pendente">Pendente</option>
-                  <option value="Em entrega">Em entrega</option>
-                  <option value="Produto em produção">Produto em produção</option>
-                </select>
+                <form *ngIf="orderForm" [formGroup]="orderForm">
+                  <select formControlName="statusControl" class="form-control border-input">
+                    <option value="Pendente">Pendente</option>
+                  <option value="Em Entrega">Em Entrega</option>
+                  <option value="Produto em Produção">Produto em Produção</option>
+                  </select>
+                 </form>
               </div>
-                <div class="col-md-2 col-sm-4 mt-4"><button type="submit"
+                <div class="col-md-2 col-sm-4 mt-4"><button type="submit" (click)="update()"
                   class="btn btn-primary btn-block btn-round">Salvar</button></div>
             </div>
             <div class="form-group row">
@@ -137,7 +139,14 @@
     </div>
   </div>
     </div> 
-
+    <br>
+    <br>
+    <br>
+    <br>
+    <div class="row buttons-row mt-5">
+      <div class="col-md-4 col-sm-4 ml-auto mr-auto"><button (click)="delete()" type="button"
+          class="btn btn-outline-danger btn-block btn-round">Excluir</button></div>
+    </div>
       </div>
     </div>
   </div>

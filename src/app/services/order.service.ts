@@ -34,6 +34,18 @@ export class OrderService {
     return this.http.get<any>(url);
   }
 
+  update(status): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/updateOrder`;
+    return this.http.patch<any>(url, status, httpHeaders).pipe(
+      map((obj) => obj)
+    );
+  }
+
+  delete(id: string): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/deleteOrder/${id}`;
+    return this.http.delete<any>(url);
+  }
+
   errorHandler(e: Error): Observable<any> {
     alert('Ocorreu um erro!' + e.message);
     return EMPTY;
