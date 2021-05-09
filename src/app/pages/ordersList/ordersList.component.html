@@ -47,6 +47,10 @@
                                         <!---->
                                     </tr>
                                 </thead> 
+                                <div *ngIf="loading==true" id="loading-wrapper">
+                                    <div id="loading-text">Listando</div>
+                                    <div id="loading-content"></div>
+                                  </div>
                                 <tbody *ngIf="orders">
                                     <ng-container *ngFor="let order of orders.orders | filterAll: searchName | filterAll: searchProduct | filterAll: searchStatus">
                                     <tr class="tr-click" [routerLink]="['/encomenda/', order._id]"> 

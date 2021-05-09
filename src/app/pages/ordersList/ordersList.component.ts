@@ -20,6 +20,7 @@ export class OrdersListComponent implements OnInit {
   searchName: string;
   searchProduct: string;
   searchStatus: string;
+  loading = false;
 
   constructor(private router: Router, private userData: LocalStorageService, private orderService: OrderService) { }
 
@@ -48,6 +49,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   getOrders() {
+    this.loading = true;
     const chacheItem = this.getCacheItem();
     if (chacheItem) {
       console.log('Retrieved item from cache');
@@ -58,7 +60,11 @@ export class OrdersListComponent implements OnInit {
       data.orders.reverse();
       this.orders = data;
       this.setCacheItem(data);
-    });
+      this.loading = false;
+    },(err) => {
+      this.loading = false;
+      alert("Erro"); 
+     });
     
     console.log('Retrieved item from API');
   }
@@ -77,7 +83,7 @@ export class OrdersListComponent implements OnInit {
         this.deleteCacheItem();
         return null;
     }
-
+    this.loading = false;
     return cacheItem.data;
   }
 

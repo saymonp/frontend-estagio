@@ -3,6 +3,10 @@
 </div>
 
 <div class="main">
+  <div *ngIf="loading==true" id="loading-wrapper" class="section">
+    <div id="loading-text">Carregando</div>
+    <div id="loading-content"></div>
+  </div>
   <div *ngIf="order" class="section">
     <div class="container">
       <h3 class="mb-3">Dados da encomenda</h3>
@@ -143,6 +147,10 @@
     <br>
     <br>
     <br>
+    <div *ngIf="loading==true" id="loading-wrapper">
+      <div id="loading-text">Carregando</div>
+      <div id="loading-content"></div>
+    </div>
     <div class="row buttons-row mt-5">
       <div class="col-md-4 col-sm-4 ml-auto mr-auto"><button (click)="delete()" type="button"
           class="btn btn-outline-danger btn-block btn-round">Excluir</button></div>
