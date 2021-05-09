@@ -6,13 +6,18 @@
   <div *ngIf="order" class="section">
     <div class="container">
       <h3 class="mb-3">Dados da encomenda</h3>
-      <h3 class="mb-3">Orçamento</h3>
+      <h3 class="mb-3">{{ order.title }}</h3>
+      <div class="mb-3">  
+        <p>pedido feito em {{ order.createdAt }}</p>
+      </div>
+
       <div>
         <div class="row">
           <div class="col-md-12 col-sm-7">
             <div class="form-group row">
               <div class="col-md-4">
-                <h6>Status</h6><select class="form-control border-input">
+                <h6>Status</h6>
+                <select class="form-control border-input">
                   <option value="Pendente">Pendente</option>
                   <option value="Em entrega">Em entrega</option>
                   <option value="Produto em produção">Produto em produção</option>
@@ -36,14 +41,8 @@
                 <p>{{ order.clientPhone }}</p>
             </div>
             </div>
-            <div class="form-group row">
-              <div class="col-md-3">
-                <h6>Data do Pedido</h6>
-                <p>05/08/2021, 00:45:37</p>
-              </div>
-            </div>
-            <div class="form-group row">
-              <div class="col-md-3">
+            <div *ngIf="order.quoteOrder==false" class="form-group row">
+              <div *ngIf="order.quoteOrder==false" class="col-md-3">
                 <h6>Modo de entrega</h6>
                 <p>{{ order.deliverMethod }}</p>
               </div>
@@ -60,7 +59,7 @@
                 <p>{{ order.deliverPrice }}</p>
               </div>
             </div>
-        <div class="form-group row">
+        <div *ngIf="order.quoteOrder==true" class="form-group row">
           <div class="col-md-12">
           <h6>Descrição do cliente</h6>
           <p>{{ order.notes }}</p>
@@ -77,52 +76,68 @@
         <div class="form-group row">
           <div class="col-md-3">
           <h6>Produto</h6>
-          <p>{{ order.productData.title }}</p>
+          <p>{{ order.productData[0].title }}</p>
         </div>
         <div class="col-md-3">
           <h6>Preço</h6>
-          <p>{{ order.productData.price }}</p>
+          <p>{{ order.productData[0].price }}</p>
         </div> 
-            <div class="form-group mt-3">
+        </div> 
+        <div class="form-group row">
+            <div class="form-group">
               <div class="col-md-12">
-              <h6>Descrição do Porduto</h6>
-              <p>{{ order.productData.description }}</p>
+              <h6>Descrição do Produto</h6> 
+              <p>{{ order.productData[0].description }}</p>
             </div>
             </div>
+          </div>
           </div>
           </div>
           </div>
         </div>
-        <div class="row col-md-5 col-sm-6 ml-auto mr-auto">
-          <ngb-carousel>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random first slide">
+        <div class="row">
+          <div class="col-md-5 col-sm-4 ml-auto mr-auto"> 
+              <div class="card page-carousel">
+          <ngb-carousel *ngIf="order.quoteOrder==false">
+            <ng-template *ngFor="let img of order.productData[0].images" ngbSlide>
+                <img src="{{img.url}}" alt="img.key">
                 <div class="carousel-caption">
                 </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random second slide">
-                <div class="carousel-caption">
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random third slide">
-                <div class="carousel-caption"> 
-                </div>
-            </ng-template>
+            </ng-template> 
         </ngb-carousel>
+        <ngb-carousel *ngIf="order.quoteOrder==true">
+          <ng-template *ngFor="let img of order.images" ngbSlide>
+              <img class="img-responsive" src="{{img.url}}" alt="img.key">
+              <div class="carousel-caption">
+              </div>
+          </ng-template>
+      </ngb-carousel>
         </div>
-        <div class="col-md-2 ml-auto mr-auto mt-4 mb-5">
-          <h6 class="text-center">Baixar Modelo 3d</h6><button
-            type="button" class="btn btn-default btn-round ml-3">Download</button>
         </div>
-        <div class="row buttons-row">
-          <div class="col-md-4 col-sm-4"><button type="reset"
-              class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
-          <div class="col-md-4 col-sm-4"><button type="submit"
-              class="btn btn-outline-danger btn-block btn-round">Excluir</button></div>
         </div>
+        <div *ngIf="order.quoteOrder==false">
+          <div class="row col-md-8 ml-auto mr-auto">
+      <div *ngFor="let file of order.productData[0].files" class="ml-auto mr-auto">
+          <div class="info">
+              <i class="icon nc-icon nc-app"></i> 
+          </div>
+              <p>{{ file.key }}</p>
+              <a href="{{ file.url }}">Download</a>
+      </div>
+    </div>
+      </div> 
+      <div *ngIf="order.quoteOrder==true">
+        <div class="row col-md-8 ml-auto mr-auto">
+    <div *ngFor="let file of order.files" class="ml-auto mr-auto">
+        <div class="info">
+            <i class="icon nc-icon nc-app"></i> 
+        </div>
+            <p>{{ file.key }}</p>
+            <a href="{{ file.url }}">Download</a>
+    </div>
+  </div>
+    </div> 
+
       </div>
     </div>
   </div>
-</div>
