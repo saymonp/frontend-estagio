@@ -1,19 +1,19 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { environment } from '../../environments/environment.prod';
-import { catchError } from 'rxjs/operators';
+import { catchError, map } from 'rxjs/operators';
 import { EMPTY, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UploadService { 
-  url: string = environment.backend.baseURL;
+  baseUrl: string = environment.backend.baseURL;
 
   constructor(private http: HttpClient) { }
 
   uploadFile(file: any): any {
-    return this.http.post(`${this.url}/api/v1/uploadFile`, JSON.stringify(file), {
+    return this.http.post(`${this.baseUrl}/api/v1/uploadFile`, JSON.stringify(file), {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',
@@ -26,11 +26,27 @@ export class UploadService {
   }
 
   deleteFile(data: any) {
-    return this.http.post(`${this.url}/api/v1/deleteFile`, JSON.stringify(data), {
+    return this.http.post(`${this.baseUrl}/api/v1/deleteFile`, JSON.stringify(data), {
       headers: new HttpHeaders({ 'Content-type': 'application/json' }),
       responseType: 'text',
       observe: 'response',
     });
   }
+
+  getPresignedUrl(path: string, fileName: string): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/uploadPresignedUrl/${encodeURIComponent(path)}/${fileName}`;
+    return this.http.get<any>(url);
+  }
+
+  uploadFilePresignedUrl(presignedUrl, file): Observable<any> {
+    const url = presignedUrl.url;
+    const fields = presignedUrl.fields;
+    fields.files = file;
+    return this.http.post<any>(url, fields).pipe(
+      map((obj) => obj)
+    );
+  }
+  
+
 
 }

@@ -9,6 +9,9 @@ import { UploadService } from "../../services/upload.service";
 import { MailService } from "../../services/mail.service";
 import { OrderService } from "../../services/order.service";
 import { LocalStorageService } from 'app/services/localStorage.service';
+import { ProductService } from 'app/services/product.service';
+
+const PRODUCTSLISTKEY = "httpproductsList";
 
 @Component({
     selector: 'app-productsList',
@@ -28,7 +31,7 @@ export class ProductsListComponent implements OnInit {
   loading = false;
   private userPermissions = this.user.get('permissions') ? this.user.get('permissions').split(',') : [];
 
-  constructor(private user: LocalStorageService, private orderService: OrderService, private formBuilder: FormBuilder, private uploadService: UploadService, private mailService: MailService) { }
+  constructor(private user: LocalStorageService, private orderService: OrderService, private productService: ProductService, private formBuilder: FormBuilder, private uploadService: UploadService, private mailService: MailService) { }
 
   @Input() clientName: string;
   @Input() clientEmail: string;
@@ -51,14 +54,63 @@ export class ProductsListComponent implements OnInit {
       files: [null],
       quoteOrder: [true]
   }); 
-    this.products = [{'_id': '608ce08a32a9c32438f4a7f4', 'title': 'product', 'price': 559.50, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf3ebcbf47d1de65c0515', 'title': 'product', 'price': 50.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf40f1cf843c3e20c7464', 'title': 'product', 'price': 55.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4607b2ade0b5195be63', 'title': 'product', 'price': 40.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf477c2d5c9d05c7bc5e2', 'title': 'productUpdate', 'price': 30.00, 'images': [{'key': 'update', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4b419e9c6e52f255238', 'title': 'product', 'price': 23.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf4e5667592446f093903', 'title': 'product', 'price': 20.00, 'images': [{'key': '......', 'url': '....'}, {'key': '......', 'url': '....'}]}, {'_id': '608cf5324dfb6537136d8f0a', 'title': 'productUpdate', 'price': 32.34, 'images': [{'key': 'update', 'url': '....'}, {'key': '......', 'url': '....'}]}]
-    this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
+    this.getProducts();
   }
 
   scrollToElement($element): void {
     console.log($element);
     $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
+
+
+  getProducts() {
+    this.loading = true;
+    const chacheItem = this.getCacheItem();
+    if (chacheItem) {
+      console.log('Retrieved item from cache');
+      this.products = chacheItem;
+    }
+    else {
+      this.productService.list().subscribe((data) => {
+      this.products = data.products;
+      this.setCacheItem(data.products);
+      this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
+      this.loading = false;
+    },(err) => {
+      this.loading = false;
+      alert("Erro"); 
+     });
+    
+    console.log('Retrieved item from API');
+  }
+  }
+
+  getCacheItem() {
+    const cacheItem = JSON.parse(localStorage[PRODUCTSLISTKEY] || null)
+    console.log(cacheItem);
+    if (!cacheItem) {
+        return null;
+    }
+
+    // delete the cache item if it has expired
+    if (cacheItem.expires <= Date.now()) {
+        console.log("item has expired");
+        this.deleteCacheItem();
+        return null;
+    }
+    this.loading = false;
+    return cacheItem.data;
+  }
+
+  setCacheItem(data): void {
+    const EXPIRES = Date.now() + 43200000; // 12h
+    localStorage[PRODUCTSLISTKEY] = JSON.stringify({ expires: EXPIRES, data })
+  }
+
+  deleteCacheItem() {
+      localStorage.removeItem(PRODUCTSLISTKEY)
+  }
+
 
   removeFile(index) {
     this.filesToUpload.splice(index, 1);

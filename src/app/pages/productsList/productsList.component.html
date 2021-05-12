@@ -42,7 +42,7 @@
                         <div class="col-md-4 col-sm-4">
                         <div class="card card-product card-plain">
                            <div class="card-image">
-                              <a [routerLink]="['/trabalho', product._id]"><img alt="Rounded Image" class="img-rounded img-responsive" src="./assets/img/trabalho1.jpg"></a>
+                              <a [routerLink]="['/trabalho', product._id]"><img alt="Rounded Image" class="img-rounded img-responsive" src="{{ product.images[0].file_url }}"></a>
                               <div class="card-body">
                                  <div class="card-description">
                                     <h5 class="card-title">{{ product.title }}</h5>

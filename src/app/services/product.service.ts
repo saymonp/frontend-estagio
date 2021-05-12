@@ -16,22 +16,34 @@ export class ProductService {
   baseUrl: string = environment.backend.baseURL;
 
   create(order): Observable<any> {
-    const url = `${this.baseUrl}/api/v1/createOrder`;
+    const url = `${this.baseUrl}/api/v1/createProduct`;
     return this.http.post<any>(url, order, httpHeaders).pipe(
       map((obj) => obj)
     );
   }
 
   list(): Observable<any> {
-    const url = `${this.baseUrl}/api/v1/listOrders`;
+    const url = `${this.baseUrl}/api/v1/listProducts`;
     return this.http.get<any>(url).pipe(
       map((obj) => obj)
     );
   }
 
   show(id: string): Observable<any> {
-    const url = `${this.baseUrl}/api/v1/showOrder/${id}`;
+    const url = `${this.baseUrl}/api/v1/showProduct/${id}`;
     return this.http.get<any>(url);
+  }
+
+  update(status): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/updateProduct`;
+    return this.http.patch<any>(url, status, httpHeaders).pipe(
+      map((obj) => obj)
+    );
+  }
+
+  delete(id: string): Observable<any> {
+    const url = `${this.baseUrl}/api/v1/deleteProduct/${id}`;
+    return this.http.delete<any>(url);
   }
 
   errorHandler(e: Error): Observable<any> {

@@ -11,31 +11,25 @@
                <div class="col-md-5 col-sm-5">
                   <h6>Imagens</h6>
                   <div data-provides="fileinput" class="fileinput fileinput-new text-center">
-                     <div class="col-md-12 col-sm-6">     
+                     <div class="col-md-12 col-sm-6"> 
+                        <div *ngIf="images.length > 0">
                         <ngb-carousel>
+                           <ng-template ngbSlide *ngFor="let img of images; let i = index">
+                               <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
+                               <div class="carousel-caption">
+                                <a data-dismiss="fileinput"
+                                class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
+                                <a *ngIf="i != 0" data-dismiss="fileinput"
+                                class="btn btn-link btn-outline-default fileinput-exists">Tornar imagem de capa</a>
+                               </div>
+                           </ng-template>
+                       </ngb-carousel>
+                     </div>  
+
+                        <ngb-carousel *ngIf="images.length == 0">
                          <ng-template ngbSlide>
-                             <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random first slide">
+                             <img class="img-responsive" src="./assets/img/image_placeholder.jpg" alt="Random first slide">
                              <div class="carousel-caption">
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
-                             </div>
-                         </ng-template>
-                         <ng-template ngbSlide>
-                             <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random second slide">
-                             <div class="carousel-caption">
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-outline-default fileinput-exists">Tornar imagem de capa</a>
-                             </div>
-                         </ng-template>
-                         <ng-template ngbSlide>
-                             <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random third slide">
-                             <div class="carousel-caption"> 
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-outline-default fileinput-exists">Tornar imagem de capa</a>
                              </div>
                          </ng-template>
                      </ngb-carousel>

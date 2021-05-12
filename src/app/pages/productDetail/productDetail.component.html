@@ -4,79 +4,99 @@
 
  <div class="main">
    <div class="section">
+    <div *ngIf="loading==true" id="loading-wrapper">
+      <div id="loading-text">Carregando</div>
+      <div id="loading-content"></div>
+    </div>
      <div class="container">
-       <div class="row">
+       <div *ngIf="product" class="row">
          <div class="col-md-5 col-sm-6">     
            <ngb-carousel>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random first slide">
+            <ng-template ngbSlide *ngFor="let img of product.images">
+                <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
                 <div class="carousel-caption">
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random second slide">
-                <div class="carousel-caption">
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random third slide">
-                <div class="carousel-caption"> 
                 </div>
             </ng-template>
         </ngb-carousel>
          </div>
          <div class="col-md-6 col-sm-6">
-           <h2>Baby Grooth</h2>
-           <h4 class="price"><strong>R$ 30</strong></h4>
-           <h6 class="m-1">7 X 7 cm</h6>
+           <h2>{{ product.title }}</h2>
+           <h4 class="price"><strong>{{ product.price | currency: 'BRL' }}</strong></h4>
+           <h6 class="m-1">{{ product.height }} X {{ product.width }} cm</h6>
            <hr>
-           <p>Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.</p>
+           <p>{{ product.description }}</p>
            <span class="label label-default shipping mt-3 mb-3">Entrega em todo o Brasil</span>
+           <form class="contact-form" [formGroup]="orderForm" (ngSubmit)="createOrder()">
            <div class="row">
              <div class="col-md-4 col-sm-6">
                <div class="form-group">
                 <h6>Nome</h6>
-                <input type="text" class="form-control border-input" placeholder="Seu Nome">
+                <span *ngIf="(orderForm.controls['clientName'].invalid && (orderForm.controls['clientName'].dirty || orderForm.controls['clientName'].touched)) && orderForm.controls['clientName'].errors.required" class="text-danger"> é obrigatório.</span>
+                <input name="clientName" formControlName="clientName" type="text" class="form-control border-input" placeholder="Seu Nome">
               </div>
              </div>
              <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <h6>E-mail</h6>
-                <input type="text" class="form-control border-input" placeholder="Seu email de contato">
+                <span *ngIf="(orderForm.controls['clientEmail'].invalid && (orderForm.controls['clientEmail'].dirty || orderForm.controls['clientEmail'].touched)) && orderForm.controls['clientEmail'].errors.required" class="text-danger"> é obrigatório.</span>
+                <input name="clientEmail" formControlName="clientEmail" type="text" class="form-control border-input" placeholder="Seu email">
               </div>
              </div>
              <div class="col-md-4">
               <h6>Whatsapp</h6>
-                <input type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
+              <span *ngIf="(orderForm.controls['clientPhone'].invalid && (orderForm.controls['clientPhone'].dirty || orderForm.controls['clientPhone'].touched)) && orderForm.controls['clientPhone'].errors.required" class="text-danger"> é obrigatório.</span>
+                <input name="clientPhone" formControlName="clientPhone" mask="(00) 00000-0000" type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
           </div>
-             <div class="col-md-6 col-sm-6">
-              <div class="form-group">
-                <h6>Calcular frete</h6>
-                <input type="text" class="form-control border-input" placeholder="CEP">
+        </div>
+              <div class="form-group row">
+                <div class="col-md-3 col-sm-6">
+                <h6>CEP</h6>
+                <input name="cepDestino" formControlName="cepDestino" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
               </div>
-             </div>
-             <div class="col-md-6 col-sm-6">
-              <div class="form-group">
+             
+             <div class="col-md-4 col-sm-6">
+              
                 <h6>Forma de entrega</h6>
-                <select class="form-control border-input"> 
+                <select formControlName="cdServico" class="form-control border-input"> 
                   <option value="04510">PAC</option>
                   <option value="04014">SEDEX</option>
                   <option value="40169">SEDEX 12</option>
                   <option value="40215">SEDEX 10</option>
                   <option value="0">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
                   </select>
-              </div>
-             </div>
-             <h4 class="mr-auto ml-auto mt-1">Frete <span class="price text-success">R$ 9,99</span> entregue em <span class="price text-success">7 dias</span></h4>
-           </div>
+                </div>
+                <div class="col-md-2 col-sm-6">
+              
+                  <h6>Quantidade</h6>
+                  <select name="amount" formControlName="amount" class="form-control border-input"> 
+                    <option value=1>1</option>
+                    <option value=2>2</option>
+                    <option value=3>3</option>
+                    <option value=4>Mais de 3 unidades</option>
+                    </select>
+                  </div>
+                <div class="info">
+              <div *ngIf="loadingCor==false" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
+              <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
+            </div>
+            </div>
+             <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | currency: 'BRL' }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
+           
            <hr>
            <div class="row">
              <div class="col-md-7 offset-md-5 col-sm-8 mr-auto ml-auto">
-              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total R$ 39,99</strong></h4>
-               <button class="btn btn-danger btn-block btn-round">Encomendar &nbsp;<i class="fa fa-chevron-right"></i></button>
+              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ product.price + frete | currency: 'BRL' }}</strong></h4>
+               <button type="submit" class="btn btn-danger btn-block btn-round">Encomendar &nbsp;<i class="fa fa-chevron-right"></i></button>
              </div>
+             <div class="form-check">
+              <label class="form-check-label">
+                  <input name="allowContact" formControlName="allowContact" class="form-check-input" type="checkbox" value=""> De acordo com as Leis 12.965/2014 e 13.709/2018, que regulam o uso da internet e tratamento de dados pessoais no Brasil, ao solicitar o serviço autorizo &lt;BeMaker&gt; a entrar em contato por e-mail e Whatsapp e concordo com a sua política de privacidade.  
+                  <span class="form-check-sign"></span>
+              </label>
+          </div>
            </div>
-         </div>
+          </form>
+          </div>
        </div>
      </div>
    </div>
