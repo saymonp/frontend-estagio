@@ -25,13 +25,23 @@ export class UploadService {
     return EMPTY;
   }
 
-  deleteFile(data: any) {
-    return this.http.post(`${this.baseUrl}/api/v1/deleteFile`, JSON.stringify(data), {
-      headers: new HttpHeaders({ 'Content-type': 'application/json' }),
-      responseType: 'text',
-      observe: 'response',
-    });
+  deleteFile(key: String): Observable<any> {
+    const options = {
+      headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+      }),
+      body: {
+        key,
+      },
+    };
+
+    const url = `${this.baseUrl}/api/v1/deleteFile`;
+    return this.http.delete<any>(url, options).pipe(
+      map((obj) => obj),
+      catchError((e) => this.errorHandler(e))
+    ); 
   }
+  
 
   getPresignedUrl(path: string, fileName: string): Observable<any> {
     const url = `${this.baseUrl}/api/v1/uploadPresignedUrl/${encodeURIComponent(path)}/${fileName}`;
@@ -39,21 +49,12 @@ export class UploadService {
   }
 
   uploadFilePresignedUrl(presignedUrl, file) {
-    const httpHeaders = {
-      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
-    };
-
     const url = presignedUrl.url;
-    //const fields = presignedUrl.fields;
-    //fields.files = file.get("files");
-    //console.log(fields);
-    //console.log(file.get("files"))
 
-    return this.http.post<any>(url, file).pipe(
-      map((obj) => obj)
-    );
+    return this.http.post(url, file, {
+      responseType: 'text',
+      observe: 'response',
+    });
   }
   
-
-
 }

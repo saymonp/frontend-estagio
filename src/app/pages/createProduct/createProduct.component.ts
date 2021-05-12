@@ -20,7 +20,6 @@ export class CreateProductComponent implements OnInit {
 
   images = [];
   files = [];
-  aa: any;
 
   constructor(private productService: ProductService, private router: Router, private uploadService: UploadService) { }
 
@@ -29,45 +28,13 @@ export class CreateProductComponent implements OnInit {
   createProduct() {
   }
 
-  async uploadFile(event) {
-    const fileList = event.target.files;
-
-    for (let file of fileList) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-      this.uploadService.getPresignedUrl("products/images/", file.name).subscribe((res) => {
-        console.log(res);
-      })
-
-    }
-  }
-
-  async uploadImage(event) {
+  uploadFile(event) {
     const filesToUpload = <Array<File>>event.target.files;
 
     for (const file of filesToUpload) {
       const fd = new FormData();
       
-      
-      //const reader = new FileReader();
-
-      // reader.readAsArrayBuffer(file);
-      // const that = this;
-      // reader.onload = function () {
-      //     that.aa = reader.result;
-            
-      //     }
-      //   reader.onerror = function (error) {
-      //       console.log('Error: ', error);
-      //   };
-      
-      this.uploadService.getPresignedUrl("product/images", file.name).subscribe((res) => {
-        //const files = {"file": this.aa}
-        //console.log(JSON.stringify(res.fields));
-        //fd.append("fields", JSON.stringify(res.fields));
-        //console.log("a", fd);
-        let params = new HttpParams();
+      this.uploadService.getPresignedUrl("products/files", file.name).subscribe((res) => {
         fd.append("key", res.fields.key);
         fd.append("acl", res.fields.acl);
         
@@ -75,26 +42,61 @@ export class CreateProductComponent implements OnInit {
         fd.append("signature", res.fields.signature);
         fd.append("policy", res.fields.policy);
         fd.append('file', file, file.name);
-        
-        const httpHeaders = {
-          headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
-        }; 
+
         this.uploadService.uploadFilePresignedUrl(res, fd).subscribe((response) => {
-          console.log(response);
+          if (response.status == 204) {
+            this.files.push({"fileName": file.name, "file":{"key": res.fields.key, "file_url": res.url+res.fields.key}})
+          }
         })
       })
   }
+  }
+
+  async uploadImage(event) {
+    const filesToUpload = <Array<File>>event.target.files;
+
+    for (const file of filesToUpload) {
+      if (file.name.endsWith("jpg") || file.name.endsWith("jpeg") || file.name.endsWith("png")) {
+      const fd = new FormData();
+      
+      this.uploadService.getPresignedUrl("products/images", file.name).subscribe((res) => {
+        fd.append("key", res.fields.key);
+        fd.append("acl", res.fields.acl);
+        
+        fd.append("AWSAccessKeyId", res.fields.AWSAccessKeyId);
+        fd.append("signature", res.fields.signature);
+        fd.append("policy", res.fields.policy);
+        fd.append('file', file, file.name);
+
+        this.uploadService.uploadFilePresignedUrl(res, fd).subscribe((response) => {
+          if (response.status == 204) { 
+            this.images.push({"key": res.fields.key, "file_url": res.url+res.fields.key})
+          }
+        })
+      })
+    } else {
+      alert("Imagem inválida " +file.name) 
+    }
+  }
+  console.log(this.images);
 }
 
   deleteImage(index) {
     const key = this.images[index].key
     this.uploadService.deleteFile(key).subscribe((res) => {
-      // if res ok
       this.images.splice(index, 1);
     })
   }
 
-  moveImageToTop(old_index) {
+  removeFile(index) {
+    const key = this.files[index].file.key
+    this.uploadService.deleteFile(key).subscribe((res) => {
+      this.files.splice(index, 1);
+    })
+  }
+
+  moveImageToTop(old_index) { 
+    console.log(old_index);
     const new_index = 0;
     if (new_index >= this.images.length) {
       let k = new_index - this.images.length + 1;

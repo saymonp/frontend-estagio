@@ -18,9 +18,9 @@
                                <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
                                <div class="carousel-caption">
                                 <a data-dismiss="fileinput"
-                                class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
+                                class="btn btn-link btn-danger fileinput-exists" (click)="deleteImage(i)"><i class="fa fa-times"></i>Remover</a>
                                 <a *ngIf="i != 0" data-dismiss="fileinput"
-                                class="btn btn-link btn-outline-default fileinput-exists">Tornar imagem de capa</a>
+                                class="btn btn-link btn-outline-default fileinput-exists" (click)="moveImageToTop(i)">Tornar imagem de capa</a>
                                </div>
                            </ng-template>
                        </ngb-carousel>
@@ -114,8 +114,20 @@
                      </div>
                   </div>
                   <div class="form-group mt-3">
-                     <button class="btn btn-default btn-round">Adicionar modelo 3d</button>
+                     <input style="display: none;" (change)="uploadFile($event)" type="file" multiple
+                              class="form-control-file" #onUploadF> 
+                     <button type="button" class="btn btn-default btn-round btn-file"
+                        (click)="onUploadF.click()">Adicionar modelos 3d</button>
                   </div>
+                  <div  class="mt-1 col-md-12 row">
+                     <div *ngFor="let file of files; ; let i=index" class="m-2 mr-4">
+                         <div class="info">
+                             <i class="icon nc-icon nc-app"></i> 
+                         </div>
+                             <p>{{ file.fileName }}</p>
+                             <a (click)="removeFile(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
+                     </div>
+                 </div>
                   <div class="form-group mt-3">
                      <h6>Descrição</h6><textarea
                         placeholder="Adicione uma descrição para o produto" rows="13" maxlength="150"
