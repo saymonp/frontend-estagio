@@ -38,11 +38,18 @@ export class UploadService {
     return this.http.get<any>(url);
   }
 
-  uploadFilePresignedUrl(presignedUrl, file): Observable<any> {
+  uploadFilePresignedUrl(presignedUrl, file) {
+    const httpHeaders = {
+      headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+    };
+
     const url = presignedUrl.url;
-    const fields = presignedUrl.fields;
-    fields.files = file;
-    return this.http.post<any>(url, fields).pipe(
+    //const fields = presignedUrl.fields;
+    //fields.files = file.get("files");
+    //console.log(fields);
+    //console.log(file.get("files"))
+
+    return this.http.post<any>(url, file).pipe(
       map((obj) => obj)
     );
   }

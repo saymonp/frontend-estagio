@@ -1,3 +1,4 @@
+import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ProductService } from 'app/services/product.service';
@@ -19,6 +20,7 @@ export class CreateProductComponent implements OnInit {
 
   images = [];
   files = [];
+  aa: any;
 
   constructor(private productService: ProductService, private router: Router, private uploadService: UploadService) { }
 
@@ -34,14 +36,10 @@ export class CreateProductComponent implements OnInit {
       const reader = new FileReader();
 
       reader.readAsDataURL(file);
-      const that = this;
-      reader.onload = async function () {
-        const data = await that.uploadService.uploadFile({"path": "products/files/", "fileName": file.name, "data": reader.result}).toPromise();
-        that.files.push(JSON.parse(data.body))  
-        }
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };    
+      this.uploadService.getPresignedUrl("products/images/", file.name).subscribe((res) => {
+        console.log(res);
+      })
+
     }
   }
 
@@ -50,8 +48,41 @@ export class CreateProductComponent implements OnInit {
 
     for (const file of filesToUpload) {
       const fd = new FormData();
-      fd.append('file', file);
-      this.uploadService.getPresignedUrl("product%images", file.name)
+      
+      
+      //const reader = new FileReader();
+
+      // reader.readAsArrayBuffer(file);
+      // const that = this;
+      // reader.onload = function () {
+      //     that.aa = reader.result;
+            
+      //     }
+      //   reader.onerror = function (error) {
+      //       console.log('Error: ', error);
+      //   };
+      
+      this.uploadService.getPresignedUrl("product/images", file.name).subscribe((res) => {
+        //const files = {"file": this.aa}
+        //console.log(JSON.stringify(res.fields));
+        //fd.append("fields", JSON.stringify(res.fields));
+        //console.log("a", fd);
+        let params = new HttpParams();
+        fd.append("key", res.fields.key);
+        fd.append("acl", res.fields.acl);
+        
+        fd.append("AWSAccessKeyId", res.fields.AWSAccessKeyId);
+        fd.append("signature", res.fields.signature);
+        fd.append("policy", res.fields.policy);
+        fd.append('file', file, file.name);
+        
+        const httpHeaders = {
+          headers: new HttpHeaders({ 'Content-Type': 'multipart/form-data' }),
+        }; 
+        this.uploadService.uploadFilePresignedUrl(res, fd).subscribe((response) => {
+          console.log(response);
+        })
+      })
   }
 }
 
