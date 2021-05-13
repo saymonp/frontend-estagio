@@ -214,6 +214,11 @@
                </div>
             </div>
             <div class="row buttons-row">
+               <div *ngIf="loading == false" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="deleteProduct()"
+                  class="btn btn-outline-danger btn-block btn-round">Deletar</button></div>
+                  <div *ngIf="loading == true" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
+                     class="btn btn-outline-danger btn-block btn-round"><i class="spin icon nc-icon nc-refresh-69"></i></button></div>
+
                <div *ngIf="loadingDel == false" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
                   class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
                   <div *ngIf="loadingDel == true" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"

@@ -198,11 +198,12 @@ export class UpdateProductComponent implements OnInit {
   }
 
   deleteProduct() {
-    this.loading = true;
     if (confirm("Você tem certeza que deseja excluir esse produto?")) {
+      this.loading = true;
       this.productService.delete(this.id).subscribe((res)=> {
         console.log(res);
         this.loading = false;
+        localStorage.removeItem("httpproductsList");
         this.router.navigate(['/trabalhos']);
       },(err) => {
         this.loading = false;
