@@ -8,6 +8,19 @@ html {
     object-fit: contain;
 }
 
+.spin {
+  animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotateZ(0);
+  }
+  100% {
+    transform: rotateZ(360deg);
+  }
+}
+
   #loading-wrapper {
     position: fixed;
     width: 100%;

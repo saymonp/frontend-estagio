@@ -35,6 +35,8 @@ export class ProductDetailComponent implements OnInit {
   localidade: any;
   state: any;
   cdServico: any = "04510";
+  freteError = false;
+  disableFrete = false;
 
   constructor(
     private correioService: CorreioService,
@@ -46,6 +48,8 @@ export class ProductDetailComponent implements OnInit {
   @Input() clientName: string;
   @Input() clientEmail: string;
   @Input() clientPhone: string;
+  @Input() amount: number;
+
 
   ngOnInit() {
     this.orderForm = this.formBuilder.group({
@@ -58,6 +62,18 @@ export class ProductDetailComponent implements OnInit {
       amount: [1]
   });
 
+    this.orderForm.get('cepDestino').valueChanges.subscribe(val => {
+      this.frete = 0;
+      this.days = 0;
+    });
+    this.orderForm.get('cdServico').valueChanges.subscribe(val => {
+      this.frete = 0;
+      this.days = 0;
+    });
+    this.orderForm.get('amount').valueChanges.subscribe(val => {
+      this.frete = 0;
+      this.days = 0;
+    });
 
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
@@ -133,13 +149,25 @@ export class ProductDetailComponent implements OnInit {
       
     console.log(data);
     this.correioService.shippingPrice(data).subscribe((res) => {
-      this.frete = parseFloat(res.shipping[0].Valor);
-      this.days = res.shipping[0].PrazoEntrega;
-      this.loadingCor = false
+      if(parseFloat(res.shipping[0].Valor) > 0){
+        this.frete = parseFloat(res.shipping[0].Valor);
+        this.days = res.shipping[0].PrazoEntrega;
+        this.loadingCor = false
+        this.freteError = false;
+      } else {
+        this.loadingCor = false;
+        this.freteError = true;
+      }
+      
     },
     (err) => {
       this.loadingCor = false;
     });
+  }
+
+  ngOnChanges(changes) {
+    console.log(changes['amount'].currentValue);
+    console.log(changes['cepDestino'].currentValue);
   }
 
 }

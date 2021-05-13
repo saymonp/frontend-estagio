@@ -16,6 +16,13 @@
       <div *ngIf="loading==true" id="loading-wrapper">
         <div id="loading-text">Carregando</div>
         <div id="loading-content"></div>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
+        <br>
       </div>
       <div *ngIf="loading==false" #trabalhos class="section section-gray">
          <div class="container">
@@ -41,7 +48,7 @@
                <div class="products">
                   <div class="row">
                      
-                     <ng-container *ngFor="let product of products | range: doubleSlider">
+                     <ng-container *ngFor="let product of products | range: doubleSlider | callback: filterProducts">
                         <div class="col-md-4 col-sm-4">
                         <div class="card card-product card-plain">
                            <div class="card-image">

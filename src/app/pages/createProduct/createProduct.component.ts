@@ -15,14 +15,16 @@ export class CreateProductComponent implements OnInit {
   focus: any;
   focus1: any;
   id: string;
-  loading: boolean;
+  loading: boolean = false;
   loadingCor: boolean = false;
+  loadingDel = false;
 
   images = [];
   files = [];
   frete: number;
   days: any;
   productForm: FormGroup;
+  
 
   constructor(private formBuilder: FormBuilder, private correioService: CorreioService, private productService: ProductService, private router: Router, private uploadService: UploadService) { }
 
@@ -50,12 +52,11 @@ export class CreateProductComponent implements OnInit {
   }
 
   createProduct() {
-    console.log(this.productForm.value)
-    this.productForm.value.images = ["asdasd"]
-    this.productForm.value.files = ["..."]
+    this.productForm.value.images = this.images;
+    this.productForm.value.files = this.files;
 
     let valueSubmit = Object.assign({}, this.productForm.value);
-
+    valueSubmit.weightPacked = String(valueSubmit.weightPacked)
     delete valueSubmit.cepTest
     delete valueSubmit.cdServico
     delete valueSubmit.amount 
@@ -142,10 +143,16 @@ export class CreateProductComponent implements OnInit {
     this.images.splice(new_index, 0, this.images.splice(old_index, 1)[0]);
   }
 
-  cancel() {
-    this.images.map((image) => {
-      this.uploadService.deleteFile(image.key);
-    });
+  async cancel() {
+    this.loadingDel = true;
+    for (let image of this.images) {
+      await this.uploadService.deleteFile(image.key).toPromise();
+    }
+
+    for (let file of this.files) {
+      await this.uploadService.deleteFile(file.key).toPromise();
+    }
+    this.loadingDel = false;
     this.router.navigate(['/']);
   }
 

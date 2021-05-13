@@ -234,4 +234,12 @@ export class ProductsListComponent implements OnInit {
 
   }
 
+  filterProducts(prod) {
+    if (prod.orderAvailable == true) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }

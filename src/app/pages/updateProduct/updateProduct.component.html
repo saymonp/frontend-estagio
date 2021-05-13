@@ -16,7 +16,7 @@
       <div class="container">
          <h3 class="mb-3">Atualizar Produto</h3>
          <div>
-            <form class="contact-form" [formGroup]="productForm" (ngSubmit)="createProduct()">
+            <form class="contact-form" [formGroup]="productForm" (ngSubmit)="updateProduct()">
             <div class="row">
                <div class="col-md-5 col-sm-5">
                   <h6>Imagens</h6>
@@ -28,7 +28,7 @@
                                <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
                                <div class="carousel-caption">
                                 <a data-dismiss="fileinput"
-                                class="btn btn-link btn-danger fileinput-exists" (click)="deleteImage(i)"><i class="fa fa-times"></i>Remover</a>
+                                class="btn btn-link btn-danger fileinput-exists" (click)="removeImage(i)"><i class="fa fa-times"></i>Remover</a>
                                 <a *ngIf="i != 0" data-dismiss="fileinput"
                                 class="btn btn-link btn-outline-default fileinput-exists" (click)="moveImageToTop(i)">Tornar imagem de capa</a>
                                </div>
@@ -214,10 +214,15 @@
                </div>
             </div>
             <div class="row buttons-row">
-               <div class="col-md-4 col-sm-4 m-auto"><button type="button"
-                     class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
-               <div class="col-md-4 col-sm-4 m-auto"><button type="submit"
-                     class="btn btn-outline-primary btn-block btn-round">Atualizar</button></div>
+               <div *ngIf="loadingDel == false" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
+                  class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
+                  <div *ngIf="loadingDel == true" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
+                     class="btn btn-outline-danger btn-block btn-round"><i class="spin icon nc-icon nc-refresh-69"></i></button></div>
+            <div *ngIf="loading == false" class="col-md-4 col-sm-4 m-auto"><button type="submit"
+                  class="btn btn-outline-primary btn-block btn-round">Atualizar</button></div>
+
+                  <div *ngIf="loading == true" class="col-md-4 col-sm-4 m-auto"><button type="submit"
+                     class="btn btn-outline-primary btn-block btn-round"><i class="spin icon nc-icon nc-refresh-69"></i></button></div>
             </div>
          </form>
          </div>

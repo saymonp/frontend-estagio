@@ -31,25 +31,22 @@
              <div class="col-md-4 col-sm-6">
                <div class="form-group">
                 <h6>Nome</h6>
-                <span *ngIf="(orderForm.controls['clientName'].invalid && (orderForm.controls['clientName'].dirty || orderForm.controls['clientName'].touched)) && orderForm.controls['clientName'].errors.required" class="text-danger"> é obrigatório.</span>
                 <input name="clientName" formControlName="clientName" type="text" class="form-control border-input" placeholder="Seu Nome">
               </div>
              </div>
              <div class="col-md-4 col-sm-6">
               <div class="form-group">
                 <h6>E-mail</h6>
-                <span *ngIf="(orderForm.controls['clientEmail'].invalid && (orderForm.controls['clientEmail'].dirty || orderForm.controls['clientEmail'].touched)) && orderForm.controls['clientEmail'].errors.required" class="text-danger"> é obrigatório.</span>
                 <input name="clientEmail" formControlName="clientEmail" type="text" class="form-control border-input" placeholder="Seu email">
               </div>
              </div>
              <div class="col-md-4">
               <h6>Whatsapp</h6>
-              <span *ngIf="(orderForm.controls['clientPhone'].invalid && (orderForm.controls['clientPhone'].dirty || orderForm.controls['clientPhone'].touched)) && orderForm.controls['clientPhone'].errors.required" class="text-danger"> é obrigatório.</span>
                 <input name="clientPhone" formControlName="clientPhone" mask="(00) 00000-0000" type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
           </div>
         </div>
               <div class="form-group row">
-                <div class="col-md-3 col-sm-6">
+                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-3 col-sm-6">
                 <h6>CEP</h6>
                 <input name="cepDestino" formControlName="cepDestino" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
               </div>
@@ -62,26 +59,25 @@
                   <option value="04014">SEDEX</option>
                   <option value="40169">SEDEX 12</option>
                   <option value="40215">SEDEX 10</option>
-                  <option value="0">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
+                  <option value="Retirar em mãos">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
                   </select>
                 </div>
-                <div class="col-md-2 col-sm-6">
-              
+                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-2 col-sm-6">  
                   <h6>Quantidade</h6>
                   <select name="amount" formControlName="amount" class="form-control border-input"> 
                     <option value=1>1</option>
                     <option value=2>2</option>
                     <option value=3>3</option>
-                    <option value=4>Mais de 3 unidades</option>
+                    <option value=4>+3</option>
                     </select>
                   </div>
                 <div class="info">
-              <div *ngIf="loadingCor==false" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
+              <div *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
               <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
             </div>
             </div>
              <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | currency: 'BRL' }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
-           
+             <h4 *ngIf="frete == 0 && freteError==true" class="mr-auto ml-auto mt-1">Iremos calcular o frete</h4>
            <hr>
            <div class="row">
              <div class="col-md-7 offset-md-5 col-sm-8 mr-auto ml-auto">

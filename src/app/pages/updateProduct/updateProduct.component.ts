@@ -17,14 +17,15 @@ export class UpdateProductComponent implements OnInit {
   id: string;
   loading: boolean = false;
   product: any;
-  images = [];
-  files = [];
+  //images = [{key: "products/images90108c45-791e-4bff-8431-0a6258004f6a1.jpg", file_url: "https://estagio-uploads.s3.amazonaws.com/products/images90108c45-791e-4bff-8431-0a6258004f6a1.jpg", new: true}];
+  // files = [];
   imagesToDelete = [];
   filesToDelete = [];
   productForm: FormGroup;
   loadingCor: boolean = false;
   frete: number;
   days: any;
+  loadingDel = false;
 
   constructor(private correioService: CorreioService, private formBuilder: FormBuilder, private uploadService: UploadService, private activatedRoute: ActivatedRoute, private productService: ProductService, private router: Router) { }
 
@@ -35,7 +36,7 @@ export class UpdateProductComponent implements OnInit {
     this.productService.show(this.id).subscribe(
       (data) => {
         this.product = data.product;
-        console.log(this.product);
+        console.log(this.product.images);
         this.createForm();
         this.loading = false;
       },
@@ -72,8 +73,14 @@ export class UpdateProductComponent implements OnInit {
 
   updateProduct() {
     let valueSubmit = Object.assign({}, this.productForm.value);
-    valueSubmit.images = this.images;
-    valueSubmit.files = this.files;
+    for (let img of this.product.images) {
+      if (img['new']) delete img['new'];
+    }
+    for (let f of this.product.files) {
+      if (f['new']) delete f['new'];
+    }
+    valueSubmit.images = this.product.images;
+    valueSubmit.files = this.product.files;
     delete valueSubmit.cepTest
     delete valueSubmit.cdServico
     delete valueSubmit.amount 
@@ -99,7 +106,7 @@ export class UpdateProductComponent implements OnInit {
 
         this.uploadService.uploadFilePresignedUrl(res, fd).subscribe((response) => {
           if (response.status == 204) { 
-            this.product.images.push({"key": res.fields.key, "file_url": res.url+res.fields.key})
+            this.product.images.push({"key": res.fields.key, "file_url": res.url+res.fields.key, "new": true})
           }
         })
       })
@@ -128,7 +135,7 @@ export class UpdateProductComponent implements OnInit {
 
         this.uploadService.uploadFilePresignedUrl(res, fd).subscribe((response) => {
           if (response.status == 204) { 
-            this.product.images.push({"key": res.fields.key, "file_url": res.url+res.fields.key})
+            this.product.images.push({"key": res.fields.key, "file_url": res.url+res.fields.key, "new": true})
           }
         })
       })
@@ -158,16 +165,20 @@ export class UpdateProductComponent implements OnInit {
 
   removeFile(index) {
     this.filesToDelete.push(this.product.images[index]);
-    this.files.splice(index, 1);
+    this.product.files.splice(index, 1);
   }
 
-  deleteFiles() {
-    this.product.imagesToDelete.map((file) => {
-      this.uploadService.deleteFile(file.key).subscribe();
-    });
-    this.filesToDelete.map((file) => {
-      this.uploadService.deleteFile(file.key).subscribe();
-    })
+  async deleteFiles() {
+    this.loadingDel = true;
+    for (let image of this.imagesToDelete) {
+      await this.uploadService.deleteFile(image.key).toPromise();
+    }
+
+    for (let file of this.filesToDelete) {
+      await this.uploadService.deleteFile(file.key).toPromise();
+    }
+    this.loadingDel = false;
+    this.router.navigate(['/']);
   }
 
   deleteProduct() {
@@ -207,12 +218,12 @@ export class UpdateProductComponent implements OnInit {
         "sCepDestino": this.productForm.value.cepTest,
         "nVlPeso": this.productForm.value.weightPacked,
         "nCdFormato": this.productForm.value.formatPacked,
-        "nVlComprimento": this.productForm.value.widthPacked,
+        "nVlComprimento": this.productForm.value.lengthPacked,
         "nVlAltura": this.productForm.value.heightPacked,
-        "nVlLargura": this.productForm.value.lengthPacked,
+        "nVlLargura": this.productForm.value.widthPacked,
         "nVlDiametro": this.productForm.value.diameterPacked
         }
-      
+      console.log(data)
     this.correioService.shippingPrice(data).subscribe((res) => {
       this.frete = parseFloat(res.shipping[0].Valor);
       this.days = res.shipping[0].PrazoEntrega;
@@ -221,6 +232,27 @@ export class UpdateProductComponent implements OnInit {
     (err) => {
       this.loadingCor = false;
     });
+  }
+
+  async cancel() {
+    this.loadingDel = true;
+
+    for (let img of this.product.images) {
+      if (img["new"] == true) {
+        console.log(img)
+        await this.uploadService.deleteFile(img.key).toPromise();
+      }
+    }
+
+    for (let f of this.product.files) {
+      if (f["new"] == true) {
+        console.log(f)
+        await this.uploadService.deleteFile(f.key).toPromise();
+      }
+    }
+
+    this.loadingDel = false;
+    this.router.navigate(['/']);
   }
 
 }
