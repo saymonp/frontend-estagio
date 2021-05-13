@@ -4,6 +4,7 @@ import { ProductService } from 'app/services/product.service';
 import { UploadService } from 'app/services/upload.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { CorreioService } from 'app/services/correio.service';
+import { LocalStorageService } from 'app/services/localStorage.service';
 
 @Component({
     selector: 'app-updateProduct',
@@ -27,9 +28,13 @@ export class UpdateProductComponent implements OnInit {
   days: any;
   loadingDel = false;
 
-  constructor(private correioService: CorreioService, private formBuilder: FormBuilder, private uploadService: UploadService, private activatedRoute: ActivatedRoute, private productService: ProductService, private router: Router) { }
+  constructor(private userData: LocalStorageService, private correioService: CorreioService, private formBuilder: FormBuilder, private uploadService: UploadService, private activatedRoute: ActivatedRoute, private productService: ProductService, private router: Router) { }
 
   ngOnInit() {
+    if (this.tokenExpired(this.userData.get('token'))) {
+      // token expired
+      this.router.navigate(['/signin']);
+    }
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(this.id);
@@ -45,6 +50,11 @@ export class UpdateProductComponent implements OnInit {
         alert('Erro');
       }
     );
+  }
+
+  private tokenExpired(token: string) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
 
   createForm() {
@@ -71,7 +81,7 @@ export class UpdateProductComponent implements OnInit {
   });
   }
 
-  updateProduct() {
+  async updateProduct() {
     let valueSubmit = Object.assign({}, this.productForm.value);
     for (let img of this.product.images) {
       if (img['new']) delete img['new'];
@@ -86,6 +96,12 @@ export class UpdateProductComponent implements OnInit {
     delete valueSubmit.amount 
 
     console.log(valueSubmit);
+    const response = await this.productService.update(valueSubmit).toPromise()
+    if (response["statusCode"] && response["statusCode"] != 200) {
+      alert("Ops");
+    }
+    console.log(response);
+    this.router.navigate(['/trabalhos']);
   }
 
   uploadImage(event) {

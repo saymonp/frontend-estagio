@@ -4,6 +4,7 @@ import { CorreioService } from 'app/services/correio.service';
 import { ProductService } from 'app/services/product.service';
 import { UploadService } from 'app/services/upload.service';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
+import { LocalStorageService } from 'app/services/localStorage.service';
 
 @Component({
     selector: 'app-createProduct',
@@ -26,9 +27,14 @@ export class CreateProductComponent implements OnInit {
   productForm: FormGroup;
   
 
-  constructor(private formBuilder: FormBuilder, private correioService: CorreioService, private productService: ProductService, private router: Router, private uploadService: UploadService) { }
+  constructor(private userData: LocalStorageService, private formBuilder: FormBuilder, private correioService: CorreioService, private productService: ProductService, private router: Router, private uploadService: UploadService) { }
 
   ngOnInit() {
+    if (this.tokenExpired(this.userData.get('token'))) {
+      // token expired
+      console.log("Token invalido")
+      this.router.navigate(['/signin']);
+    } 
     this.productForm = this.formBuilder.group({
       title: ['', Validators.required],
       price: [0, Validators.required],
@@ -51,7 +57,12 @@ export class CreateProductComponent implements OnInit {
   });
   }
 
-  createProduct() {
+  private tokenExpired(token: string) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
+  }
+
+  async createProduct() {
     this.productForm.value.images = this.images;
     this.productForm.value.files = this.files;
 
@@ -62,6 +73,14 @@ export class CreateProductComponent implements OnInit {
     delete valueSubmit.amount 
 
     console.log(valueSubmit);
+
+    const response = await this.productService.create(valueSubmit).toPromise()
+    if (response["statusCode"] && response["statusCode"] != 200) {
+      alert("Ops");
+    } else {
+      console.log(response);
+      this.router.navigate(['/trabalhos']);
+    }
   }
 
   uploadFile(event) {

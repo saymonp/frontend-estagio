@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import { LocalStorageService } from 'app/services/localStorage.service';
 import { OrderService } from 'app/services/order.service';
 
 @Component({
@@ -15,9 +16,13 @@ export class OrderDetailComponent implements OnInit {
   id: string;
   loading = false;
 
-  constructor(private router: Router, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private orderService: OrderService) {}
+  constructor(private userData: LocalStorageService, private router: Router, private formBuilder: FormBuilder, private activatedRoute: ActivatedRoute, private orderService: OrderService) {}
 
   ngOnInit() {
+    if (this.tokenExpired(this.userData.get('token'))) {
+      // token expired
+      this.router.navigate(['/signin']);
+    }
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(this.id);
@@ -33,6 +38,11 @@ export class OrderDetailComponent implements OnInit {
         this.loading = false;
         alert("Erro"); 
        });
+  }
+
+  private tokenExpired(token: string) {
+    const expiry = (JSON.parse(atob(token.split('.')[1]))).exp;
+    return (Math.floor((new Date).getTime() / 1000)) >= expiry;
   }
 
   update() {

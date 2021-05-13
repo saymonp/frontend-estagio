@@ -8,7 +8,7 @@
       <div id="loading-text">Carregando</div>
       <div id="loading-content"></div>
     </div>
-     <div class="container">
+     <div *ngIf="loading==false" class="container">
        <div *ngIf="product" class="row">
          <div class="col-md-5 col-sm-6">     
            <ngb-carousel>
@@ -64,7 +64,7 @@
                 </div>
                 <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-2 col-sm-6">  
                   <h6>Quantidade</h6> 
-                    <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="0" class="form-control border-input" placeholder="1">
+                    <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
                   </div>
                 <div class="info">
               <div *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
