@@ -56,7 +56,7 @@ export class ProductDetailComponent implements OnInit {
       clientName: ['', Validators.required],
       clientEmail: ['', Validators.required],
       clientPhone: ['', Validators.required],
-      allowContact: ['', Validators.required],
+      allowContact: [true],
       cepDestino: [null],
       cdServico: ["04510"],
       amount: [1]
@@ -91,12 +91,19 @@ export class ProductDetailComponent implements OnInit {
     );
   }
 
-  createOrder() {
-    this.correioService.location(this.orderForm.value.cepDestino).subscribe((res) => {
-      const cep = res.location.cep;
-      const localidade = res.location.localidade;
-      const state = res.location.uf;
-
+  async createOrder() {
+    //createproduct.checked ? "create:product" : undefined,
+    if (this.orderForm.value.clientName && this.orderForm.value.clientEmail && this.orderForm.value.clientPhone && this.orderForm.value.allowContact == true) {
+      let cep = undefined;
+      let localidade = undefined;
+      let state = undefined;
+      if (this.orderForm.value.cepDestino) {
+        const res = await this.correioService.location(this.orderForm.value.cepDestino).toPromise();
+        cep = res.location.cep; 
+        localidade = res.location.localidade;
+        state = res.location.uf;
+      }
+      
       const order = {
         "title": this.product.title,
         "clientName": this.orderForm.value.clientName,
@@ -105,17 +112,18 @@ export class ProductDetailComponent implements OnInit {
         "quoteOrder": false,
         "allowContact": this.orderForm.value.allowContact,
         "productId": this.product._id,
-        "cep": cep,
-        "location": localidade,
-        "state": state,
-        "deliverPrice": this.frete,
+        "cep": cep ? cep : "Não informado",
+        "location": localidade ? localidade : "Não informado",
+        "state": state ? state : "Não informado",
+        "deliverPrice": this.frete > 0 ? this.frete : "A calcular",
         "deliverMethod": this.orderForm.value.cdServico,
         "amount": this.orderForm.value.amount
       }
-      console.log(order);
-    })
+      console.log(order); 
 
-    
+  } else {
+    alert("Seu Nome, Email e Whatsapp são obrigatórios")
+  }
     
     //this.orderService.create()
   }
@@ -149,7 +157,7 @@ export class ProductDetailComponent implements OnInit {
       
     console.log(data);
     this.correioService.shippingPrice(data).subscribe((res) => {
-      if(parseFloat(res.shipping[0].Valor) > 0){
+      if(res.shipping && parseFloat(res.shipping[0].Valor) > 0){
         this.frete = parseFloat(res.shipping[0].Valor);
         this.days = res.shipping[0].PrazoEntrega;
         this.loadingCor = false
