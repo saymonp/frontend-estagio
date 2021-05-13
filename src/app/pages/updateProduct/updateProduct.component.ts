@@ -29,27 +29,6 @@ export class UpdateProductComponent implements OnInit {
   constructor(private correioService: CorreioService, private formBuilder: FormBuilder, private uploadService: UploadService, private activatedRoute: ActivatedRoute, private productService: ProductService, private router: Router) { }
 
   ngOnInit() {
-    this.productForm = this.formBuilder.group({
-      title: ['', Validators.required],
-      price: [0, Validators.required],
-      width: [0, Validators.required],
-      height: [0, Validators.required],
-      orderAvailable: [true, Validators.required],
-      description: ['', Validators.required],
-      images: [null],
-      files: [null],
-      heightPacked: [0, Validators.required],
-      weightPacked: [0, Validators.required],
-      widthPacked: [0, Validators.required],
-      diameterPacked: [0, Validators.required],
-      lengthPacked: [0, Validators.required],
-      formatPacked: [1, Validators.required],
-      // Test
-      cepTest: "98700000",
-      cdServico: ["04510"],
-      amount: [1]
-  });
-
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
     console.log(this.id);
@@ -57,6 +36,7 @@ export class UpdateProductComponent implements OnInit {
       (data) => {
         this.product = data.product;
         console.log(this.product);
+        this.createForm();
         this.loading = false;
       },
       (err) => {
@@ -66,7 +46,39 @@ export class UpdateProductComponent implements OnInit {
     );
   }
 
+  createForm() {
+    console.log(this.productForm);
+    this.productForm = this.formBuilder.group({
+      title: [this.product.title, Validators.required],
+      price: [this.product.price, Validators.required],
+      width: [this.product.width, Validators.required],
+      height: [this.product.height, Validators.required],
+      orderAvailable: [this.product.orderAvailable, Validators.required],
+      description: [this.product.description, Validators.required],
+      images: [null],
+      files: [null],
+      heightPacked: [this.product.heightPacked, Validators.required],
+      weightPacked: [this.product.weightPacked, Validators.required],
+      widthPacked: [this.product.widthPacked, Validators.required],
+      diameterPacked: [this.product.diameterPacked, Validators.required],
+      lengthPacked: [this.product.lengthPacked, Validators.required],
+      formatPacked: [this.product.formatPacked, Validators.required],
+      // Test
+      cepTest: "98700000",
+      cdServico: ["04510"],
+      amount: [1]
+  });
+  }
+
   updateProduct() {
+    let valueSubmit = Object.assign({}, this.productForm.value);
+    valueSubmit.images = this.images;
+    valueSubmit.files = this.files;
+    delete valueSubmit.cepTest
+    delete valueSubmit.cdServico
+    delete valueSubmit.amount 
+
+    console.log(valueSubmit);
   }
 
   uploadImage(event) {
