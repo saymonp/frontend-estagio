@@ -7,6 +7,7 @@
       <div class="container">
          <h3 class="mb-3">Adicionar Produto</h3>
          <div>
+            <form class="contact-form" [formGroup]="productForm" (ngSubmit)="createProduct()">
             <div class="row">
                <div class="col-md-5 col-sm-5">
                   <h6>Imagens</h6>
@@ -42,77 +43,140 @@
                         </div>
                   </div>
                </div>
+               
                <div class="col-md-7 col-sm-7">
                   <div class="form-group">
-                     <h6>Nome</h6><input type="text"
+                     <h6>Nome</h6>
+                     <input type="text" name="title" formControlName="title"
                         placeholder="Coloque o nome do produto" class="form-control border-input">
                   </div>
                   <div class="row price-row">
                      <div class="col-md-6">
                         <h6>Preço</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Preço do produto" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="price" formControlName="price"
+                           type="number" value="" placeholder="Preço do produto" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <h6>Altura</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="height" formControlName="height"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-3">
-                        <h6>Comprimento</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Em cm" class="form-control border-input">
+                        <h6>Largura</h6>
+                        <div class="input-group border-input">
+                           <input name="width" formControlName="width"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-4 mt-3">
                         <h6>Altura embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="heightPacked" formControlName="heightPacked"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-4 mt-3">
                         <h6>Comprimento embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="lengthPacked" formControlName="lengthPacked"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-4 mt-3">
                         <h6>Peso embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Em KG Max 1KG" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="weightPacked" formControlName="weightPacked"
+                           type="number" value="" placeholder="Em KG" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
-                     <div class="col-md-6 mt-3">
+                     <div class="col-md-4 mt-3">
                         <h6>Diametro embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input type="number" name="diameterPacked" formControlName="diameterPacked"
+                              value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
-                     <div class="col-md-6 mt-3">
+                     <div class="col-md-4 mt-3">
+                        <h6>Largura embalado</h6>
+                        <div class="input-group border-input">
+                           <input type="number" name="widthPacked" formControlName="widthPacked"
+                              value="" placeholder="Em cm" class="form-control border-input">
+                           <div class="input-group-append"><span
+                                 class="input-group-text"></span></div>
+                        </div>
+                     </div>
+                     
+                     <div class="col-md-4 mt-3">
                         <h6>Formato da Embalagem</h6>
-                        <select class="form-control border-input"> 
+                        <select name="formatPacked" formControlName="formatPacked" class="form-control border-input"> 
                            <option value=1>Caixa/Pacote</option>
                            <option value=2>Rolo/Prisma</option>
                            <option value=3>Envelope</option>
                         </select>
                      </div>
                   </div>
+
+                  <div class="row price-row mt-4">
+                     <div class="col-md-4 col-sm-6">
+                        <h6>Testar Cálculo Frete</h6>
+                     </div>
+                  </div>
+                  <div class="row price-row">
+                        <div class="col-md-3 col-sm-6">
+                        <h6>CEP</h6>
+                        <input name="cepTest" formControlName="cepTest" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
+                      </div>
+                     
+                     <div class="col-md-4 col-sm-6">
+                      
+                        <h6>Forma de entrega</h6>
+                        <select formControlName="cdServico" class="form-control border-input"> 
+                          <option value="04510">PAC</option>
+                          <option value="04014">SEDEX</option>
+                          <option value="40169">SEDEX 12</option>
+                          <option value="40215">SEDEX 10</option>
+                          <option value="0">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2 col-sm-6">
+                      
+                          <h6>Quantidade</h6>
+                          <select name="amount" formControlName="amount" class="form-control border-input"> 
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>Mais de 3 unidades</option>
+                            </select>
+                          </div>
+                        <div class="info">
+                      <div *ngIf="loadingCor==false" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
+                      <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
+                    </div>
+
+                     <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | currency: 'BRL' }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
+                  </div>
+            
+
+
+
                   <div class="form-group mt-3">
                      <input style="display: none;" (change)="uploadFile($event)" type="file" multiple
                               class="form-control-file" #onUploadF> 
@@ -129,20 +193,26 @@
                      </div>
                  </div>
                   <div class="form-group mt-3">
-                     <h6>Descrição</h6><textarea
+                     <h6>Descrição</h6>
+                     <textarea name="description" formControlName="description"
                         placeholder="Adicione uma descrição para o produto" rows="13" maxlength="150"
                         class="form-control textarea-limited"></textarea>
                      <h5><small></small></h5>
                   </div>
+                  <div class="form-group mt-3 ml-4">
+                     <input name="orderAvailable" formControlName="orderAvailable" class="form-check-input" type="checkbox" value="">Adiconar Produto à listagem  
+                  </div>
                </div>
             </div>
             <div class="row buttons-row">
-               <div class="col-md-4 col-sm-4 m-auto"><button type="reset"
+               <div class="col-md-4 col-sm-4 m-auto"><button type="button"
                      class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
                <div class="col-md-4 col-sm-4 m-auto"><button type="submit"
                      class="btn btn-outline-primary btn-block btn-round">Salvar</button></div>
             </div>
+         </form>
          </div>
+         
       </div>
    </div>
 </div>

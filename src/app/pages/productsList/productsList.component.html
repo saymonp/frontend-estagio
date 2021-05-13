@@ -13,8 +13,11 @@
        </div>
     </div>
     <div class="wrapper">
-
-      <div #trabalhos class="section section-gray">
+      <div *ngIf="loading==true" id="loading-wrapper">
+        <div id="loading-text">Carregando</div>
+        <div id="loading-content"></div>
+      </div>
+      <div *ngIf="loading==false" #trabalhos class="section section-gray">
          <div class="container">
            <div class="row">
              <div class="col-md-3">
@@ -143,7 +146,7 @@
                             </div>
                             <button type="submit" class="btn btn-danger btn-lg btn-fill">Fazer orçamento</button>
                             <div *ngIf="loading==true" id="loading-wrapper">
-                                <div id="loading-text">Enviando</div>
+                                <div id="loading-text">Carregando</div>
                                 <div id="loading-content"></div>
                               </div>
                         </div>

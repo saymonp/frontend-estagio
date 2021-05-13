@@ -181,7 +181,7 @@
                     <div class="col-md-8">
                         <label>Tem imagens ou um modelo 3D?</label>
                         <div>
-                            <input style="display: none;" (change)="uploadFile($event)" type="file" multiple
+                            <input style="display: none;" (change)="toUploadFile($event)" type="file" multiple
                                     class="form-control-file" #onUpload>
                             <button type="button" (click)="onUpload.click()" class="btn btn-danger btn-fill btn-sm">Fazer upload</button>
                         </div>
@@ -190,7 +190,7 @@
                                 <div class="info">
                                     <i class="icon nc-icon nc-app"></i> 
                                 </div>
-                                    <p>{{ file.fileName }}</p>
+                                    <p>{{ file.name }}</p>
                                     <a (click)="removeFile(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
                             </div>
                         </div>
@@ -199,7 +199,7 @@
                                 <div class="info">
                                     <i class="icon nc-icon nc-image"></i> 
                                 </div>
-                                    <p>{{ image.fileName }}</p>
+                                    <p>{{ image.name }}</p>
                                     <a (click)="removeImage(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
                             </div>
                         </div>

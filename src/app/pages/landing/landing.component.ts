@@ -51,32 +51,21 @@ export class LandingComponent implements OnInit {
     this.imagesToUpload.splice(index, 1);
   }
 
-  uploadFile(event) {
+  toUploadFile(event) {
     const fileList = event.target.files;
 
-
     for (const file of fileList) {
-      const reader = new FileReader();
-
-      reader.readAsDataURL(file);
-      const that = this;
-      reader.onload = function () {
-        if (file.name.endsWith("jpg") || file.name.endsWith("jpeg") || file.name.endsWith("png")){
-          that.imagesToUpload.push({"path": "orders/images/", "fileName":file.name, "data": reader.result});
-        } else {
-          that.filesToUpload.push({"path": "orders/files/", "fileName":file.name, "data": reader.result});
-        }     
-          }
-        reader.onerror = function (error) {
-            console.log('Error: ', error);
-        };
-    };
-      console.log(this.filesToUpload)
-      console.log(this.imagesToUpload)
+      if (file.name.endsWith("jpg") || file.name.endsWith("jpeg") || file.name.endsWith("png")) {
+        this.imagesToUpload.push(file)
+      } else {
+      this.filesToUpload.push(file)
+      }
+    }
   }
 
   async createOrder() {
     try {
+
     if (this.orderForm.value.allowContact == false) {
       return alert("Você precisa permitir o contato.") 
     }
@@ -85,30 +74,30 @@ export class LandingComponent implements OnInit {
     }
 
     this.loading = true;
-     
-    const models3d = [];
-    const images = [];
     
-    for (let file of this.imagesToUpload) {
-        const data = await this.uploadService.uploadFile(file).toPromise();
-        images.push(JSON.parse(data.body))            
+    const images = [];
+    const files = [];
+
+    for (let file of this.imagesToUpload){
+      const img = await this.uploadFile(file);
+      images.push(img);
     }
 
-    for (let file of this.filesToUpload) {
-      const data = await this.uploadService.uploadFile(file).toPromise();
-      models3d.push(JSON.parse(data.body))            
-  }
+    for (let file of this.filesToUpload){
+      const f = await this.uploadFile(file);
+      files.push(f);
+    }
 
     let valueSubmit = Object.assign({}, this.orderForm.value);
-
+    console.log(images, files);
     valueSubmit.images = images;
-    valueSubmit.files = models3d
+    valueSubmit.files = files
 
     console.log("Value", valueSubmit);
 
-    this.orderService.create(valueSubmit).subscribe((res) => {
+    this.orderService.create(valueSubmit).subscribe((res) => { 
       console.log(res);
-      this.sendEmail(res.order_created, images, models3d, valueSubmit.clientName, valueSubmit.clientEmail, valueSubmit.clientPhone, valueSubmit.notes)
+      this.sendEmail(res.order_created, images, files, valueSubmit.clientName, valueSubmit.clientEmail, valueSubmit.clientPhone, valueSubmit.notes)
     
     },(err) => {
       this.loading = false;
@@ -155,6 +144,9 @@ export class LandingComponent implements OnInit {
     // send email
     this.mailService.sendEmail(emailToSend).subscribe((res) => {
       alert("Seu pedido foi enviado")
+      this.filesToUpload  = [];
+      this.imagesToUpload = [];
+      this.orderForm.get('notes').reset();
       this.loading = false;
     },(err) => {
       this.loading = false;
@@ -164,5 +156,25 @@ export class LandingComponent implements OnInit {
    console.log(emailToSend);
 
   }
+
+  async uploadFile(file) {
+    const fd = new FormData();
+    
+    const res = await this.uploadService.getPresignedUrl("orders/files", file.name).toPromise();
+    
+    fd.append("key", res.fields.key);
+    fd.append("acl", res.fields.acl);
+    
+    fd.append("AWSAccessKeyId", res.fields.AWSAccessKeyId);
+    fd.append("signature", res.fields.signature);
+    fd.append("policy", res.fields.policy);
+    fd.append('file', file, file.name);
+
+    await this.uploadService.uploadFilePresignedUrl(res, fd).toPromise()
+      
+    return {"key": res.fields.key, "file_url": res.url+res.fields.key}
+      
+  }
+  
 
 }

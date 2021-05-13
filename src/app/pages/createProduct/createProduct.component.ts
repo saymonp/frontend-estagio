@@ -1,8 +1,9 @@
-import { HttpHeaders, HttpParams } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { CorreioService } from 'app/services/correio.service';
 import { ProductService } from 'app/services/product.service';
 import { UploadService } from 'app/services/upload.service';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 
 @Component({
     selector: 'app-createProduct',
@@ -13,19 +14,53 @@ import { UploadService } from 'app/services/upload.service';
 export class CreateProductComponent implements OnInit {
   focus: any;
   focus1: any;
-  doubleSlider = [20, 60];
-  state_default: boolean = true;
   id: string;
   loading: boolean;
+  loadingCor: boolean = false;
 
   images = [];
   files = [];
+  frete: number;
+  days: any;
+  productForm: FormGroup;
 
-  constructor(private productService: ProductService, private router: Router, private uploadService: UploadService) { }
+  constructor(private formBuilder: FormBuilder, private correioService: CorreioService, private productService: ProductService, private router: Router, private uploadService: UploadService) { }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.productForm = this.formBuilder.group({
+      title: ['', Validators.required],
+      price: [0, Validators.required],
+      width: [0, Validators.required],
+      height: [0, Validators.required],
+      orderAvailable: [true, Validators.required],
+      description: ['', Validators.required],
+      images: [null],
+      files: [null],
+      heightPacked: [0, Validators.required],
+      weightPacked: [0, Validators.required],
+      widthPacked: [0, Validators.required],
+      diameterPacked: [0, Validators.required],
+      lengthPacked: [0, Validators.required],
+      formatPacked: [1, Validators.required],
+      // Test
+      cepTest: "98700000",
+      cdServico: ["04510"],
+      amount: [1]
+  });
+  }
 
   createProduct() {
+    console.log(this.productForm.value)
+    this.productForm.value.images = ["asdasd"]
+    this.productForm.value.files = ["..."]
+
+    let valueSubmit = Object.assign({}, this.productForm.value);
+
+    delete valueSubmit.cepTest
+    delete valueSubmit.cdServico
+    delete valueSubmit.amount 
+
+    console.log(valueSubmit);
   }
 
   uploadFile(event) {
@@ -52,7 +87,7 @@ export class CreateProductComponent implements OnInit {
   }
   }
 
-  async uploadImage(event) {
+  uploadImage(event) {
     const filesToUpload = <Array<File>>event.target.files;
 
     for (const file of filesToUpload) {
@@ -79,7 +114,7 @@ export class CreateProductComponent implements OnInit {
     }
   }
   console.log(this.images);
-}
+  }
 
   deleteImage(index) {
     const key = this.images[index].key
@@ -112,6 +147,42 @@ export class CreateProductComponent implements OnInit {
       this.uploadService.deleteFile(image.key);
     });
     this.router.navigate(['/']);
+  }
+
+  calcDelivery() {
+    this.loadingCor = true;
+    const data1 = {
+      "nCdServico": "04510",
+      "sCepOrigem": "98801010",
+      "sCepDestino": "98700000",
+      "nVlPeso": "1.0",
+      "nCdFormato": 1,
+      "nVlComprimento": 27.0,
+      "nVlAltura": 8.0,
+      "nVlLargura": 10.0,
+      "nVlDiametro": 18.0
+      }
+
+      const data = {
+        "nCdServico": this.productForm.value.cdServico,
+        "sCepOrigem": "98801010",
+        "sCepDestino": this.productForm.value.cepTest,
+        "nVlPeso": this.productForm.value.weightPacked,
+        "nCdFormato": this.productForm.value.formatPacked,
+        "nVlComprimento": this.productForm.value.widthPacked,
+        "nVlAltura": this.productForm.value.heightPacked,
+        "nVlLargura": this.productForm.value.lengthPacked,
+        "nVlDiametro": this.productForm.value.diameterPacked
+        }
+      
+    this.correioService.shippingPrice(data).subscribe((res) => {
+      this.frete = parseFloat(res.shipping[0].Valor);
+      this.days = res.shipping[0].PrazoEntrega;
+      this.loadingCor = false
+    },
+    (err) => {
+      this.loadingCor = false;
+    });
   }
 
 }
