@@ -55,7 +55,6 @@ export class ProductsListComponent implements OnInit {
       quoteOrder: [true]
   }); 
     this.getProducts();
-    this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
   }
 
   scrollToElement($element): void {
@@ -70,6 +69,7 @@ export class ProductsListComponent implements OnInit {
     if (chacheItem) {
       console.log('Retrieved item from cache');
       this.products = chacheItem;
+      this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
     }
     else {
       this.productService.list().subscribe((data) => {

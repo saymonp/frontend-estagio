@@ -79,6 +79,7 @@ export class CreateProductComponent implements OnInit {
       alert("Ops");
     } else {
       console.log(response);
+      localStorage.removeItem("httpproductsList")
       this.router.navigate(['/trabalhos']);
     }
   }
