@@ -95,6 +95,9 @@ export class SignupComponent implements OnInit {
         console.log(res);
         localStorage.removeItem('httpuserlist');
         this.loading = false;
+        if (res["error"] || res["statusCode"]) {
+          alert("Ocorreu um erro: " + res["error"] + res["statusCode"]);
+        }
       },
       (err) => {
         this.loading = false;
