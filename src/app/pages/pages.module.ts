@@ -25,6 +25,7 @@ import { LocalStorageService } from 'app/services/localStorage.service';
 import { CallbackPipe } from 'app/helpers/callback.pipe';
 import { FilterPipe } from 'app/helpers/filter.pipe';
 import { RangePipe } from 'app/helpers/range.pipe';
+import { NumberFormatPipe }     from 'app/helpers/number.pipe';
 
 
 @NgModule({
@@ -41,6 +42,7 @@ import { RangePipe } from 'app/helpers/range.pipe';
     ],
     providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }, LocalStorageService],
     declarations: [
+        NumberFormatPipe,
         RangePipe,
         FilterPipe,
         CallbackPipe,

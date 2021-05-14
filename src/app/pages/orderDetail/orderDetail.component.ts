@@ -28,6 +28,15 @@ export class OrderDetailComponent implements OnInit {
     console.log(this.id);
     this.orderService.show(this.id).subscribe((data) => {
         this.order = data;
+        
+        const shipping = [{code: "04510", name: "PAC"}, {code: "04014", name: "SEDEX"}, {code: "40169", name: "SEDEX 12"}, {code: "40215", name:"SEDEX 10"}]
+
+        shipping.map((s) => {
+          if (this.order.deliverMethod == s.code) {
+            this.order.deliverMethod = s.name;
+          }
+        })
+
         console.log(this.order);
 
         this.orderForm = this.formBuilder.group({

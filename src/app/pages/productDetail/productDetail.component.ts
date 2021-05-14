@@ -92,7 +92,7 @@ export class ProductDetailComponent implements OnInit {
   }
 
   async createOrder() {
-    //createproduct.checked ? "create:product" : undefined,
+    this.loading = true;
     if (this.orderForm.value.clientName && this.orderForm.value.clientEmail && this.orderForm.value.clientPhone && this.orderForm.value.allowContact == true) {
       let cep = undefined;
       let localidade = undefined;
@@ -120,6 +120,15 @@ export class ProductDetailComponent implements OnInit {
         "amount": this.orderForm.value.amount
       }
       console.log(order); 
+
+      const response = await this.orderService.create(order).toPromise();
+      this.loading = false;
+      console.log(response);
+      if (response.order_created) {
+        alert("Pedido enviado, obrigado!");
+        this.loading = false;
+      }
+      
 
   } else {
     alert("Seu Nome, Email e Whatsapp são obrigatórios")
