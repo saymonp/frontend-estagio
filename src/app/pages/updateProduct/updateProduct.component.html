@@ -3,39 +3,43 @@
 </div>
 
 <div class="main">
-   <div class="section">
+   <div *ngIf="loading==true" id="loading-wrapper">
+      <br>
+      <br>
+      <br>
+      <br>
+      <br>
+      <div id="loading-text">Carregando</div>
+      <div id="loading-content"></div>
+    </div>
+   <div *ngIf="loading==false" class="section">
       <div class="container">
          <h3 class="mb-3">Atualizar Produto</h3>
          <div>
+            <form class="contact-form" [formGroup]="productForm" (ngSubmit)="updateProduct()">
             <div class="row">
                <div class="col-md-5 col-sm-5">
                   <h6>Imagens</h6>
                   <div data-provides="fileinput" class="fileinput fileinput-new text-center">
-                     <div class="col-md-12 col-sm-6">     
+                     <div class="col-md-12 col-sm-6"> 
+                        <div *ngIf="product.images.length > 0">
                         <ngb-carousel>
+                           <ng-template ngbSlide *ngFor="let img of product.images; let i = index">
+                               <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
+                               <div class="carousel-caption">
+                                <a data-dismiss="fileinput"
+                                class="btn btn-link btn-danger fileinput-exists" (click)="removeImage(i)"><i class="fa fa-times"></i>Remover</a>
+                                <a *ngIf="i != 0" data-dismiss="fileinput"
+                                class="btn btn-link btn-outline-default fileinput-exists" (click)="moveImageToTop(i)">Tornar imagem de capa</a>
+                               </div>
+                           </ng-template>
+                       </ngb-carousel>
+                     </div>  
+
+                        <ngb-carousel *ngIf="product.images.length == 0">
                          <ng-template ngbSlide>
-                             <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random first slide">
+                             <img class="img-responsive" src="./assets/img/image_placeholder.jpg" alt="Random first slide">
                              <div class="carousel-caption">
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
-                             </div>
-                         </ng-template>
-                         <ng-template ngbSlide>
-                             <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random second slide">
-                             <div class="carousel-caption">
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-outline-default fileinput-exists">Tornar imagem de capa</a>
-                             </div>
-                         </ng-template>
-                         <ng-template ngbSlide>
-                             <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random third slide">
-                             <div class="carousel-caption"> 
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-danger fileinput-exists"><i class="fa fa-times"></i>Remover</a>
-                              <a data-dismiss="fileinput"
-                              class="btn btn-link btn-outline-default fileinput-exists">Tornar imagem de capa</a>
                              </div>
                          </ng-template>
                      </ngb-carousel>
@@ -48,101 +52,186 @@
                         </div>
                   </div>
                </div>
+               
                <div class="col-md-7 col-sm-7">
                   <div class="form-group">
-                     <h6>Nome</h6><input type="text"
-                        placeholder="Coloque o nome do produto" value="Baby Grooth" class="form-control border-input">
+                     <h6>Nome</h6>
+                     <input type="text" name="title" formControlName="title"
+                        placeholder="Coloque o nome do produto" class="form-control border-input">
                   </div>
                   <div class="row price-row">
                      <div class="col-md-6">
                         <h6>Preço</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="30,00" placeholder="Preço do produto" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="price" formControlName="price"
+                           type="number" value="" placeholder="Preço do produto" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-3">
                         <h6>Altura</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="7" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="height" formControlName="height"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-3">
-                        <h6>Comprimento</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="7" placeholder="Em cm" class="form-control border-input">
+                        <h6>Largura</h6>
+                        <div class="input-group border-input">
+                           <input name="width" formControlName="width"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-4 mt-3">
                         <h6>Altura embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="8" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="heightPacked" formControlName="heightPacked"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-4 mt-3">
                         <h6>Comprimento embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="8" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="lengthPacked" formControlName="lengthPacked"
+                           type="number" value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
                      <div class="col-md-4 mt-3">
                         <h6>Peso embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="0,2" placeholder="Em KG Max 1KG" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input name="weightPacked" formControlName="weightPacked"
+                           type="number" value="" placeholder="Em KG" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
-                     <div class="col-md-6 mt-3">
+                     <div class="col-md-4 mt-3">
                         <h6>Diametro embalado</h6>
-                        <div class="input-group border-input"><input
-                              type="text" value="8" placeholder="Em cm" class="form-control border-input">
+                        <div class="input-group border-input">
+                           <input type="number" name="diameterPacked" formControlName="diameterPacked"
+                              value="" placeholder="Em cm" class="form-control border-input">
                            <div class="input-group-append"><span
                                  class="input-group-text"></span></div>
                         </div>
                      </div>
-                     <div class="col-md-6 mt-3">
+                     <div class="col-md-4 mt-3">
+                        <h6>Largura embalado</h6>
+                        <div class="input-group border-input">
+                           <input type="number" name="widthPacked" formControlName="widthPacked"
+                              value="" placeholder="Em cm" class="form-control border-input">
+                           <div class="input-group-append"><span
+                                 class="input-group-text"></span></div>
+                        </div>
+                     </div>
+                     
+                     <div class="col-md-4 mt-3">
                         <h6>Formato da Embalagem</h6>
-                        <select class="form-control border-input"> 
+                        <select name="formatPacked" formControlName="formatPacked" class="form-control border-input"> 
                            <option value=1>Caixa/Pacote</option>
                            <option value=2>Rolo/Prisma</option>
                            <option value=3>Envelope</option>
                         </select>
                      </div>
                   </div>
-                  <div class="form-group mt-3">
-                     <button class="btn btn-default btn-round">Adicionar modelo 3d</button>
-                     <button class="btn btn-default btn-round">Baixar modelo 3d</button>
+
+                  <div class="row price-row mt-4">
+                     <div class="col-md-4 col-sm-6">
+                        <h6>Testar Cálculo Frete</h6>
+                     </div>
                   </div>
+                  <div class="row price-row">
+                        <div class="col-md-3 col-sm-6">
+                        <h6>CEP</h6>
+                        <input name="cepTest" formControlName="cepTest" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
+                      </div>
+                     
+                     <div class="col-md-4 col-sm-6">
+                      
+                        <h6>Forma de entrega</h6>
+                        <select formControlName="cdServico" class="form-control border-input"> 
+                          <option value="04510">PAC</option>
+                          <option value="04014">SEDEX</option>
+                          <option value="40169">SEDEX 12</option>
+                          <option value="40215">SEDEX 10</option>
+                          <option value="0">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
+                          </select>
+                        </div>
+                        <div class="col-md-2 col-sm-6">
+                      
+                          <h6>Quantidade</h6>
+                          <select name="amount" formControlName="amount" class="form-control border-input"> 
+                            <option value=1>1</option>
+                            <option value=2>2</option>
+                            <option value=3>3</option>
+                            <option value=4>Mais de 3 unidades</option>
+                            </select>
+                          </div>
+                        <div class="info">
+                      <div *ngIf="loadingCor==false" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
+                      <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
+                    </div>
+
+                     <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | currency: 'BRL' }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
+                  </div>
+            
+
+
+
                   <div class="form-group mt-3">
-                     <h6>Descrição</h6><textarea
+                     <input style="display: none;" (change)="uploadFile($event)" type="file" multiple
+                              class="form-control-file" #onUploadF> 
+                     <button type="button" class="btn btn-default btn-round btn-file"
+                        (click)="onUploadF.click()">Adicionar modelos 3d</button>
+                  </div>
+                  <div  class="mt-1 col-md-12 row">
+                     <div *ngFor="let file of files; ; let i=index" class="m-2 mr-4">
+                         <div class="info">
+                             <i class="icon nc-icon nc-app"></i> 
+                         </div>
+                             <p>{{ file.fileName }}</p>
+                             <a (click)="removeFile(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
+                     </div>
+                 </div>
+                  <div class="form-group mt-3">
+                     <h6>Descrição</h6>
+                     <textarea name="description" formControlName="description"
                         placeholder="Adicione uma descrição para o produto" rows="13" maxlength="150"
-                        class="form-control textarea-limited">Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.</textarea>
+                        class="form-control textarea-limited"></textarea>
                      <h5><small></small></h5>
+                  </div>
+                  <div class="form-group mt-3 ml-4">
+                     <input name="orderAvailable" formControlName="orderAvailable" class="form-check-input" type="checkbox" value="">Adiconar Produto à listagem  
                   </div>
                </div>
             </div>
             <div class="row buttons-row">
-               <div class="col-md-4 col-sm-4">
-                 <button class="btn btn-outline-danger btn-block btn-round" type="reset">Cancelar</button>
-               </div>
-               <div class="col-md-4 col-sm-4">
-                 <button class="btn btn-outline-danger btn-block btn-round" type="submit">Excluir</button>
-               </div>
-               <div class="col-md-4 col-sm-4">
-                 <button class="btn btn-primary btn-block btn-round" type="submit">Salvar</button>
-               </div>
-             </div>
+               <div *ngIf="loading == false" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="deleteProduct()"
+                  class="btn btn-outline-danger btn-block btn-round">Deletar</button></div>
+                  <div *ngIf="loading == true" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
+                     class="btn btn-outline-danger btn-block btn-round"><i class="spin icon nc-icon nc-refresh-69"></i></button></div>
+
+               <div *ngIf="loadingDel == false" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
+                  class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
+                  <div *ngIf="loadingDel == true" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
+                     class="btn btn-outline-danger btn-block btn-round"><i class="spin icon nc-icon nc-refresh-69"></i></button></div>
+            <div *ngIf="loading == false" class="col-md-4 col-sm-4 m-auto"><button type="submit"
+                  class="btn btn-outline-primary btn-block btn-round">Atualizar</button></div>
+
+                  <div *ngIf="loading == true" class="col-md-4 col-sm-4 m-auto"><button type="submit"
+                     class="btn btn-outline-primary btn-block btn-round"><i class="spin icon nc-icon nc-refresh-69"></i></button></div>
+            </div>
+         </form>
          </div>
+         
       </div>
    </div>
 </div>

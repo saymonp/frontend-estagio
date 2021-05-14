@@ -1,6 +1,8 @@
 import { Component, OnInit, ElementRef } from '@angular/core';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 
+import { LocalStorageService } from '../../services/localStorage.service';
+
 @Component({
     selector: 'app-navbar',
     templateUrl: './navbar.component.html',
@@ -9,8 +11,9 @@ import { Location, LocationStrategy, PathLocationStrategy } from '@angular/commo
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
+    private userPermissions = this.user.get('permissions') ? this.user.get('permissions').split(',') : [];
 
-    constructor(public location: Location, private element : ElementRef) {
+    constructor(private user: LocalStorageService, public location: Location, private element : ElementRef) {
         this.sidebarVisible = false;
     }
 
@@ -70,5 +73,12 @@ export class NavbarComponent implements OnInit {
         else {
             return false;
         }
+    }
+
+    logout(){
+        this.user.remove("name");
+        this.user.remove("email");
+        this.user.remove("permissions");
+        this.user.remove("token");
     }
 }

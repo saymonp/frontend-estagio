@@ -11,24 +11,27 @@
                         <h4 class="card-title">Funcionários</h4>
                         <div class="col-md-3 ml-auto">
                             <label>Pesquisar por nome</label>
-                            <input class="form-control" placeholder="Nome" type="text">
+                            <input class="form-control" placeholder="Nome" type="text" [(ngModel)]="searchText">
                     </div>
                     </div>
                     <div class="card-body">
                         <div class="table-responsive">
+                            <ng-container *ngIf="users">
                             <table class="table table-hover">
                                 <thead>
                                     <tr>
                                         <th>Nome</th>
                                         <th>Editar Permissões</th>
+                                        <th>Salvar Permissões</th>
                                         <th>Ações</th>
                                         <!---->
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    <ng-container *ngFor="let user of users.users | filterAll: searchText">
                                     <tr>
                                         <td>
-                                            <h6>Adandi</h6>
+                                            <h6>{{ user.name }}</h6> 
                                         </td>
                                         <td>
                                             <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
@@ -36,27 +39,28 @@
                                                     ngbDropdownToggle>Permissões</a>
                                                 <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
                                                     class="dropdown-primary">
+                                                    <form (ngSubmit)="onSubmit($event)">
                                                     <a class="dropdown-header">Permissões de Produto</a>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" checked="">
-                                                            Criar Produto
+                                                            <input id="createproduct{{user._id}}" name="createproduct" class="form-check-input" type="checkbox"
+                                                                value="create:product" [checked]="user.permissions.includes('create:product') ? true : false">
+                                                            Criar Produto 
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
+                                                            <input id="updateproduct{{user._id}}" name="updateproduct" class="form-check-input" type="checkbox"
+                                                                value="update:product" [checked]="user.permissions.includes('update:product') ? true : false">
                                                             Atualizar Produto
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
+                                                            <input id="deleteproduct{{user._id}}" name="deleteproduct{{user._id}}" class="form-check-input" type="checkbox"
+                                                                value="delete:product" [checked]="user.permissions.includes('delete:product') ? true : false">
                                                             Deletar Produto
                                                             <span class="form-check-sign"></span>
                                                         </label>
@@ -65,384 +69,44 @@
                                                     <a class="dropdown-header">Permissões de Usuários</a>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
+                                                            <input id="createuser{{user._id}}" name="createuser" class="form-check-input" type="checkbox"
+                                                                value="create:user" [checked]="user.permissions.includes('create:user') ? true : false">
                                                             Criar Usuários
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
+                                                            <input id="updateuser{{user._id}}" name="updateuser" class="form-check-input" type="checkbox"
+                                                                value="update:user" [checked]="user.permissions.includes('update:user') ? true : false">
                                                             Atualizar Permissões de Usuários
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
                                                     <div class="form-check ml-2 mr-2">
                                                         <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
+                                                            <input id="deleteuser{{user._id}}" name="deleteuser" class="form-check-input" type="checkbox"
+                                                                value="delete:user" [checked]="user.permissions.includes('delete:user') ? true : false">
                                                             Deletar Usuários
                                                             <span class="form-check-sign"></span>
                                                         </label>
                                                     </div>
+                                                    </form>
                                                 </div>
                                             </div>
                                         </td>
                                         <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
+                                            <a type="submit" (click)="onSubmit(user._id)" class="btn btn-link btn-default btn-sm td-excluir">Salvar Permissões</a>
+                                        </td>
+                                        <td>
+                                            <a type="button" (click)="deleteUser(user.name, user.email, user._id)" class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
                                         </td>
                                         <!---->
                                     </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Thurinasadan</h6>
-                                        </td>
-                                        <td>
-                                            <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
-                                                <a class="btn btn-default btn-sm td-padding" id="dropdownBasic1"
-                                                    ngbDropdownToggle>Permissões</a>
-                                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
-                                                    class="dropdown-primary">
-                                                    <a class="dropdown-header">Permissões de Produto</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" checked="">
-                                                            Criar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
-                                                            Atualizar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
-                                                            Deletar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-header">Permissões de Usuários</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
-                                                            Criar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
-                                                            Atualizar Permissões de Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
-                                                            Deletar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
-                                        </td>
-                                        <!---->
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Loanu</h6>
-                                        </td>
-                                        <td>
-                                            <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
-                                                <a class="btn btn-default btn-sm td-padding" id="dropdownBasic1"
-                                                    ngbDropdownToggle>Permissões</a>
-                                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
-                                                    class="dropdown-primary">
-                                                    <a class="dropdown-header">Permissões de Produto</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" checked="">
-                                                            Criar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
-                                                            Atualizar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
-                                                            Deletar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-header">Permissões de Usuários</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
-                                                            Criar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
-                                                            Atualizar Permissões de Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
-                                                            Deletar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
-                                        </td>
-                                        <!---->
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Xayster</h6>
-                                        </td>
-                                        <td>
-                                            <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
-                                                <a class="btn btn-default btn-sm td-padding" id="dropdownBasic1"
-                                                    ngbDropdownToggle>Permissões</a>
-                                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
-                                                    class="dropdown-primary">
-                                                    <a class="dropdown-header">Permissões de Produto</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" checked="">
-                                                            Criar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
-                                                            Atualizar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
-                                                            Deletar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-header">Permissões de Usuários</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
-                                                            Criar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
-                                                            Atualizar Permissões de Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
-                                                            Deletar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
-                                        </td>
-                                        <!---->
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Whurmay</h6>
-                                        </td>
-                                        <td>
-                                            <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
-                                                <a class="btn btn-default btn-sm td-padding" id="dropdownBasic1"
-                                                    ngbDropdownToggle>Permissões</a>
-                                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
-                                                    class="dropdown-primary">
-                                                    <a class="dropdown-header">Permissões de Produto</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" checked="">
-                                                            Criar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
-                                                            Atualizar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
-                                                            Deletar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-header">Permissões de Usuários</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
-                                                            Criar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
-                                                            Atualizar Permissões de Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
-                                                            Deletar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
-                                        </td>
-                                        <!---->
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <h6>Zoupuoak</h6>
-                                        </td>
-                                        <td>
-                                            <div ngbDropdown class="d-inline-block dropdown" placement="middle-left">
-                                                <a class="btn btn-default btn-sm td-padding" id="dropdownBasic1"
-                                                    ngbDropdownToggle>Permissões</a>
-                                                <div ngbDropdownMenu aria-labelledby="dropdownBasic1"
-                                                    class="dropdown-primary">
-                                                    <a class="dropdown-header">Permissões de Produto</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:product" checked="">
-                                                            Criar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:product" checked="">
-                                                            Atualizar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:product" checked="">
-                                                            Deletar Produto
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="dropdown-divider"></div>
-                                                    <a class="dropdown-header">Permissões de Usuários</a>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="create:user" checked="">
-                                                            Criar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="update:user" checked="">
-                                                            Atualizar Permissões de Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                    <div class="form-check ml-2 mr-2">
-                                                        <label class="form-check-label">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                value="delete:user" checked="">
-                                                            Deletar Usuários
-                                                            <span class="form-check-sign"></span>
-                                                        </label>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td>
-                                            <a class="btn btn-link btn-danger btn-sm td-excluir">Excluir</a>
-                                        </td>
-                                        <!---->
-                                    </tr>
-                                    <!---->
+                                </ng-container>
                                 </tbody>
                             </table>
+                        </ng-container>
                         </div>
                     </div>
                 </div>

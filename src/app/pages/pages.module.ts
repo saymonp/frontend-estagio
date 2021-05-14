@@ -5,6 +5,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { LazyLoadImageModule, LAZYLOAD_IMAGE_HOOKS, ScrollHooks } from 'ng-lazyload-image';
 import { NouisliderModule } from 'ng2-nouislider';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { NgxMaskModule, IConfig } from 'ngx-mask';
 
 import { LandingComponent } from './landing/landing.component';
 import { ProductsListComponent } from './productsList/productsList.component';
@@ -20,7 +21,11 @@ import { OrdersListComponent } from './ordersList/ordersList.component';
 import { OrderDetailComponent } from './orderDetail/orderDetail.component';
 import { OrderComponent } from './order/order.component';
 import { RouterModule } from '@angular/router';
-
+import { LocalStorageService } from 'app/services/localStorage.service';
+import { CallbackPipe } from 'app/helpers/callback.pipe';
+import { FilterPipe } from 'app/helpers/filter.pipe';
+import { RangePipe } from 'app/helpers/range.pipe';
+import { NumberFormatPipe }     from 'app/helpers/number.pipe';
 
 
 @NgModule({
@@ -32,10 +37,15 @@ import { RouterModule } from '@angular/router';
         LazyLoadImageModule,
         NouisliderModule,
         RouterModule,
-        HttpClientModule
+        HttpClientModule,
+        NgxMaskModule.forRoot()
     ],
-    providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }],
+    providers: [{ provide: LAZYLOAD_IMAGE_HOOKS, useClass: ScrollHooks }, LocalStorageService],
     declarations: [
+        NumberFormatPipe,
+        RangePipe,
+        FilterPipe,
+        CallbackPipe,
         LandingComponent,
         ProductsListComponent,
         ProductDetailComponent,

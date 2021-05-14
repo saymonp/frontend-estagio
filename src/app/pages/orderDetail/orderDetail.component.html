@@ -3,118 +3,158 @@
 </div>
 
 <div class="main">
-  <div class="section">
+  <div *ngIf="loading==true" id="loading-wrapper" class="section">
+    <div id="loading-text">Carregando</div>
+    <div id="loading-content"></div>
+  </div>
+  <div *ngIf="order" class="section">
     <div class="container">
       <h3 class="mb-3">Dados da encomenda</h3>
+      <h3 class="mb-3">{{ order.title }}</h3>
+      <div class="mb-3">  
+        <p>pedido feito em {{ order.createdAt }}</p>
+      </div>
+
       <div>
         <div class="row">
           <div class="col-md-12 col-sm-7">
             <div class="form-group row">
               <div class="col-md-4">
-                <h6>Status</h6><select class="form-control border-input">
-                  <option value="1" ng-reflect-value="1">Pendente</option>
-                  <option value="2" ng-reflect-value="2">Em entrega</option>
-                  <option value="3" ng-reflect-value="3">Produto em produção</option>
-                </select>
+                <h6>Status</h6>
+                <form *ngIf="orderForm" [formGroup]="orderForm">
+                  <select formControlName="statusControl" class="form-control border-input">
+                    <option value="Pendente">Pendente</option>
+                  <option value="Em Entrega">Em Entrega</option>
+                  <option value="Produto em Produção">Produto em Produção</option>
+                  </select>
+                 </form>
               </div>
-              <div class="col-md-4">
-                <h6>Preço do Produto</h6><input type="text" value="30"
-                  placeholder="Preço" class="form-control border-input">
-              </div>
-              <div class="col-md-4">
-                <h6>Total com frete</h6><input type="text" value="39,99"
-                  placeholder="Preço" class="form-control border-input" readonly="">
-              </div>
+                <div class="col-md-2 col-sm-4 mt-4"><button type="submit" (click)="update()"
+                  class="btn btn-primary btn-block btn-round">Salvar</button></div>
             </div>
             <div class="form-group row">
+              
               <div class="col-md-4">
-                <h6>Nome Cliente</h6><input type="text"
-                  placeholder="Coloque o nome do produto" value="Thurinasadan" class="form-control border-input"
-                  readonly="">
+                <h6>Nome Cliente</h6>
+                <p>{{ order.clientName }}</p>
               </div>
               <div class="col-md-4">
                 <h6>Email do cliente</h6>
-                <div class="input-group border-input"><input type="text"
-                    value="thurinasadan123@yahoo.com" placeholder="thurinasadan123@yahoo.com"
-                    class="form-control border-input" readonly=""></div>
+                <p>{{ order.clientEmail }}</p>
               </div>
               <div class="col-md-4">
-                <label>Whatsapp</label>
-                <div class="input-group" [ngClass]="{'input-group-focus':focus1===true}">
-                    <input type="text" value="(55) 991234567" class="form-control" readonly="" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
-                </div>
+                <h6>Whatsapp</h6>
+                <p>{{ order.clientPhone }}</p>
             </div>
             </div>
-            <div class="form-group row">
-              <div class="col-md-3">
-                <h6>Data do Pedido</h6><input type="text"
-                  placeholder="Coloque o nome do produto" value="19/04/2021" class="form-control border-input"
-                  readonly="">
-              </div>
-            </div>
-            <div class="row price-row">
-              <div class="col-md-3">
+            <div *ngIf="order.quoteOrder==false" class="form-group row">
+              <div *ngIf="order.quoteOrder==false" class="col-md-3">
                 <h6>Modo de entrega</h6>
-                <div class="input-group border-input"><input type="text"
-                    value="PAC" placeholder="" class="form-control border-input" readonly=""></div>
+                <p>{{ order.deliverMethod }}</p>
               </div>
               <div class="col-md-3">
                 <h6>Cep</h6>
-                <div class="input-group border-input"><input type="text"
-                    value="98700000" placeholder="Em cm" class="form-control border-input" readonly=""></div>
+                <p>{{ order.cep }}</p>
               </div>
               <div class="col-md-3">
                 <h6>Estado</h6>
-                <div class="input-group border-input"><input type="text"
-                    value="RS" placeholder="" class="form-control border-input" readonly=""></div>
+               <p>{{ order.state }}</p>
               </div>
               <div class="col-md-3">
                 <h6>Frete</h6>
-                <div class="input-group border-input"><input type="text"
-                    value="9,99" placeholder="" class="form-control border-input" readonly=""></div>
+                <p>{{ order.deliverPrice | numberFormat }}</p>
               </div>
             </div>
-            <div class="form-group mt-3">
-              <h6>Descrição do Porduto</h6><textarea
-                placeholder="Adicione uma descrição para o produto" rows="13" maxlength="150"
-                class="form-control textarea-limited"
-                readonly="">Já pensou em um Baby Groot todo charmoso e fofinho em sua casa. Encomende logo o seu.</textarea>
-              <h5><small></small></h5>
-            </div>
+        <div *ngIf="order.quoteOrder==true" class="form-group row">
+          <div class="col-md-12">
+          <h6>Descrição do cliente</h6>
+          <p>{{ order.notes }}</p>
+        </div>
+        </div>
+        <br>
+        <!-- If not quote Order -->
+        <div *ngIf="order.quoteOrder==false">
+        <div class="form-group row">
+          <div class="col-md-4">
+          <h5>Produto</h5>
           </div>
         </div>
-        <div class="row col-md-5 col-sm-6 ml-auto mr-auto">
-          <ngb-carousel>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random first slide">
+        <div class="form-group row">
+          <div class="col-md-3">
+          <h6>Produto</h6>
+          <p>{{ order.productData[0].title }}</p>
+        </div>
+        <div class="col-md-3">
+          <h6>Preço</h6>
+          <p>{{ order.productData[0].price | number:'1.2-5' | numberFormat }}</p>
+        </div> 
+        </div> 
+        <div class="form-group row">
+            <div class="form-group">
+              <div class="col-md-12">
+              <h6>Descrição do Produto</h6> 
+              <p>{{ order.productData[0].description }}</p>
+            </div>
+            </div>
+          </div>
+          </div>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-5 col-sm-4 ml-auto mr-auto"> 
+              <div class="card page-carousel">
+          <ngb-carousel *ngIf="order.quoteOrder==false">
+            <ng-template *ngFor="let img of order.productData[0].images" ngbSlide>
+                <img src="{{img.file_url}}" alt="img.key">
                 <div class="carousel-caption">
                 </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random second slide">
-                <div class="carousel-caption">
-                </div>
-            </ng-template>
-            <ng-template ngbSlide>
-                <img class="img-responsive" src="./assets/img/trabalho1.jpg" alt="Random third slide">
-                <div class="carousel-caption"> 
-                </div>
-            </ng-template>
+            </ng-template> 
         </ngb-carousel>
+        <ngb-carousel *ngIf="order.quoteOrder==true">
+          <ng-template *ngFor="let img of order.images" ngbSlide>
+              <img class="img-responsive" src="{{img.file_url}}" alt="img.key">
+              <div class="carousel-caption">
+              </div>
+          </ng-template>
+      </ngb-carousel>
         </div>
-        <div class="col-md-2 ml-auto mr-auto mt-4 mb-5">
-          <h6 class="text-center">Baixar Modelo 3d</h6><button
-            type="button" class="btn btn-default btn-round ml-3">Download</button>
         </div>
-        <div class="row buttons-row">
-          <div class="col-md-4 col-sm-4"><button type="reset"
-              class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
-          <div class="col-md-4 col-sm-4"><button type="submit"
-              class="btn btn-outline-danger btn-block btn-round">Excluir</button></div>
-          <div class="col-md-4 col-sm-4"><button type="submit"
-              class="btn btn-primary btn-block btn-round">Salvar</button></div>
         </div>
+        <div *ngIf="order.quoteOrder==false">
+          <div class="row col-md-8 ml-auto mr-auto">
+      <div *ngFor="let file of order.productData[0].files" class="ml-auto mr-auto">
+          <div class="info">
+              <i class="icon nc-icon nc-app"></i> 
+          </div>
+              <p>{{ file.key }}</p>
+              <a href="{{ file.url }}">Download</a>
+      </div>
+    </div>
+      </div> 
+      <div *ngIf="order.quoteOrder==true">
+        <div class="row col-md-8 ml-auto mr-auto">
+    <div *ngFor="let file of order.files" class="ml-auto mr-auto">
+        <div class="info">
+            <i class="icon nc-icon nc-app"></i> 
+        </div>
+            <p>{{ file.key }}</p>
+            <a href="{{ file.url }}">Download</a>
+    </div>
+  </div>
+    </div> 
+    <br>
+    <br>
+    <br>
+    <br>
+    <div *ngIf="loading==true" id="loading-wrapper">
+      <div id="loading-text">Carregando</div>
+      <div id="loading-content"></div>
+    </div>
+    <div class="row buttons-row mt-5">
+      <div class="col-md-4 col-sm-4 ml-auto mr-auto"><button (click)="delete()" type="button"
+          class="btn btn-outline-danger btn-block btn-round">Excluir</button></div>
+    </div>
       </div>
     </div>
   </div>
-</div>
