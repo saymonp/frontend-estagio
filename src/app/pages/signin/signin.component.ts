@@ -83,8 +83,8 @@ export class SigninComponent implements OnInit {
           user.user.permissions.toString()
         );
         this.localStorageService.set('token', user.user.token);
-        this.loading = false;
-        this.router.navigate(['/']);
+        this.loading = false; 
+        window.location.href = window.location.protocol + '//' + window.location.host + '/';
       },
       (err) => {
         this.loading = false;
