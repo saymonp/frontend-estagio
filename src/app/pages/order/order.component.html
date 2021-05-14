@@ -70,22 +70,22 @@
                     <div class="row">
                         <div class="col-md-6">
                             <label>Nome</label>
-                            <span *ngIf="(orderForm.controls['name'].invalid && (orderForm.controls['name'].dirty || orderForm.controls['name'].touched)) && orderForm.controls['name'].errors.required" class="text-danger"> é obrigatório.</span>
+                            <span *ngIf="(orderForm.controls['clientName'].invalid && (orderForm.controls['clientName'].dirty || orderForm.controls['clientName'].touched)) && orderForm.controls['clientName'].errors.required" class="text-danger"> é obrigatório.</span>
                             <div class="input-group" [ngClass]="{'input-group-focus':focus===true}">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text"><i class="nc-icon nc-single-02"></i></span>
                                 </div>
-                                <input name="name" formControlName="name" type="text" class="form-control" placeholder="Seu nome" (focus)="focus=true" (blur)="focus=false" required="required">
+                                <input name="clientName" formControlName="clientName" type="text" class="form-control" placeholder="Seu nome" (focus)="focus=true" (blur)="focus=false" required="required">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <label>Email</label>
-                                <span *ngIf="(orderForm.controls['email'].invalid && (orderForm.controls['email'].dirty || orderForm.controls['email'].touched)) && orderForm.controls['email'].errors.required" class="text-danger"> é obrigatório.</span>
+                                <span *ngIf="(orderForm.controls['clientEmail'].invalid && (orderForm.controls['clientEmail'].dirty || orderForm.controls['clientEmail'].touched)) && orderForm.controls['clientEmail'].errors.required" class="text-danger"> é obrigatório.</span>
                             <div class="input-group" [ngClass]="{'input-group-focus':focus1===true}">
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">  <i class="nc-icon nc-email-85"></i></span>
                                 </div>
-                                <input name="email" formControlName="email" type="text" class="form-control" placeholder="Email" (focus)="focus1=true" (blur)="focus1=false" >
+                                <input name="clientEmail" formControlName="clientEmail" type="text" class="form-control" placeholder="Email" (focus)="focus1=true" (blur)="focus1=false" >
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -95,7 +95,7 @@
                                 <div class="input-group-prepend">
                                   <span class="input-group-text">  <i class="nc-icon nc-email-85"></i></span>
                                 </div>
-                                <input name="clientPhone" formControlName="clientPhone" type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
+                                <input mask="(00) 00000-0000" name="clientPhone" formControlName="clientPhone" type="text" class="form-control" placeholder="(DDD) Número" (focus)="focus1=true" (blur)="focus1=false" >
                             </div>
                         </div>
                     
@@ -103,25 +103,25 @@
                     <div class="col-md-8">
                         <label>Tem imagens ou um modelo 3D?</label>
                         <div>
-                            <input style="display: none;" (change)="uploadFile($event)" type="file" multiple
+                            <input style="display: none;" (change)="toUploadFile($event)" type="file" multiple
                                     class="form-control-file" #onUpload>
                             <button type="button" (click)="onUpload.click()" class="btn btn-danger btn-fill btn-sm">Fazer upload</button>
                         </div>
-                        <div  class="mt-3 col-md-12 row">
+                        <div  class="mt-1 col-md-12 row">
                             <div *ngFor="let file of filesToUpload; ; let i=index" class="m-2 mr-4">
                                 <div class="info">
                                     <i class="icon nc-icon nc-app"></i> 
                                 </div>
-                                    <p>{{ file.fileName }}</p>
+                                    <p>{{ file.name }}</p>
                                     <a (click)="removeFile(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
                             </div>
                         </div>
-                        <div  class="mt-3 col-md-12 row">
+                        <div  class="mt-1 col-md-12 row">
                             <div *ngFor="let image of imagesToUpload; ; let i=index" class="m-2 mr-4">
                                 <div class="info">
                                     <i class="icon nc-icon nc-image"></i> 
                                 </div>
-                                    <p>{{ image.fileName }}</p>
+                                    <p>{{ image.name }}</p>
                                     <a (click)="removeImage(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
                             </div>
                         </div>
@@ -131,8 +131,18 @@
                     <label>Conte sobre o seu projeto, iremos adorar poder tirar as suas ideias do papel!!!</label>
                     <textarea name="notes" formControlName="notes" class="form-control" rows="4" placeholder="Nos diga o que está planejando..."></textarea>
                     <div class="row">
-                        <div class="col-md-4 mr-auto ml-auto">
-                            <button [disabled]="disabledSubmitButton" type="submit" class="btn btn-danger btn-lg btn-fill">Fazer orçamento</button>
+                        <div class="col-md-12 mr-auto ml-auto">
+                            <div class="form-check">
+                                <label class="form-check-label">
+                                    <input name="allowContact" formControlName="allowContact" class="form-check-input" type="checkbox" value=""> De acordo com as Leis 12.965/2014 e 13.709/2018, que regulam o uso da internet e tratamento de dados pessoais no Brasil, ao solicitar o serviço autorizo &lt;BeMaker&gt; a entrar em contato por e-mail e Whatsapp e concordo com a sua política de privacidade.  
+                                    <span class="form-check-sign"></span>
+                                </label>
+                            </div>
+                            <button type="submit" class="btn btn-danger btn-lg btn-fill">Fazer orçamento</button>
+                            <div *ngIf="loading==true" id="loading-wrapper">
+                                <div id="loading-text">Enviando</div>
+                                <div id="loading-content"></div>
+                              </div>
                         </div>
                     </div>
                 </form>
