@@ -110,6 +110,11 @@ export class UsersListComponent implements OnInit {
       this.users.users[index].permissions = permissions;
       console.log(this.users.users[index].permissions);
       this.setCacheItem(this.users);
+      if (res["error"] || res["statusCode"]) {
+        alert("Ocorreu um erro: " + res["error"] + res["statusCode"]);
+      } else {
+        alert("Usuário atualizado")
+      }
     },(err) => {
       alert("Ocorreu um erro"); 
       })

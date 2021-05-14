@@ -62,19 +62,19 @@ export class SignupComponent implements OnInit {
     console.log(this.signupForm.value);
 
     let permissions = [
-      this.signupForm.value.createproduct.checked
+      this.signupForm.value.createproduct
         ? 'create:product'
         : undefined,
-      this.signupForm.value.updateproduct.checked
+      this.signupForm.value.updateproduct
         ? 'update:product'
         : undefined,
-      this.signupForm.value.deleteproduct.checked
+      this.signupForm.value.deleteproduct
         ? 'delete:product'
         : undefined,
 
-      this.signupForm.value.createuser.checked ? 'create:user' : undefined,
-      this.signupForm.value.updateuser.checked ? 'update:user' : undefined,
-      this.signupForm.value.deleteuser.checked ? 'delete:user' : undefined,
+      this.signupForm.value.createuser ? 'create:user' : undefined,
+      this.signupForm.value.updateuser ? 'update:user' : undefined,
+      this.signupForm.value.deleteuser ? 'delete:user' : undefined,
     ];
 
     permissions = permissions.filter(function (p) {
@@ -89,7 +89,7 @@ export class SignupComponent implements OnInit {
       password: this.signupForm.value.password,
       permissions,
     };
-
+    console.log(user);
     this.userService.registerUser(user).subscribe(
       (res) => {
         console.log(res);
@@ -97,6 +97,8 @@ export class SignupComponent implements OnInit {
         this.loading = false;
         if (res["error"] || res["statusCode"]) {
           alert("Ocorreu um erro: " + res["error"] + res["statusCode"]);
+        } else {
+          alert("Usuário criado!")
         }
       },
       (err) => {

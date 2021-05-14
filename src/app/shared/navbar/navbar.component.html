@@ -53,7 +53,7 @@
                         target="_blank" class="nav-link">Have an issue</a>
                 </li>
                 
-                <li *ngIf="user.get('token') && user.get('name') && user.get('permissions')" class="nav-item">
+                <li *ngIf="user.get('token') && user.get('name')" class="nav-item">
                     <div ngbDropdown class="dropdown" placement="bottom-left">
  
                         <a style="cursor: pointer;" [ngClass]="sidebarVisible == true ? 'nav-link text-muted pad' : 'nav-link'" id="dropdownBasic3" ngbDropdownToggle><i class="nc-icon nc-settings-gear-65" aria-hidden="true"></i> {{ user.get("name") }}</a>
@@ -75,7 +75,7 @@
                     <a *ngIf="user.get('token') == null" [routerLink]="['/signin']" class="nav-link" placement="right" ngbTooltip="Login">
                         <i class="nc-icon nc-circle-10"></i>
                     </a>
-                    <a *ngIf="user.get('token') && user.get('name') && user.get('permissions')"  (click)="logout()" class="nav-link" [routerLink]="['/']">
+                    <a *ngIf="user.get('token') && user.get('name')"  (click)="logout()" class="nav-link" [routerLink]="['/']">
                         <i placement="top" ngbTooltip="Desconectar" class="nc-icon nc-user-run" style="cursor: pointer;"></i>
                     </a>
                 </li>

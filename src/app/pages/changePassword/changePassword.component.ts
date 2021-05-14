@@ -37,6 +37,7 @@ export class ChangePasswordComponent implements OnInit {
     this.loading = true;
     this.userService.passwordReset({newPassword, passwordResetToken}).subscribe((res) => {
       console.log(res);
+      alert("Senha alterada");
       this.loading = false;
     }, (err) => {
       this.loading = false;

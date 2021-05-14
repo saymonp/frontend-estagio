@@ -42,6 +42,7 @@ export class SigninComponent implements OnInit {
         .subscribe(
           (res) => {
             console.log(res);
+            alert("Usuário verificado")
             this.loading = false;
           },
           (err) => {
