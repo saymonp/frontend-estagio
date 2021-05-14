@@ -125,6 +125,7 @@ export class ProductDetailComponent implements OnInit {
       this.loading = false;
       console.log(response);
       if (response.order_created) {
+        
         alert("Pedido enviado, obrigado!");
         this.loading = false;
       }

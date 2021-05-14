@@ -62,7 +62,7 @@
               </div>
               <div class="col-md-3">
                 <h6>Frete</h6>
-                <p>{{ order.deliverPrice | number:'1.2-5' | numberFormat }}</p>
+                <p>{{ order.deliverPrice | numberFormat }}</p>
               </div>
             </div>
         <div *ngIf="order.quoteOrder==true" class="form-group row">

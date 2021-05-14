@@ -21,7 +21,7 @@
          </div>
          <div class="col-md-6 col-sm-6">
            <h2>{{ product.title }}</h2>
-           <h4 class="price"><strong>R$ {{ product.price | number:'1.2-5' | numberFormat }}</strong></h4>
+           <h4 class="price"><strong>R$ {{ product.price | numberFormat }}</strong></h4>
            <h6 class="m-1">{{ product.height }} X {{ product.width }} cm</h6>
            <hr>
            <p>{{ product.description }}</p>
@@ -71,12 +71,12 @@
               <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
             </div>
             </div>
-             <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | number:'1.2-5' | numberFormat }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
+             <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | numberFormat }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
              <h4 *ngIf="frete == 0 && freteError==true" class="mr-auto ml-auto mt-1">Iremos calcular o frete</h4>
            <hr>
            <div class="row">
              <div class="col-md-7 offset-md-5 col-sm-8 mr-auto ml-auto">
-              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ product.price + frete | number:'1.2-5' | numberFormat }}</strong></h4>
+              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ product.price + frete | numberFormat }}</strong></h4>
                <button [disabled]="!orderForm.value.allowContact" type="submit" class="btn btn-danger btn-block btn-round">Encomendar &nbsp;<i class="fa fa-chevron-right"></i></button>
              </div>
              <div class="form-check">
