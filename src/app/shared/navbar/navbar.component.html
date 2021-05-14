@@ -55,10 +55,11 @@
                 
                 <li *ngIf="user.get('token') && user.get('name') && user.get('permissions')" class="nav-item">
                     <div ngbDropdown class="dropdown" placement="bottom-left">
-
-                        <a style="cursor: pointer;" class="nav-link" [ngClass]="sidebarVisible == true ? 'nav-link text-muted' : 'nav-link'" id="dropdownBasic3" ngbDropdownToggle><i class="nc-icon nc-settings-gear-65" aria-hidden="true"></i> {{ user.get("name") }}</a>
-                        
+ 
+                        <a style="cursor: pointer;" [ngClass]="sidebarVisible == true ? 'nav-link text-muted pad' : 'nav-link'" id="dropdownBasic3" ngbDropdownToggle><i class="nc-icon nc-settings-gear-65" aria-hidden="true"></i> {{ user.get("name") }}</a>
+                         
                         <div ngbDropdownMenu aria-labelledby="dropdownBasic3" class="dropdown-danger dropdown-menu-right">
+                            <div class="card">
                             <a [routerLink]="['/encomendas']" [ngClass]="sidebarVisible == true ? 'dropdown-item text-muted' : 'dropdown-item'">Listagem de Encomendas</a>
                             <div class="dropdown-divider"></div>
                             <a *ngIf="userPermissions.includes('update:user')" [routerLink]="['/funcionarios']" [ngClass]="sidebarVisible == true ? 'dropdown-item text-muted' : 'dropdown-item'">Listagem de Usuários</a>
@@ -66,6 +67,7 @@
                             <a *ngIf="userPermissions.includes('create:product')" [routerLink]="['/criar-trabalho']" [ngClass]="sidebarVisible == true ? 'dropdown-item text-muted' : 'dropdown-item'">Criar Produto</a>
                             <div class="dropdown-divider"></div>
                             <a *ngIf="userPermissions.includes('create:user')" [routerLink]="['/signup']" [ngClass]="sidebarVisible == true ? 'dropdown-item text-muted' : 'dropdown-item'">Cadastrar novo Usuário</a>
+                        </div>
                         </div>
                     </div>
                 </li>
