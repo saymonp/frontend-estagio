@@ -11,7 +11,7 @@ import { LocalStorageService } from '../../services/localStorage.service';
 export class NavbarComponent implements OnInit {
     private toggleButton: any;
     private sidebarVisible: boolean;
-    private userPermissions = this.user.get('permissions') ? this.user.get('permissions').split(',') : [];
+    private userPermissions = [];
 
     constructor(private user: LocalStorageService, public location: Location, private element : ElementRef) {
         this.sidebarVisible = false;
@@ -20,6 +20,7 @@ export class NavbarComponent implements OnInit {
     ngOnInit() {
         const navbar: HTMLElement = this.element.nativeElement;
         this.toggleButton = navbar.getElementsByClassName('navbar-toggler')[0];
+        this.userPermissions = this.user.get('permissions') ? this.user.get('permissions').split(',') : [];
     }
     sidebarOpen() {
         const toggleButton = this.toggleButton;
