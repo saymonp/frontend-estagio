@@ -225,11 +225,11 @@ export class UpdateProductComponent implements OnInit {
         alert("Comprimento embalado precisa ser 15cm a 100cm")
       }
 
-      if (10 > this.productForm.value.widthPacked  || this.productForm.value.widthPacked  > 100) {
+      if (14 > this.productForm.value.widthPacked  || this.productForm.value.widthPacked  > 100) {
         alert("Largura embalado precisa ser 15cm a 100cm")
       }
 
-      if (10 > this.productForm.value.heightPacked || this.productForm.value.heightPacked > 100) {
+      if (0 > this.productForm.value.heightPacked || this.productForm.value.heightPacked > 100) {
         alert("Altura embalado precisa ser 1cm a 100cm")
       }
       const total = this.productForm.value.widthPacked+this.productForm.value.lengthPacked + this.productForm.value.heightPacked
