@@ -184,9 +184,9 @@ export class ProductDetailComponent implements OnInit {
         "sCepDestino": this.orderForm.value.cepTest,
         "nVlPeso": String(parseFloat(this.product.weightPacked) * multiply),
         "nCdFormato": this.product.formatPacked,
-        "nVlLargura": this.product.widthPacked * multiply,
+        "nVlLargura": this.product.lengthPacked * multiply,
         "nVlAltura": this.product.heightPacked * multiply,
-        "nVlComprimento": this.product.lengthPacked * multiply,
+        "nVlComprimento": this.product.widthPacked * multiply,
         "nVlDiametro": this.product.diameterPacked 
         }
         console.log(data)
