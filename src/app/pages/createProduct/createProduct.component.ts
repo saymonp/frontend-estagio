@@ -63,6 +63,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   async createProduct() {
+    this.loading = true;
     this.productForm.value.images = this.images;
     this.productForm.value.files = this.files;
 
@@ -76,8 +77,10 @@ export class CreateProductComponent implements OnInit {
 
     const response = await this.productService.create(valueSubmit).toPromise()
     if (response["statusCode"] && response["statusCode"] != 200) {
+      this.loading = false;
       alert("Ops");
     } else {
+      this.loading = false;
       console.log(response);
       localStorage.removeItem("httpproductsList")
       this.router.navigate(['/trabalhos']);
