@@ -188,11 +188,11 @@
                         (click)="onUploadF.click()">Adicionar modelos 3d</button>
                   </div>
                   <div  class="mt-1 col-md-12 row">
-                     <div *ngFor="let file of files; ; let i=index" class="m-2 mr-4">
+                     <div *ngFor="let file of product.files; ; let i=index" class="m-2 mr-4">
                          <div class="info">
                              <i class="icon nc-icon nc-app"></i> 
                          </div>
-                             <p>{{ file.fileName }}</p>
+                             <p>{{ file.key }}</p>
                              <a (click)="removeFile(i)"><i class="icon icon-danger nc-icon nc-simple-remove"></i></a>
                      </div>
                  </div>

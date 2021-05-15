@@ -143,7 +143,6 @@ export class UpdateProductComponent implements OnInit {
     const filesToUpload = <Array<File>>event.target.files;
 
     for (const file of filesToUpload) {
-      if (file.name.endsWith("jpg") || file.name.endsWith("jpeg") || file.name.endsWith("png")) {
       const fd = new FormData();
       
       this.uploadService.getPresignedUrl("products/files", file.name).subscribe((res) => {
@@ -157,13 +156,10 @@ export class UpdateProductComponent implements OnInit {
 
         this.uploadService.uploadFilePresignedUrl(res, fd).subscribe((response) => {
           if (response.status == 204) { 
-            this.product.images.push({"key": res.fields.key, "file_url": res.url+res.fields.key, "new": true})
+            this.product.files.push({"key": res.fields.key, "file_url": res.url+res.fields.key, "new": true})
           }
         })
       })
-    } else {
-      alert("Imagem inválida " +file.name) 
-    }
   }
   console.log(this.product.images);
   }

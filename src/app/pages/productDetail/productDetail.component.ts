@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { CorreioService } from 'app/services/correio.service';
 import { OrderService } from 'app/services/order.service';
 import { ProductService } from 'app/services/product.service';
@@ -40,6 +40,7 @@ export class ProductDetailComponent implements OnInit {
   newAmount = 1;
 
   constructor(
+    private router: Router,
     private correioService: CorreioService,
     private productService: ProductService,
     private activatedRoute: ActivatedRoute,
@@ -87,7 +88,8 @@ export class ProductDetailComponent implements OnInit {
       },
       (err) => {
         this.loading = false;
-        alert('Erro');
+        localStorage.removeItem("httpproductsList");
+        this.router.navigate(['/trabalhos']);
       }
     );
   }
