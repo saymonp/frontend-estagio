@@ -85,6 +85,10 @@ export class ProductDetailComponent implements OnInit {
         this.product = data.product;
         console.log(this.product);
         this.loading = false;
+        if (this.product == null){
+          localStorage.removeItem("httpproductsList");
+          this.router.navigate(['/trabalhos']);
+        }
       },
       (err) => {
         this.loading = false;
