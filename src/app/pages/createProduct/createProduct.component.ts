@@ -52,7 +52,7 @@ export class CreateProductComponent implements OnInit {
       formatPacked: [1, Validators.required],
       // Test
       cepTest: "98700000",
-      cdServico: ["04510"],
+      cdServico: ["04510"], 
       amount: [1]
   });
   }
@@ -65,7 +65,12 @@ export class CreateProductComponent implements OnInit {
   async createProduct() {
     this.loading = true;
     this.productForm.value.images = this.images;
-    this.productForm.value.files = this.files;
+
+    this.productForm.value.files = [];
+
+    this.files.map((file) => {
+      this.productForm.value.files.push(file.file)
+    })
 
     let valueSubmit = Object.assign({}, this.productForm.value);
     valueSubmit.weightPacked = String(valueSubmit.weightPacked)
@@ -73,18 +78,18 @@ export class CreateProductComponent implements OnInit {
     delete valueSubmit.cdServico
     delete valueSubmit.amount 
 
-    console.log(valueSubmit);
+    console.log(valueSubmit); 
 
-    const response = await this.productService.create(valueSubmit).toPromise()
-    if (response["statusCode"] && response["statusCode"] != 200) {
-      this.loading = false;
-      alert("Ops");
-    } else {
-      this.loading = false;
-      console.log(response);
-      localStorage.removeItem("httpproductsList")
-      this.router.navigate(['/trabalhos']);
-    }
+    // const response = await this.productService.create(valueSubmit).toPromise()
+    // if (response["statusCode"] && response["statusCode"] != 200) {
+    //   this.loading = false;
+    //   alert("Ops");
+    // } else {
+    //   this.loading = false;
+    //   console.log(response);
+    //   localStorage.removeItem("httpproductsList")
+    //   this.router.navigate(['/trabalhos']);
+    // }
   }
 
   uploadFile(event) {
