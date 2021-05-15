@@ -46,12 +46,12 @@
           </div>
         </div>
               <div class="form-group row">
-                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-3 col-sm-6">
+                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-4 col-sm-6">
                 <h6>CEP</h6>
                 <input name="cepDestino" formControlName="cepDestino" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
               </div>
              
-             <div class="col-md-4 col-sm-6">
+             <div class="col-md-5 col-sm-6">
               
                 <h6>Forma de entrega</h6>
                 <select formControlName="cdServico" class="form-control border-input"> 
@@ -62,13 +62,14 @@
                   <option value="Retirar em mãos">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
                   </select>
                 </div>
-                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-2 col-sm-6">  
+                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-3 col-sm-6">  
                   <h6>Quantidade</h6> 
                     <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
                   </div>
-                <div class="info">
-              <div *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
-              <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
+            <div class="form-group row">
+              <button *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcDelivery()" type="button" class="btn btn-danger btn-block btn-round ml-4">Calcular Frete &nbsp;<i *ngIf="loadingCor==true" class="spin icon nc-icon nc-refresh-69"></i></button>
+              <button *ngIf="loadingCor==true" type="button" class="btn btn-danger btn-block btn-round ml-4"><i class="spin icon nc-icon nc-refresh-69"></i></button>
+
             </div>
             </div>
              <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | numberFormat }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
