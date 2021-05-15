@@ -37,6 +37,7 @@ export class ProductDetailComponent implements OnInit {
   cdServico: any = "04510";
   freteError = false;
   disableFrete = false;
+  newAmount = 1;
 
   constructor(
     private correioService: CorreioService,
@@ -138,48 +139,79 @@ export class ProductDetailComponent implements OnInit {
     //this.orderService.create()
   }
 
-  async calcDelivery() {
+  calcDelivery() {
     this.loadingCor = true;
-    console.log()
-    const data: Delivery = {
-      "nCdServico": this.orderForm.value.cdServico,
-      "sCepOrigem": "98801010",
-      "sCepDestino": this.orderForm.value.cepDestino,
-      "nVlPeso": String(parseFloat(this.product.weightPacked) * this.orderForm.value.amount),
-      "nCdFormato": this.product.formatPacked,
-      "nVlComprimento": this.product.lengthPacked * this.orderForm.value.amount,
-      "nVlAltura": this.product.heightPacked * this.orderForm.value.amount,
-      "nVlLargura": this.product.widthPacked * this.orderForm.value.amount,
-      "nVlDiametro": this.product.diameterPacked
-    };
-
-    const data1: Delivery = {
-      "nCdServico": "04510",
-      "sCepOrigem": "98801010",
-      "sCepDestino": "98700000",
-      "nVlPeso": "0.4",
-      "nCdFormato": 1,
-      "nVlComprimento": 15,
-      "nVlAltura": 3,
-      "nVlLargura": 10,
-      "nVlDiametro": 0
+    let multiply = 1;
+    if (this.product.formatPacked == 1) {
+      const total = this.orderForm.value.widthPacked+this.orderForm.value.lengthPacked + this.orderForm.value.heightPacked
+      if (total*this.orderForm.value.amount > 200) {
+        this.newAmount = (total*this.orderForm.value.amount) / 200;
+        console.log(this.newAmount);
+      } else {
+        multiply = this.orderForm.value.amount;
       }
-      
-    console.log(data);
+
+    }
+
+    if (this.product.formatPacked == 2) {
+      if ((2* this.orderForm.value.diameterPacked+this.orderForm.value.lengthPacked)*this.orderForm.value.amount > 200) {
+        this.newAmount = ((2* this.orderForm.value.diameterPacked)+this.orderForm.value.lengthPacked*this.orderForm.value.amount) / 200;
+        if(this.newAmount < 1) {
+          this.newAmount = 2;
+        }
+        console.log(this.newAmount);
+        multiply = 1;
+      } else {
+        multiply = this.orderForm.value.amount;
+      }
+    }
+
+    if (this.product.formatPacked == 3) {
+      if (this.orderForm.value.amount*this.orderForm.value.lengthPacked > 60) {
+        this.newAmount = this.orderForm.value.amount*this.orderForm.value.lengthPacked / 60;
+        if(this.newAmount < 1) {
+          this.newAmount = 2;
+        }
+        multiply = 1;
+        console.log(this.newAmount);
+      } else {
+        multiply = this.orderForm.value.amount;
+      }
+    }
+      const data = {
+        "nCdServico": this.orderForm.value.cdServico,
+        "sCepOrigem": "98801010",
+        "sCepDestino": this.orderForm.value.cepTest,
+        "nVlPeso": String(parseFloat(this.product.weightPacked) * multiply),
+        "nCdFormato": this.product.formatPacked,
+        "nVlLargura": this.product.widthPacked * multiply,
+        "nVlAltura": this.product.heightPacked * multiply,
+        "nVlComprimento": this.product.lengthPacked * multiply,
+        "nVlDiametro": this.product.diameterPacked 
+        }
+        console.log(data)
     this.correioService.shippingPrice(data).subscribe((res) => {
+
       if(res.shipping && parseFloat(res.shipping[0].Valor) > 0){
         this.frete = parseFloat(res.shipping[0].Valor);
         this.days = res.shipping[0].PrazoEntrega;
+
+        this.loadingCor = false
+        multiply = 1;
+        this.newAmount = 1;
         this.loadingCor = false
         this.freteError = false;
       } else {
         this.loadingCor = false;
         this.freteError = true;
-      }
-      
+        this.loadingCor = false
+        multiply = 1;
+        this.newAmount = 1;
+      }   
     },
     (err) => {
       this.loadingCor = false;
+      multiply = 1;
     });
   }
 

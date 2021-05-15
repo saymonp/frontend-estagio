@@ -36,7 +36,7 @@ export class ProductService {
 
   update(status): Observable<any> {
     const url = `${this.baseUrl}/api/v1/updateProduct`;
-    return this.http.patch<any>(url, status, httpHeaders).pipe(
+    return this.http.post<any>(url, status, httpHeaders).pipe(
       map((obj) => obj)
     );
   }

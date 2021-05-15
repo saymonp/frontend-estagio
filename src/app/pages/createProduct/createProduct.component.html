@@ -159,12 +159,7 @@
                         <div class="col-md-2 col-sm-6">
                       
                           <h6>Quantidade</h6>
-                          <select name="amount" formControlName="amount" class="form-control border-input"> 
-                            <option value=1>1</option>
-                            <option value=2>2</option>
-                            <option value=3>3</option>
-                            <option value=4>Mais de 3 unidades</option>
-                            </select>
+                          <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
                           </div>
                         <div class="info">
                       <div *ngIf="loadingCor==false" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 

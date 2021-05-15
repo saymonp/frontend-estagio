@@ -27,6 +27,7 @@ export class UpdateProductComponent implements OnInit {
   frete: number;
   days: any;
   loadingDel = false;
+  newAmount = 1;
 
   constructor(private userData: LocalStorageService, private correioService: CorreioService, private formBuilder: FormBuilder, private uploadService: UploadService, private activatedRoute: ActivatedRoute, private productService: ProductService, private router: Router) { }
 
@@ -74,6 +75,7 @@ export class UpdateProductComponent implements OnInit {
       diameterPacked: [this.product.diameterPacked, Validators.required],
       lengthPacked: [this.product.lengthPacked, Validators.required],
       formatPacked: [this.product.formatPacked, Validators.required],
+      productId: [this.id],
       // Test
       cepTest: "98700000",
       cdServico: ["04510"],
@@ -82,6 +84,7 @@ export class UpdateProductComponent implements OnInit {
   }
 
   async updateProduct() {
+    this.loading = true;
     let valueSubmit = Object.assign({}, this.productForm.value);
     for (let img of this.product.images) {
       if (img['new']) delete img['new'];
@@ -97,11 +100,13 @@ export class UpdateProductComponent implements OnInit {
 
     console.log(valueSubmit);
     const response = await this.productService.update(valueSubmit).toPromise()
+    this.loading = false;
     if (response["statusCode"] && response["statusCode"] != 200) {
       alert("Ops");
-    }
+    } else {
     console.log(response);
     this.router.navigate(['/trabalhos']);
+    }
   }
 
   uploadImage(event) {
@@ -217,37 +222,101 @@ export class UpdateProductComponent implements OnInit {
 
   calcDelivery() {
     this.loadingCor = true;
-    const data1 = {
-      "nCdServico": "04510",
-      "sCepOrigem": "98801010",
-      "sCepDestino": "98700000",
-      "nVlPeso": "1.0",
-      "nCdFormato": 1,
-      "nVlComprimento": 27.0,
-      "nVlAltura": 8.0,
-      "nVlLargura": 10.0,
-      "nVlDiametro": 18.0
+    let multiply = 1;
+    if (this.productForm.value.formatPacked == 1) {
+      if (14 > this.productForm.value.lengthPacked || this.productForm.value.lengthPacked > 100) {
+        alert("Comprimento embalado precisa ser 15cm a 100cm")
       }
+
+      if (10 > this.productForm.value.widthPacked  || this.productForm.value.widthPacked  > 100) {
+        alert("Largura embalado precisa ser 15cm a 100cm")
+      }
+
+      if (10 > this.productForm.value.heightPacked || this.productForm.value.heightPacked > 100) {
+        alert("Altura embalado precisa ser 1cm a 100cm")
+      }
+      const total = this.productForm.value.widthPacked+this.productForm.value.lengthPacked + this.productForm.value.heightPacked
+      if (25 > total) {
+        alert("A soma total da embalagem, Comprimento+Largura+Altura deeve ser no mínimo 26")
+      }
+
+      if (total > 200) {
+        alert("A soma total da embalagem, Comprimento+Largura+Altura deeve ser no máximo 200")
+      }
+      if (total*this.productForm.value.amount > 200) {
+        this.newAmount = (total*this.productForm.value.amount) / 200;
+        console.log(this.newAmount);
+      } else {
+        multiply = this.productForm.value.amount;
+      }
+
+    }
+
+    if (this.productForm.value.formatPacked == 2) {
+      if (17 > this.productForm.value.lengthPacked || this.productForm.value.lengthPacked > 100) {
+        alert("Comprimento embalado precisa ser 18cm a 100cm")
+      }
+      if (4 > this.productForm.value.diameterPacked || this.productForm.value.diameterPacked > 100) {
+        alert("Diametro embalado precisa ser 5cm a 91cm")
+      }
+      if (2* this.productForm.value.diameterPacked+this.productForm.value.lengthPacked > 200) {
+        alert("2 * Diametro + Comprimento embalado precisa ser entre 28cm a 200cm")
+      }
+      if ((2* this.productForm.value.diameterPacked+this.productForm.value.lengthPacked)*this.productForm.value.amount > 200) {
+        this.newAmount = ((2* this.productForm.value.diameterPacked)+this.productForm.value.lengthPacked*this.productForm.value.amount) / 200;
+        if(this.newAmount < 1) {
+          this.newAmount = 2;
+        }
+        console.log(this.newAmount);
+        multiply = 1;
+      } else {
+        multiply = this.productForm.value.amount;
+      }
+    }
+
+    if (this.productForm.value.formatPacked == 3) {
+      if (10 > this.productForm.value.widthPacked || this.productForm.value.widthPacked > 60) {
+        alert("Largura embalado precisa ser 10cm a 60cm")
+      }
+      if (15 > this.productForm.value.lengthPacked || this.productForm.value.lengthPacked > 60) {
+        alert("Comprimento embalado precisa ser 16cm a 60cm")
+      }
+      if (this.productForm.value.amount*this.productForm.value.lengthPacked > 60) {
+        this.newAmount = this.productForm.value.amount*this.productForm.value.lengthPacked / 60;
+        if(this.newAmount < 1) {
+          this.newAmount = 2;
+        }
+        multiply = 1;
+        console.log(this.newAmount);
+      } else {
+        multiply = this.productForm.value.amount;
+      }
+    }
+
+
 
       const data = {
         "nCdServico": this.productForm.value.cdServico,
         "sCepOrigem": "98801010",
         "sCepDestino": this.productForm.value.cepTest,
-        "nVlPeso": this.productForm.value.weightPacked,
+        "nVlPeso": String(parseFloat(this.productForm.value.weightPacked) * multiply),
         "nCdFormato": this.productForm.value.formatPacked,
-        "nVlComprimento": this.productForm.value.lengthPacked,
-        "nVlAltura": this.productForm.value.heightPacked,
-        "nVlLargura": this.productForm.value.widthPacked,
-        "nVlDiametro": this.productForm.value.diameterPacked
+        "nVlLargura": this.productForm.value.widthPacked * multiply,
+        "nVlAltura": this.productForm.value.heightPacked * multiply,
+        "nVlComprimento": this.productForm.value.lengthPacked * multiply,
+        "nVlDiametro": this.productForm.value.diameterPacked 
         }
-      console.log(data)
+      
     this.correioService.shippingPrice(data).subscribe((res) => {
-      this.frete = parseFloat(res.shipping[0].Valor);
+      this.frete = parseFloat(res.shipping[0].Valor)*this.newAmount;
       this.days = res.shipping[0].PrazoEntrega;
       this.loadingCor = false
+      multiply = 1;
+      this.newAmount = 1;
     },
     (err) => {
       this.loadingCor = false;
+      multiply = 1;
     });
   }
 

@@ -70,12 +70,14 @@ export class ProductsListComponent implements OnInit {
       console.log('Retrieved item from cache');
       this.products = chacheItem;
       this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
+      this.doubleSlider[1] = this.max;
     }
     else {
       this.productService.list().subscribe((data) => {
       this.products = data.products;
       this.setCacheItem(data.products);
       this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
+      this.doubleSlider[1] = this.max;
       this.loading = false;
     },(err) => {
       this.loading = false;
