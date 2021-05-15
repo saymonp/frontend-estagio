@@ -73,6 +73,48 @@
        </div>
       </div>
    </div>
+
+   <div *ngIf="user.get('token') && user.get('name')" class="section section-gray">
+    <div class="col-md-3 ml-auto mr-auto"> 
+     <h3>Produtos não listados</h3>  
+     <br>
+     <br>
+     </div>
+    <div *ngIf="loading==false" class="container">
+      <div class="row">
+        <div class="col-md-3">
+         
+        </div>
+        <div class="col-md-9">
+          <div class="products">
+             <div class="row">
+                
+                <ng-container *ngFor="let product of products | range: doubleSlider | callback: filterOcultProducts">
+                   <div class="col-md-4 col-sm-4">
+                   <div class="card card-product card-plain">
+                      <div class="card-image">
+                         <a [routerLink]="['/trabalho', product._id]"><img alt="Rounded Image" class="img-rounded img-responsive" src="{{ product.images[0].file_url }}"></a>
+                         <div class="card-body">
+                            <div class="card-description">
+                               <h5 class="card-title">{{ product.title }}</h5>
+                            </div>
+                            <div class="price"> 
+                               <h5>R$ {{ product.price | numberFormat }}</h5>
+                            </div>
+                         </div>
+                      </div>
+                      <button *ngIf="user.get('token') && user.get('permissions') && userPermissions.includes('update:product')" type="button" class="btn btn-outline-default btn-round btn-sm col-md-4 ml-auto mr-auto"
+                      [routerLink]="['/atualizar-trabalho', product._id]">Editar</button>
+                   </div>
+                </div>
+                </ng-container>
+        </div>
+      </div>
+    </div>
+  </div>
+ </div>
+</div>
+
    <div #encomenda class="section landing-section">
     <div *ngIf="loading==false" class="container">
       <div class="row">

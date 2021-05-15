@@ -256,4 +256,12 @@ export class ProductsListComponent implements OnInit {
     }
   }
 
+  filterOcultProducts(prod) {
+    if (prod.orderAvailable == false) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
 }
