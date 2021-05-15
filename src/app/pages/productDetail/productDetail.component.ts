@@ -183,12 +183,12 @@ export class ProductDetailComponent implements OnInit {
       const data = {
         "nCdServico": this.orderForm.value.cdServico,
         "sCepOrigem": "98801010",
-        "sCepDestino": this.orderForm.value.cepTest,
+        "sCepDestino": this.orderForm.value.cepDestino,
         "nVlPeso": String(parseFloat(this.product.weightPacked) * multiply),
         "nCdFormato": this.product.formatPacked,
-        "nVlLargura": this.product.lengthPacked * multiply,
+        "nVlLargura": this.product.widthPacked * multiply,
         "nVlAltura": this.product.heightPacked * multiply,
-        "nVlComprimento": this.product.widthPacked * multiply,
+        "nVlComprimento": this.product.lengthPacked * multiply,
         "nVlDiametro": this.product.diameterPacked 
         }
         console.log(data)
