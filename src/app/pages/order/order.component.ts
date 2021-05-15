@@ -25,25 +25,21 @@ export class OrderComponent implements OnInit {
 
   constructor(private mailService: MailService, private orderService: OrderService, private formBuilder: FormBuilder, private uploadService: UploadService) { }
 
-  @Input() name: string;
-  @Input() email: string;
+  @Input() clientName: string;
+  @Input() clientEmail: string;
   @Input() clientPhone: string;
-
-  @HostListener('input') onInput() {
-    if (this.orderForm.valid) {
-      this.disabledSubmitButton = false;
-    }
-  }
 
   ngOnInit() {
     this.orderForm = this.formBuilder.group({
-        name: ['', Validators.required],
-        email: ['', Validators.required],
+        clientName: ['', Validators.required],
+        clientEmail: ['', Validators.required],
         clientPhone: ['', Validators.required],
+        allowContact: ['', Validators.required],
         notes: [null],
         images: [null],
-        models3d: [null]
-    });
+        files: [null],
+        quoteOrder: [true]
+    }); 
   }
 
   scrollToElement($element): void {
