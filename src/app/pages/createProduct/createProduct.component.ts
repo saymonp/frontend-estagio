@@ -80,16 +80,16 @@ export class CreateProductComponent implements OnInit {
 
     console.log(valueSubmit); 
 
-    // const response = await this.productService.create(valueSubmit).toPromise()
-    // if (response["statusCode"] && response["statusCode"] != 200) {
-    //   this.loading = false;
-    //   alert("Ops");
-    // } else {
-    //   this.loading = false;
-    //   console.log(response);
-    //   localStorage.removeItem("httpproductsList")
-    //   this.router.navigate(['/trabalhos']);
-    // }
+    const response = await this.productService.create(valueSubmit).toPromise()
+    if (response["statusCode"] && response["statusCode"] != 200) {
+      this.loading = false;
+      alert("Ops");
+    } else {
+      this.loading = false;
+      console.log(response);
+      localStorage.removeItem("httpproductsList")
+      this.router.navigate(['/trabalhos']);
+    }
   }
 
   uploadFile(event) {
