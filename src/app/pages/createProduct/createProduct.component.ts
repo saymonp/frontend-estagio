@@ -98,7 +98,7 @@ export class CreateProductComponent implements OnInit {
     for (const file of filesToUpload) {
       const fd = new FormData();
       
-      this.uploadService.getPresignedUrl("products/files", file.name).subscribe((res) => {
+      this.uploadService.getPresignedUrl("products/files/", file.name).subscribe((res) => {
         fd.append("key", res.fields.key);
         fd.append("acl", res.fields.acl);
         
@@ -123,7 +123,7 @@ export class CreateProductComponent implements OnInit {
       if (file.name.endsWith("jpg") || file.name.endsWith("jpeg") || file.name.endsWith("png")) {
       const fd = new FormData();
       
-      this.uploadService.getPresignedUrl("products/images", file.name).subscribe((res) => {
+      this.uploadService.getPresignedUrl("products/images/", file.name).subscribe((res) => {
         fd.append("key", res.fields.key);
         fd.append("acl", res.fields.acl);
         
