@@ -77,7 +77,7 @@
            <hr>
            <div class="row">
              <div class="col-md-7 offset-md-5 col-sm-8 mr-auto ml-auto">
-              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ product.price + frete | numberFormat }}</strong></h4>
+              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ (product.price + frete).toFixed(2) | numberFormat }}</strong></h4>
                <button [disabled]="!orderForm.value.allowContact" type="submit" class="btn btn-danger btn-block btn-round">Encomendar &nbsp;<i class="fa fa-chevron-right"></i></button>
              </div>
              <div class="form-check">

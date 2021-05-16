@@ -149,10 +149,16 @@ export class ProductDetailComponent implements OnInit {
     this.loadingCor = true;
     let multiply = 1;
     if (this.product.formatPacked == 1) {
-      const total = this.orderForm.value.widthPacked+this.orderForm.value.lengthPacked + this.orderForm.value.heightPacked
+      const total = this.product.widthPacked+this.product.lengthPacked + this.product.heightPacked
+      console.log(total);
+      console.log(total*this.orderForm.value.amount);
       if (total*this.orderForm.value.amount > 200) {
         this.newAmount = (total*this.orderForm.value.amount) / 200;
+        multiply = 1;
         console.log(this.newAmount);
+        if(this.newAmount < 1) {
+          this.newAmount = 2;
+        }
       } else {
         multiply = this.orderForm.value.amount;
       }
@@ -160,8 +166,8 @@ export class ProductDetailComponent implements OnInit {
     }
 
     if (this.product.formatPacked == 2) {
-      if ((2* this.orderForm.value.diameterPacked+this.orderForm.value.lengthPacked)*this.orderForm.value.amount > 200) {
-        this.newAmount = ((2* this.orderForm.value.diameterPacked)+this.orderForm.value.lengthPacked*this.orderForm.value.amount) / 200;
+      if ((2* this.product.diameterPacked+this.product.lengthPacked)*this.orderForm.value.amount > 200) {
+        this.newAmount = ((2* this.product.diameterPacked)+this.product.lengthPacked*this.orderForm.value.amount) / 200;
         if(this.newAmount < 1) {
           this.newAmount = 2;
         }
@@ -173,9 +179,9 @@ export class ProductDetailComponent implements OnInit {
     }
 
     if (this.product.formatPacked == 3) {
-      if (this.orderForm.value.amount*this.orderForm.value.lengthPacked > 60) {
-        this.newAmount = this.orderForm.value.amount*this.orderForm.value.lengthPacked / 60;
-        if(this.newAmount < 1) {
+      if (this.orderForm.value.amount*this.product.lengthPacked > 60) {
+        this.newAmount = this.orderForm.value.amount*this.product.lengthPacked / 60;
+        if(this.newAmount < 1.99) {
           this.newAmount = 2;
         }
         multiply = 1;
@@ -190,8 +196,8 @@ export class ProductDetailComponent implements OnInit {
         "sCepDestino": this.orderForm.value.cepDestino,
         "nVlPeso": String(parseFloat(this.product.weightPacked) * multiply),
         "nCdFormato": this.product.formatPacked,
-        "nVlLargura": this.product.widthPacked * multiply,
-        "nVlAltura": this.product.heightPacked * multiply,
+        "nVlLargura": this.product.widthPacked,
+        "nVlAltura": this.product.heightPacked,
         "nVlComprimento": this.product.lengthPacked * multiply,
         "nVlDiametro": this.product.diameterPacked 
         }
@@ -199,7 +205,7 @@ export class ProductDetailComponent implements OnInit {
     this.correioService.shippingPrice(data).subscribe((res) => {
 
       if(res.shipping && parseFloat(res.shipping[0].Valor) > 0){
-        this.frete = parseFloat(res.shipping[0].Valor);
+        this.frete = parseFloat(res.shipping[0].Valor)*this.newAmount;
         this.days = res.shipping[0].PrazoEntrega;
 
         this.loadingCor = false

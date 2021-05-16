@@ -192,11 +192,11 @@ export class CreateProductComponent implements OnInit {
         alert("Comprimento embalado precisa ser 15cm a 100cm")
       }
 
-      if (10 > this.productForm.value.widthPacked  || this.productForm.value.widthPacked  > 100) {
+      if (14 > this.productForm.value.widthPacked  || this.productForm.value.widthPacked  > 100) {
         alert("Largura embalado precisa ser 15cm a 100cm")
       }
 
-      if (10 > this.productForm.value.heightPacked || this.productForm.value.heightPacked > 100) {
+      if (0 > this.productForm.value.heightPacked || this.productForm.value.heightPacked > 100) {
         alert("Altura embalado precisa ser 1cm a 100cm")
       }
       const total = this.productForm.value.widthPacked+this.productForm.value.lengthPacked + this.productForm.value.heightPacked
@@ -210,6 +210,9 @@ export class CreateProductComponent implements OnInit {
       if (total*this.productForm.value.amount > 200) {
         this.newAmount = (total*this.productForm.value.amount) / 200;
         console.log(this.newAmount);
+        if(this.newAmount < 1.99) {
+          this.newAmount = 2;
+        }
       } else {
         multiply = this.productForm.value.amount;
       }
@@ -228,7 +231,7 @@ export class CreateProductComponent implements OnInit {
       }
       if ((2* this.productForm.value.diameterPacked+this.productForm.value.lengthPacked)*this.productForm.value.amount > 200) {
         this.newAmount = ((2* this.productForm.value.diameterPacked)+this.productForm.value.lengthPacked*this.productForm.value.amount) / 200;
-        if(this.newAmount < 1) {
+        if(this.newAmount < 1.99) {
           this.newAmount = 2;
         }
         console.log(this.newAmount);
@@ -247,7 +250,7 @@ export class CreateProductComponent implements OnInit {
       }
       if (this.productForm.value.amount*this.productForm.value.lengthPacked > 60) {
         this.newAmount = this.productForm.value.amount*this.productForm.value.lengthPacked / 60;
-        if(this.newAmount < 1) {
+        if(this.newAmount < 1.99) {
           this.newAmount = 2;
         }
         multiply = 1;
