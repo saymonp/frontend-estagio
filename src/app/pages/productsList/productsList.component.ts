@@ -29,6 +29,7 @@ export class ProductsListComponent implements OnInit {
   min = 0;
   max = 150;
   loading = false;
+  loadingO = false;
   private userPermissions = this.user.get('permissions') ? this.user.get('permissions').split(',') : [];
 
   constructor(private user: LocalStorageService, private orderService: OrderService, private productService: ProductService, private formBuilder: FormBuilder, private uploadService: UploadService, private mailService: MailService) { }
@@ -71,6 +72,7 @@ export class ProductsListComponent implements OnInit {
       this.products = chacheItem;
       this.max = Math.ceil(Math.max.apply(Math, this.products.map(function(o) { return o.price; })));
       this.doubleSlider[1] = this.max;
+      this.loading = false;
     }
     else {
       this.productService.list().subscribe((data) => {
@@ -145,7 +147,7 @@ export class ProductsListComponent implements OnInit {
       return alert("Nome, E-mail, Whatsapp e Concordar com Política de Privacidade é obrigatório.") 
     }
 
-    this.loading = true;
+    this.loadingO = true;
     
     const images = [];
     const files = [];
@@ -172,12 +174,12 @@ export class ProductsListComponent implements OnInit {
       this.sendEmail(res.order_created, images, files, valueSubmit.clientName, valueSubmit.clientEmail, valueSubmit.clientPhone, valueSubmit.notes)
     
     },(err) => {
-      this.loading = false;
+      this.loadingO = false;
       alert("Erro ao enviar"); 
      });
     }
      catch (e) {
-      this.loading = false;
+      this.loadingO = false;
       alert("Ocorreu um erro");
      }
 
@@ -219,12 +221,12 @@ export class ProductsListComponent implements OnInit {
       this.filesToUpload  = [];
       this.imagesToUpload = [];
       this.orderForm.get('notes').reset();
-      this.loading = false;
+      this.loadingO = false;
     },(err) => {
-      this.loading = false;
+      this.loadingO = false;
       alert("Erro ao enviar, tente novamente"); 
       });
-    this.loading = false;
+    this.loadingO = false;
    console.log(emailToSend);
 
   }

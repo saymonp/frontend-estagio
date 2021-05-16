@@ -13,19 +13,14 @@
        </div>
     </div>
     <div class="wrapper">
-      <div *ngIf="loading==true" id="loading-wrapper">
-        <div id="loading-text">Carregando</div>
-        <div id="loading-content"></div>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-        <br>
-      </div>
       <div #trabalhos class="section section-gray">
-         <div *ngIf="loading==false" class="container">
+        <div *ngIf="loading==true" id="loading-wrapper">
+          <div id="loading-text"></div>
+          <div id="loading-content"></div>
+          <br>
+          <br>
+        </div>
+         <div class="container">
            <div class="row">
              <div class="col-md-3">
                <div class="card card-refine">
@@ -116,7 +111,7 @@
 </div>
 
    <div #encomenda class="section landing-section">
-    <div *ngIf="loading==false" class="container">
+    <div class="container">
       <div class="row">
         <div class="col-md-8 mr-auto ml-auto">
             <h2 class="text-center">Tem um projeto para imprimir?</h2>
@@ -194,7 +189,7 @@
                             </label>
                         </div>
                         <button type="submit" class="btn btn-danger btn-lg btn-fill">Fazer orçamento</button>
-                        <div *ngIf="loading==true" id="loading-wrapper">
+                        <div *ngIf="loadingO==true" id="loading-wrapper">
                             <div id="loading-text">Enviando</div>
                             <div id="loading-content"></div>
                           </div>
