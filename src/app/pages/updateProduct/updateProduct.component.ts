@@ -177,7 +177,7 @@ export class UpdateProductComponent implements OnInit {
   }
 
   removeImage(index) {
-    this.product.imagesToDelete.push(this.product.images[index]);
+    this.imagesToDelete.push(this.product.images[index]);
     this.product.images.splice(index, 1);
   }
 
