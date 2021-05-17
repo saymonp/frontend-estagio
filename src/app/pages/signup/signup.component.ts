@@ -95,11 +95,19 @@ export class SignupComponent implements OnInit {
         console.log(res);
         localStorage.removeItem('httpuserlist');
         this.loading = false;
-        if (res["error"] || res["statusCode"]) {
+        console.log(res["body"]["error"]);
+        if(res["body"]["error"] == "User already registered and not validated"){
+          alert("Usuário já cadastrado e não validado")
+        }
+        if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+          alert("Operação não concluída, valide a conta pelo seu email");
+        } else  {
+        if (res["statusCode"] && res["statusCode"] != 200) {
           alert("Ocorreu um erro: " + res["error"] + res["statusCode"]);
         } else {
           alert("Usuário criado!")
         }
+      }
       },
       (err) => {
         this.loading = false;

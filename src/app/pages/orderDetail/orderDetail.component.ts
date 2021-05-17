@@ -61,7 +61,13 @@ export class OrderDetailComponent implements OnInit {
     const id = this.id;
     this.orderService.update({status, id}).subscribe((res) => {
       console.log(res);
+      if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+        alert("Operação não concluída, valide a conta pelo seu email");
+      } else if (res["statusCode"] && res["statusCode"] != 200) {
+        alert("Ocorreu um erro")
+      } else {
       this.loading = false;
+      }
     },(err) => {
       this.loading = false;
       alert("Erro"); 
@@ -73,9 +79,16 @@ export class OrderDetailComponent implements OnInit {
     if (confirm("Você tem certeza que deseja excluir encomenda?")) {
       this.orderService.delete(this.id).subscribe((res) => {
         console.log(res);
+        if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+          alert("Operação não concluída, valide a conta pelo seu email");
+        } else if (res["statusCode"] && res["statusCode"] != 200) {
+          alert("Ocorreu um erro")
+        } else {
         localStorage.removeItem("ordersListHttp")
         this.loading = false;
         this.router.navigate(['/encomendas']);
+        }
+      
       },(err) => {
         this.loading = false;
         alert("Erro"); 

@@ -110,11 +110,15 @@ export class UsersListComponent implements OnInit {
       this.users.users[index].permissions = permissions;
       console.log(this.users.users[index].permissions);
       this.setCacheItem(this.users);
+      if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+        alert("Operação não concluída, valide a conta pelo seu email");
+      } else {
       if (res["error"] || res["statusCode"]) {
         alert("Ocorreu um erro: " + res["error"] + res["statusCode"]);
       } else {
         alert("Usuário atualizado")
       }
+    }
     },(err) => {
       alert("Ocorreu um erro"); 
       })
@@ -123,12 +127,19 @@ export class UsersListComponent implements OnInit {
   deleteUser(name, email, id){
     if (confirm(`Você tem certeza que deseja excluir o usuário ${name}?`)) {
       this.userService.deleteUser({id, email}).subscribe((res) => {
-        console.log(res);
+        if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+          alert("Operação não concluída, valide a conta pelo seu email");
+        } else {
+        if (res["statusCode"] && res["statusCode"] != 200) {
+          alert("Ocorreu um erro");
+        } else {
         this.users.users = this.users.users.filter(user => user._id != id);
 
         this.deleteCacheItem()
 
         this.setCacheItem(this.users)
+        }
+      }
       })
     } else { 
       // Do nothing

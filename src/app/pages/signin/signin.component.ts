@@ -77,6 +77,9 @@ export class SigninComponent implements OnInit {
     this.loading = true;
     this.userService.login(this.loginForm.value).subscribe(
       (user) => {
+        if (user.user.verified == false) {
+          alert("Valide a conta em seu email")
+        }
         this.localStorageService.set('name', user.user.name);
         this.localStorageService.set('email', user.user.email);
         this.localStorageService.set(
@@ -84,8 +87,8 @@ export class SigninComponent implements OnInit {
           user.user.permissions.toString()
         );
         this.localStorageService.set('token', user.user.token);
-        this.loading = false; 
         window.location.href = window.location.protocol + '//' + window.location.host + '/';
+        this.loading = false; 
       },
       (err) => {
         this.loading = false;

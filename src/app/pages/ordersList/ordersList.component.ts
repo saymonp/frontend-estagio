@@ -57,10 +57,18 @@ export class OrdersListComponent implements OnInit {
     }
     else {
       this.orderService.list().subscribe((data) => {
+        if (data["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+          alert("Operação não concluída, valide a conta pelo seu email");
+          this.loading = false;
+        } else if (data["statusCode"] && data["statusCode"] != 200) {
+          alert("Ocorreu um erro")
+          this.loading = false;
+        } else {
       data.orders.reverse();
       this.orders = data;
       this.setCacheItem(data);
       this.loading = false;
+        }
     },(err) => {
       this.loading = false;
       alert("Erro"); 

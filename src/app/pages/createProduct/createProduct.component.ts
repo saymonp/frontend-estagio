@@ -82,8 +82,12 @@ export class CreateProductComponent implements OnInit {
 
     const response = await this.productService.create(valueSubmit).toPromise()
     if (response["statusCode"] && response["statusCode"] != 200) {
+      if (response["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+        alert("Operação não concluída, valide a conta pelo seu email");
+      }else {
       this.loading = false;
       alert("Ops");
+      }
     } else {
       this.loading = false;
       console.log(response);

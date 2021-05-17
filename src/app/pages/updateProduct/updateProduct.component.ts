@@ -101,6 +101,9 @@ export class UpdateProductComponent implements OnInit {
     console.log(valueSubmit);
     const response = await this.productService.update(valueSubmit).toPromise()
     this.loading = false;
+    if (response["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+      alert("Operação não concluída, valide a conta pelo seu email");
+    } else {
     if (response["statusCode"] && response["statusCode"] != 200) {
       alert("Ops");
     } else {
@@ -108,6 +111,7 @@ export class UpdateProductComponent implements OnInit {
     localStorage.removeItem("httpproductsList");
     this.router.navigate(['/trabalhos']);
     }
+  }
   }
 
   uploadImage(event) {
@@ -203,10 +207,14 @@ export class UpdateProductComponent implements OnInit {
     if (confirm("Você tem certeza que deseja excluir esse produto?")) {
       this.loading = true;
       this.productService.delete(this.id).subscribe((res)=> {
+        if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
+          alert("Operação não concluída, valide a conta pelo seu email");
+        } else {
         console.log(res);
         this.loading = false;
         localStorage.removeItem("httpproductsList");
         this.router.navigate(['/trabalhos']);
+        }
       },(err) => {
         this.loading = false;
         alert("Erro"); 
