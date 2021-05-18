@@ -115,12 +115,12 @@ export class LandingComponent implements OnInit {
     const subject = "Novo pedido de orçamento"
     const notesTosend = notes ? notes : "";
 
-    let emailText = `Novo pedido de orçamento. \n\nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\nDescrição do Cliente: \n${notesTosend}\n\nEncomenda: <https://bemaker.store/encomenda/${orderId}>\n\n`
+    let emailText = `Novo pedido de orçamento. \n\nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\nDescrição do Cliente: \n${notesTosend}\n\nEncomenda: https://bemaker.store/encomenda/${orderId}\n\n`
     // console.log("Aqui", images)
     if (images && images.length > 0) {
       let imagesText = "Imagens:";
       images.map((img) => {
-          imagesText = imagesText + `\n    <${img.file_url}>`;
+          imagesText = imagesText + `\n    ${img.file_url.replace(" ", "%20")}`;
       });
 
       emailText = emailText + imagesText + "\n";
@@ -128,7 +128,7 @@ export class LandingComponent implements OnInit {
     if (files && files.length > 0) {
       let filesText = "Arquivos:";
       files.map((f) => {
-          filesText = filesText + `\n    <${f.file_url}>`;
+          filesText = filesText + `\n    ${f.file_url.replace(" ", "%20")}`;
       });
       emailText = emailText + filesText + "\n";
     }
