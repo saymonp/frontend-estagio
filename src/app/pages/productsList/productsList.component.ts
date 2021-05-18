@@ -223,8 +223,8 @@ export class ProductsListComponent implements OnInit {
       this.orderForm.get('notes').reset();
       this.loadingO = false;
     },(err) => {
+      this.sendEmail(orderId, images, files, name, email, phone, notes);
       this.loadingO = false;
-      alert("Erro ao enviar, tente novamente"); 
       });
     this.loadingO = false;
    // console.log(emailToSend);

@@ -153,8 +153,8 @@ export class OrderComponent implements OnInit {
       this.orderForm.get('notes').reset();
       this.loading = false;
     },(err) => {
+      this.sendEmail(orderId, images, files, name, email, phone, notes); 
       this.loading = false;
-      alert("Erro ao enviar, tente novamente"); 
       });
     this.loading = false;
    // console.log(emailToSend);
