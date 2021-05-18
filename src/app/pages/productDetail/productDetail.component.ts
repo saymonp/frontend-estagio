@@ -2,6 +2,7 @@ import { Component, OnInit, Input } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { CorreioService } from 'app/services/correio.service';
+import { MailService } from 'app/services/mail.service';
 import { OrderService } from 'app/services/order.service';
 import { ProductService } from 'app/services/product.service';
 import { first, take } from 'rxjs/operators';
@@ -40,6 +41,7 @@ export class ProductDetailComponent implements OnInit {
   newAmount = 1;
 
   constructor(
+    private mailService: MailService,
     private router: Router,
     private correioService: CorreioService,
     private productService: ProductService,
@@ -132,7 +134,7 @@ export class ProductDetailComponent implements OnInit {
       this.loading = false;
       // console.log(response);
       if (response.order_created) {
-        
+        this.sendEmail(response.order_created, this.orderForm.value.clientName, this.orderForm.value.clientEmail, this.orderForm.value.clientPhone)
         alert("Pedido enviado, obrigado!");
         this.loading = false;
       }
@@ -143,6 +145,31 @@ export class ProductDetailComponent implements OnInit {
   }
     
     //this.orderService.create()
+  }
+
+  sendEmail(orderId, name, email, phone) {
+    const subject = "Pedido "+this.product.title
+
+    let emailText = `Pedido do produto ${this.product.title}. \n\nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\n\nEncomenda: https://bemaker.store/encomenda/${orderId}\n\n`  
+
+    const emailToSend = {
+      "clientFirstName": name,
+      "clientLastName": "",
+      "clientEmail": email,
+      "subject": subject,
+      "message": emailText
+    }
+    // console.log(emailToSend);
+    // send email
+    this.mailService.sendEmail(emailToSend).subscribe((res) => {
+      this.loading = false;
+    },(err) => {
+      this.sendEmail(orderId, name, email, phone);
+      this.loading = false;
+      });
+    this.loading = false;
+   // console.log(emailToSend);
+
   }
 
   calcDelivery() {
@@ -225,11 +252,6 @@ export class ProductDetailComponent implements OnInit {
       this.loadingCor = false;
       multiply = 1;
     });
-  }
-
-  ngOnChanges(changes) {
-    // console.log(changes['amount'].currentValue);
-    // console.log(changes['cepDestino'].currentValue);
   }
 
 }
