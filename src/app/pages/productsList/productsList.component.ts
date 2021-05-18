@@ -189,12 +189,12 @@ export class ProductsListComponent implements OnInit {
     const subject = "Novo pedido de orçamento"
     const notesTosend = notes ? notes : "";
 
-    let emailText = `Novo pedido de orçamento. \nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\n${notesTosend}\nEncomenda: https://imobpoc.online/encomenda/${orderId}\n`
+    let emailText = `Novo pedido de orçamento. \n\nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\nDescrição do Cliente: \n${notesTosend}\n\nEncomenda: <https://bemaker.store/encomenda/${orderId}>\n\n`
     // console.log("Aqui", images)
     if (images && images.length > 0) {
       let imagesText = "Imagens:";
       images.map((img) => {
-          imagesText = imagesText + `\n    ${img.file_url}`;
+          imagesText = imagesText + `\n    <${img.file_url}>`;
       });
 
       emailText = emailText + imagesText + "\n";
@@ -202,7 +202,7 @@ export class ProductsListComponent implements OnInit {
     if (files && files.length > 0) {
       let filesText = "Arquivos:";
       files.map((f) => {
-          filesText = filesText + `\n    ${f.file_url}`;
+          filesText = filesText + `\n    <${f.file_url}>`;
       });
       emailText = emailText + filesText + "\n";
     }
@@ -234,7 +234,7 @@ export class ProductsListComponent implements OnInit {
   async uploadFile(file) {
     const fd = new FormData();
     
-    const res = await this.uploadService.getPresignedUrl("orders/files", file.name).toPromise();
+    const res = await this.uploadService.getPresignedUrl("orders/files/", file.name).toPromise();
     
     fd.append("key", res.fields.key);
     fd.append("acl", res.fields.acl);
