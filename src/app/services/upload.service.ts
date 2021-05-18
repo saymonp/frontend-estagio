@@ -44,7 +44,8 @@ export class UploadService {
   
 
   getPresignedUrl(path: string, fileName: string): Observable<any> {
-    const url = `${this.baseUrl}/api/v1/uploadPresignedUrl/${encodeURIComponent(path)}/${fileName}`;
+    const name = fileName.replace(/[^a-zA-Z-0-9-(-) .]/g, "")
+    const url = `${this.baseUrl}/api/v1/uploadPresignedUrl/${encodeURIComponent(path)}/${name}`;
     return this.http.get<any>(url);
   }
 
