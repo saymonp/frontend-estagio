@@ -116,10 +116,10 @@ export class OrderComponent implements OnInit {
   }
 
   sendEmail(orderId, images, files, name, email, phone, notes) {
-    const subject = "Novo pedido de orçamento"
+    const subject = "Pedido de orçamento"
     const notesTosend = notes ? notes : "";
 
-    let emailText = `Novo pedido de orçamento. \n\nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\nDescrição do Cliente: \n${notesTosend}\n\nEncomenda: https://bemaker.store/encomenda/${orderId}\n\n`
+    let emailText = `Pedido de orçamento. \n\nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\nDescrição do Cliente: \n${notesTosend}\n\nEncomenda: https://bemaker.store/encomenda/${orderId}\n\n`
     // console.log("Aqui", images)
     if (images && images.length > 0) {
       let imagesText = "Imagens:";
