@@ -59,7 +59,7 @@ export class SignupComponent implements OnInit {
       return alert('Formulário Inválido');
     }
     this.loading = true;
-    console.log(this.signupForm.value);
+    // console.log(this.signupForm.value);
 
     let permissions = [
       this.signupForm.value.createproduct
@@ -81,7 +81,7 @@ export class SignupComponent implements OnInit {
       return p !== undefined;
     });
 
-    console.log(permissions);
+    // console.log(permissions);
 
     const user = {
       name: this.signupForm.value.name,
@@ -89,13 +89,13 @@ export class SignupComponent implements OnInit {
       password: this.signupForm.value.password,
       permissions,
     };
-    console.log(user);
+    // console.log(user);
     this.userService.registerUser(user).subscribe(
       (res) => {
-        console.log(res);
+        // console.log(res);
         localStorage.removeItem('httpuserlist');
         this.loading = false;
-        console.log(res["body"]["error"]);
+        // console.log(res["body"]["error"]);
         if(res["body"]["error"] == "User already registered and not validated"){
           alert("Usuário já cadastrado e não validado")
         }

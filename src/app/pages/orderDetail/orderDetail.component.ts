@@ -25,7 +25,7 @@ export class OrderDetailComponent implements OnInit {
     }
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.id);
+    // console.log(this.id);
     this.orderService.show(this.id).subscribe((data) => {
         this.order = data;
         
@@ -37,7 +37,7 @@ export class OrderDetailComponent implements OnInit {
           }
         })
 
-        console.log(this.order);
+        // console.log(this.order);
 
         this.orderForm = this.formBuilder.group({
           statusControl: [this.order.status]
@@ -56,11 +56,11 @@ export class OrderDetailComponent implements OnInit {
 
   update() {
     this.loading = true;
-    console.log(this.orderForm.value.statusControl, this.id);
+    // console.log(this.orderForm.value.statusControl, this.id);
     const status = this.orderForm.value.statusControl;
     const id = this.id;
     this.orderService.update({status, id}).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
         alert("Operação não concluída, valide a conta pelo seu email");
       } else if (res["statusCode"] && res["statusCode"] != 200) {
@@ -78,7 +78,7 @@ export class OrderDetailComponent implements OnInit {
     this.loading = true;
     if (confirm("Você tem certeza que deseja excluir encomenda?")) {
       this.orderService.delete(this.id).subscribe((res) => {
-        console.log(res);
+        // console.log(res);
         if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
           alert("Operação não concluída, valide a conta pelo seu email");
         } else if (res["statusCode"] && res["statusCode"] != 200) {

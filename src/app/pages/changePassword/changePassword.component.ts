@@ -20,11 +20,11 @@ export class ChangePasswordComponent implements OnInit {
 
   ngOnInit() {
     this.passwordResetToken = this.activatedRoute.snapshot.paramMap.get('passwordResetToken');
-    console.log(this.passwordResetToken);
+    // console.log(this.passwordResetToken);
   }
 
   scrollToElement($element): void {
-    console.log($element);
+    // console.log($element);
     $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
@@ -36,7 +36,7 @@ export class ChangePasswordComponent implements OnInit {
     const passwordResetToken = this.passwordResetToken
     this.loading = true;
     this.userService.passwordReset({newPassword, passwordResetToken}).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       alert("Senha alterada");
       this.loading = false;
     }, (err) => {

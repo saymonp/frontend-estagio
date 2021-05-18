@@ -44,7 +44,7 @@ export class OrdersListComponent implements OnInit {
   }
 
   scrollToElement($element): void {
-    console.log($element);
+    // console.log($element);
     $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
@@ -52,7 +52,7 @@ export class OrdersListComponent implements OnInit {
     this.loading = true;
     const chacheItem = this.getCacheItem();
     if (chacheItem) {
-      console.log('Retrieved item from cache');
+      // console.log('Retrieved item from cache');
       this.orders = chacheItem;
     }
     else {
@@ -74,20 +74,20 @@ export class OrdersListComponent implements OnInit {
       alert("Erro"); 
      });
     
-    console.log('Retrieved item from API');
+    // console.log('Retrieved item from API');
   }
   }
 
   getCacheItem() {
     const cacheItem = JSON.parse(localStorage[ORDERSLISTKEY] || null)
-    console.log(cacheItem);
+    // console.log(cacheItem);
     if (!cacheItem) {
         return null;
     }
 
     // delete the cache item if it has expired
     if (cacheItem.expires <= Date.now()) {
-        console.log("item has expired");
+        // console.log("item has expired");
         this.deleteCacheItem();
         return null;
     }

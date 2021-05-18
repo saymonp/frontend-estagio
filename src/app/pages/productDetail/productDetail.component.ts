@@ -79,11 +79,11 @@ export class ProductDetailComponent implements OnInit {
 
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.id);
+    // console.log(this.id);
     this.productService.show(this.id).subscribe(
       (data) => {
         this.product = data.product;
-        console.log(this.product);
+        // console.log(this.product);
         this.loading = false;
         if (this.product == null){
           localStorage.removeItem("httpproductsList");
@@ -126,11 +126,11 @@ export class ProductDetailComponent implements OnInit {
         "deliverMethod": this.orderForm.value.cdServico,
         "amount": this.orderForm.value.amount
       }
-      console.log(order); 
+      // console.log(order); 
 
       const response = await this.orderService.create(order).toPromise();
       this.loading = false;
-      console.log(response);
+      // console.log(response);
       if (response.order_created) {
         
         alert("Pedido enviado, obrigado!");
@@ -150,12 +150,12 @@ export class ProductDetailComponent implements OnInit {
     let multiply = 1;
     if (this.product.formatPacked == 1) {
       const total = this.product.widthPacked+this.product.lengthPacked + this.product.heightPacked
-      console.log(total);
-      console.log(total*this.orderForm.value.amount);
+      // console.log(total);
+      // console.log(total*this.orderForm.value.amount);
       if (total*this.orderForm.value.amount > 200) {
         this.newAmount = (total*this.orderForm.value.amount) / 200;
         multiply = 1;
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
         if(this.newAmount < 1) {
           this.newAmount = 2;
         }
@@ -171,7 +171,7 @@ export class ProductDetailComponent implements OnInit {
         if(this.newAmount < 1) {
           this.newAmount = 2;
         }
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
         multiply = 1;
       } else {
         multiply = this.orderForm.value.amount;
@@ -185,7 +185,7 @@ export class ProductDetailComponent implements OnInit {
           this.newAmount = 2;
         }
         multiply = 1;
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
       } else {
         multiply = this.orderForm.value.amount;
       }
@@ -201,7 +201,7 @@ export class ProductDetailComponent implements OnInit {
         "nVlComprimento": this.product.lengthPacked * multiply,
         "nVlDiametro": this.product.diameterPacked 
         }
-        console.log(data)
+        // console.log(data)
     this.correioService.shippingPrice(data).subscribe((res) => {
 
       if(res.shipping && parseFloat(res.shipping[0].Valor) > 0){
@@ -228,8 +228,8 @@ export class ProductDetailComponent implements OnInit {
   }
 
   ngOnChanges(changes) {
-    console.log(changes['amount'].currentValue);
-    console.log(changes['cepDestino'].currentValue);
+    // console.log(changes['amount'].currentValue);
+    // console.log(changes['cepDestino'].currentValue);
   }
 
 }

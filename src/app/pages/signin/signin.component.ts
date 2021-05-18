@@ -35,13 +35,13 @@ export class SigninComponent implements OnInit {
     
     if (this.activatedRoute.snapshot.paramMap.get('token')) {
       const validationToken = this.activatedRoute.snapshot.paramMap.get('token');
-      console.log(validationToken);
+      // console.log(validationToken);
       this.loading = true;
       this.userService
         .validation({ "confirmationToken": validationToken })
         .subscribe(
           (res) => {
-            console.log(res);
+            // console.log(res);
             alert("Usuário verificado")
             this.loading = false;
           },
@@ -100,12 +100,12 @@ export class SigninComponent implements OnInit {
   recoverPass() {
     if (this.recoverPassEmail) {
       this.loading = false;
-      console.log(this.recoverPassEmail);
+      // console.log(this.recoverPassEmail);
       this.userService
         .requestPasswordReset({ email: this.recoverPassEmail })
         .subscribe(
           (res) => {
-            console.log(res);
+            // console.log(res);
             alert('Um E-mail será enviado para a criação de uma nova senha.');
           },
           (err) => {

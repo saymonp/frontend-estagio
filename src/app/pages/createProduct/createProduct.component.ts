@@ -32,7 +32,7 @@ export class CreateProductComponent implements OnInit {
   ngOnInit() {
     if (this.tokenExpired(this.userData.get('token'))) {
       // token expired
-      console.log("Token invalido")
+      // console.log("Token invalido")
       this.router.navigate(['/signin']);
     } 
     this.productForm = this.formBuilder.group({
@@ -78,7 +78,7 @@ export class CreateProductComponent implements OnInit {
     delete valueSubmit.cdServico
     delete valueSubmit.amount 
 
-    console.log(valueSubmit); 
+    // console.log(valueSubmit); 
 
     const response = await this.productService.create(valueSubmit).toPromise()
     if (response["statusCode"] && response["statusCode"] != 200) {
@@ -90,7 +90,7 @@ export class CreateProductComponent implements OnInit {
       }
     } else {
       this.loading = false;
-      console.log(response);
+      // console.log(response);
       localStorage.removeItem("httpproductsList")
       this.router.navigate(['/trabalhos']);
     }
@@ -146,7 +146,7 @@ export class CreateProductComponent implements OnInit {
       alert("Imagem inválida " +file.name) 
     }
   }
-  console.log(this.images);
+  // console.log(this.images);
   }
 
   deleteImage(index) {
@@ -164,7 +164,7 @@ export class CreateProductComponent implements OnInit {
   }
 
   moveImageToTop(old_index) { 
-    console.log(old_index);
+    // console.log(old_index);
     const new_index = 0;
     if (new_index >= this.images.length) {
       let k = new_index - this.images.length + 1;
@@ -213,7 +213,7 @@ export class CreateProductComponent implements OnInit {
       }
       if (total*this.productForm.value.amount > 200) {
         this.newAmount = (total*this.productForm.value.amount) / 200;
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
         if(this.newAmount < 1.99) {
           this.newAmount = 2;
         }
@@ -238,7 +238,7 @@ export class CreateProductComponent implements OnInit {
         if(this.newAmount < 1.99) {
           this.newAmount = 2;
         }
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
         multiply = 1;
       } else {
         multiply = this.productForm.value.amount;
@@ -258,7 +258,7 @@ export class CreateProductComponent implements OnInit {
           this.newAmount = 2;
         }
         multiply = 1;
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
       } else {
         multiply = this.productForm.value.amount;
       }

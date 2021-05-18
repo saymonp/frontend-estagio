@@ -39,7 +39,7 @@ export class LandingComponent implements OnInit {
   }
 
   scrollToElement($element): void {
-    console.log($element);
+    // console.log($element);
     $element.scrollIntoView({behavior: "smooth", block: "start", inline: "nearest"});
   }
 
@@ -89,14 +89,14 @@ export class LandingComponent implements OnInit {
     }
 
     let valueSubmit = Object.assign({}, this.orderForm.value);
-    console.log(images, files);
+    // console.log(images, files);
     valueSubmit.images = images;
     valueSubmit.files = files
 
-    console.log("Value", valueSubmit);
+    // console.log("Value", valueSubmit);
 
     this.orderService.create(valueSubmit).subscribe((res) => { 
-      console.log(res);
+      // console.log(res);
       this.sendEmail(res.order_created, images, files, valueSubmit.clientName, valueSubmit.clientEmail, valueSubmit.clientPhone, valueSubmit.notes)
     
     },(err) => {
@@ -116,7 +116,7 @@ export class LandingComponent implements OnInit {
     const notesTosend = notes ? notes : "";
 
     let emailText = `Novo pedido de orçamento. \nCliente: ${name}\nEmail: ${email}\nWhatsapp: ${phone}\n${notesTosend}\nEncomenda: https://imobpoc.online/encomenda/${orderId}\n`
-    console.log("Aqui", images)
+    // console.log("Aqui", images)
     if (images && images.length > 0) {
       let imagesText = "Imagens:";
       images.map((img) => {
@@ -140,7 +140,7 @@ export class LandingComponent implements OnInit {
       "subject": subject,
       "message": emailText
     }
-    console.log(emailToSend);
+    // console.log(emailToSend);
     // send email
     this.mailService.sendEmail(emailToSend).subscribe((res) => {
       alert("Seu pedido foi enviado")
@@ -153,7 +153,7 @@ export class LandingComponent implements OnInit {
       alert("Erro ao enviar, tente novamente"); 
       });
     this.loading = false;
-   console.log(emailToSend);
+   // console.log(emailToSend);
 
   }
 

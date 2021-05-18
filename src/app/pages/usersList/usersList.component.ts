@@ -38,7 +38,7 @@ export class UsersListComponent implements OnInit {
   getUsers() {
     const chacheItem = this.getCacheItem();
     if (chacheItem) {
-      console.log('Retrieved item from cache');
+      // console.log('Retrieved item from cache');
       this.users = chacheItem;
     }
     else {
@@ -48,20 +48,20 @@ export class UsersListComponent implements OnInit {
       this.setCacheItem(data);
     });
     
-    console.log('Retrieved item from API');
+    // console.log('Retrieved item from API');
   }
   }
 
   getCacheItem() {
     const cacheItem = JSON.parse(localStorage[USERSLISTKEY] || null)
-    console.log(cacheItem);
+    // console.log(cacheItem);
     if (!cacheItem) {
         return null;
     }
 
     // delete the cache item if it has expired
     if (cacheItem.expires <= Date.now()) {
-        console.log("item has expired");
+        // console.log("item has expired");
         this.deleteCacheItem();
         return null;
     }
@@ -71,7 +71,7 @@ export class UsersListComponent implements OnInit {
 
   setCacheItem(data): void {
     const EXPIRES = Date.now() + (1000 * 60 * 60) / 2; // 30 min
-    console.log(EXPIRES)
+    // console.log(EXPIRES)
     localStorage[USERSLISTKEY] = JSON.stringify({ expires: EXPIRES, data })
   }
 
@@ -100,15 +100,15 @@ export class UsersListComponent implements OnInit {
 
     permissions = permissions.filter(function (p) { return p !== undefined });
 
-    console.log(permissions);
+    // console.log(permissions);
 
     this.userService.updateUser({id, permissions}).subscribe((res) => {
-      console.log(res);
+      // console.log(res);
       this.deleteCacheItem();
       const index = this.users.users.findIndex(u => u._id === id);
-      console.log(this.users.users[index].permissions);
+      // console.log(this.users.users[index].permissions);
       this.users.users[index].permissions = permissions;
-      console.log(this.users.users[index].permissions);
+      // console.log(this.users.users[index].permissions);
       this.setCacheItem(this.users);
       if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
         alert("Operação não concluída, valide a conta pelo seu email");

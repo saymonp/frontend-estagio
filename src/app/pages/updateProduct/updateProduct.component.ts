@@ -38,11 +38,11 @@ export class UpdateProductComponent implements OnInit {
     }
     this.loading = true;
     this.id = this.activatedRoute.snapshot.paramMap.get('id');
-    console.log(this.id);
+    // console.log(this.id);
     this.productService.show(this.id).subscribe(
       (data) => {
         this.product = data.product;
-        console.log(this.product.images);
+        // console.log(this.product.images);
         this.createForm();
         this.loading = false;
       },
@@ -59,7 +59,7 @@ export class UpdateProductComponent implements OnInit {
   }
 
   createForm() {
-    console.log(this.productForm);
+    // console.log(this.productForm);
     this.productForm = this.formBuilder.group({
       title: [this.product.title, Validators.required],
       price: [this.product.price, Validators.required],
@@ -98,7 +98,7 @@ export class UpdateProductComponent implements OnInit {
     delete valueSubmit.cdServico
     delete valueSubmit.amount 
 
-    console.log(valueSubmit);
+    // console.log(valueSubmit);
     const response = await this.productService.update(valueSubmit).toPromise()
     this.loading = false;
     if (response["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
@@ -107,7 +107,7 @@ export class UpdateProductComponent implements OnInit {
     if (response["statusCode"] && response["statusCode"] != 200) {
       alert("Ops");
     } else {
-    console.log(response);
+    // console.log(response);
     localStorage.removeItem("httpproductsList");
     this.router.navigate(['/trabalhos']);
     }
@@ -140,7 +140,7 @@ export class UpdateProductComponent implements OnInit {
       alert("Imagem inválida " +file.name) 
     }
   }
-  console.log(this.product.images);
+  // console.log(this.product.images);
   }
 
   uploadFile(event) {
@@ -165,11 +165,11 @@ export class UpdateProductComponent implements OnInit {
         })
       })
   }
-  console.log(this.product.images);
+  // console.log(this.product.images);
   }
 
   moveImageToTop(old_index) { 
-    console.log(old_index);
+    // console.log(old_index);
     const new_index = 0;
     if (new_index >= this.product.images.length) {
       let k = new_index - this.product.images.length + 1;
@@ -210,7 +210,7 @@ export class UpdateProductComponent implements OnInit {
         if (res["errorMessage"] == "Unauthorized: Unauthorized: Unverified user"){
           alert("Operação não concluída, valide a conta pelo seu email");
         } else {
-        console.log(res);
+        // console.log(res);
         this.loading = false;
         localStorage.removeItem("httpproductsList");
         this.router.navigate(['/trabalhos']);
@@ -250,7 +250,7 @@ export class UpdateProductComponent implements OnInit {
       }
       if (total*this.productForm.value.amount > 200) {
         this.newAmount = (total*this.productForm.value.amount) / 200;
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
       } else {
         multiply = this.productForm.value.amount;
       }
@@ -272,7 +272,7 @@ export class UpdateProductComponent implements OnInit {
         if(this.newAmount < 1) {
           this.newAmount = 2;
         }
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
         multiply = 1;
       } else {
         multiply = this.productForm.value.amount;
@@ -292,7 +292,7 @@ export class UpdateProductComponent implements OnInit {
           this.newAmount = 2;
         }
         multiply = 1;
-        console.log(this.newAmount);
+        // console.log(this.newAmount);
       } else {
         multiply = this.productForm.value.amount;
       }
@@ -330,14 +330,14 @@ export class UpdateProductComponent implements OnInit {
 
     for (let img of this.product.images) {
       if (img["new"] == true) {
-        console.log(img)
+        // console.log(img)
         await this.uploadService.deleteFile(img.key).toPromise();
       }
     }
 
     for (let f of this.product.files) {
       if (f["new"] == true) {
-        console.log(f)
+        // console.log(f)
         await this.uploadService.deleteFile(f.key).toPromise();
       }
     }
