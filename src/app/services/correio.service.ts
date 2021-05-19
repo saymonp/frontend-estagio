@@ -42,4 +42,41 @@ export class CorreioService {
     return EMPTY;
   }
 
+  shippingMelhorPreco(args) {
+    //cep, weigth, width, height, length, quantity, price
+    const { cep, weight, width, height, length, quantity, price } = args;
+
+    const url = "https://www.melhorenvio.com.br/api/v2/me/shipment/calculate";
+    const body = {
+      "from": {
+        "postal_code": "98801-550",  
+        "address": "Rua Abelardo Ferraz de Almeida Campos",
+        "number": "1" 
+      },
+      "to": {
+        "postal_code": cep,  
+        "address": "Endereço do destinatário",
+        "number": "2" 
+      },
+      "package": {
+        weight,
+        width,
+        height,
+        length,
+        quantity,
+      },
+      "options": {
+        "insurance_value": price,
+        "receipt": false,
+        "own_hand": false,
+        "collect": false
+      },
+      "services": "1,2,3,4,9,12,15,16,17,22"
+    }
+
+    return this.http.post<any>(url, body, httpHeaders).pipe(
+      map((obj) => obj)
+    );
+  }
+
 }

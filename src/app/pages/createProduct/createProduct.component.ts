@@ -26,6 +26,7 @@ export class CreateProductComponent implements OnInit {
   days: any;
   productForm: FormGroup;
   newAmount = 1;
+  shipping = [];
 
   constructor(private userData: LocalStorageService, private formBuilder: FormBuilder, private correioService: CorreioService, private productService: ProductService, private router: Router, private uploadService: UploadService) { }
 
@@ -289,6 +290,36 @@ export class CreateProductComponent implements OnInit {
       this.loadingCor = false;
       multiply = 1;
     });
+  }
+
+  calcShipping() {
+    this.loadingCor = true;
+    const data = {
+      "cep": this.productForm.value.cepTest,
+      "weight": parseFloat(this.productForm.value.weightPacked),
+      "width": this.productForm.value.widthPacked,
+      "height": this.productForm.value.heightPacked,
+      "length": this.productForm.value.lengthPacked,
+      "quantity": this.productForm.value.amount,
+      "price": this.productForm.value.price
+      }
+      console.log(data)
+    this.correioService.shippingMelhorPreco(data).subscribe((res) => {
+      console.log(res);
+      this.shipping = res.filter(this.filterShipping)
+      this.loadingCor = false;
+    },
+    (err) => {
+      this.loadingCor = false;
+    });
+  }
+
+  filterShipping(s) {
+    if (s["error"]) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }

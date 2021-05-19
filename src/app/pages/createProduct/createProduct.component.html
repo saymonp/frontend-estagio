@@ -134,40 +134,7 @@
                      </div>
                   </div>
 
-                  <div class="row price-row mt-4">
-                     <div class="col-md-4 col-sm-6">
-                        <h6>Testar Cálculo Frete</h6>
-                     </div> 
-                  </div>
-                  <div class="row price-row">
-                        <div class="col-md-3 col-sm-6">
-                        <h6>CEP</h6>
-                        <input name="cepTest" formControlName="cepTest" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
-                      </div>
-                     
-                     <div class="col-md-4 col-sm-6">
-                      
-                        <h6>Forma de entrega</h6>
-                        <select formControlName="cdServico" class="form-control border-input"> 
-                          <option value="04510">PAC</option>
-                          <option value="04014">SEDEX</option>
-                          <option value="40169">SEDEX 12</option>
-                          <option value="40215">SEDEX 10</option>
-                          <option value="0">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
-                          </select>
-                        </div>
-                        <div class="col-md-2 col-sm-6">
-                      
-                          <h6>Quantidade</h6>
-                          <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
-                          </div>
-                        <div class="info">
-                      <div *ngIf="loadingCor==false" (click)="calcDelivery()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
-                      <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
-                    </div>
-
-                     <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | currency: 'BRL' }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
-                  </div>
+                  
             
 
 
@@ -199,6 +166,47 @@
                   </div>
                </div>
             </div>
+            
+            <div>
+               <div class="row price-row mt-4">
+                  <div class="col-md-4 col-sm-6">
+                     <h6>Testar Cálculo Frete</h6>
+                  </div> 
+               </div>
+               <div class="row ml-auto mr-auto">
+                     <div class="col-md-3 col-sm-6">
+                     <h6>CEP</h6>
+                     <input name="cepTest" formControlName="cepTest" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
+                   </div>
+                   
+                     <div class="col-md-2 col-sm-6">
+                   
+                       <h6>Quantidade</h6>
+                       <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
+                       </div>
+                     <div class="info">
+                   <div *ngIf="loadingCor==false" (click)="calcShipping()" style="cursor: pointer;" class="col-md-2"><i class="icon nc-icon nc-delivery-fast"></i><span>Calcular &nbsp;</span></div> 
+                   <div *ngIf="loadingCor==true" class="col-md-2"><i class="spin icon nc-icon nc-refresh-69"></i></div>
+                 </div>
+   
+                  <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | currency: 'BRL' }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
+               </div>
+    
+               <div *ngIf="shipping.length > 0" class="row col-md-12 mt-4">
+                     <div *ngFor="let s of shipping">
+                       <div class="col-md-12">
+                         <div class="col-md-12 col-2 description">
+                             <h6>{{ s.name }}</h6> 
+                             <h5>{{ s.price | currency: 'BRL' }}
+                             <p *ngIf="s['discount'] && s['discount'] > 0.00" class="text-success">Economia de {{ s.discount | currency: 'BRL' }}</p>
+                           </h5>
+                             <p>{{s.delivery_range.min}} - {{s.delivery_range.max}} dias úteis</p>
+                         </div>
+                       </div>   
+                     </div>
+                </div>
+            </div>
+
             <div class="row buttons-row">
                <div *ngIf="loadingDel == false" class="col-md-4 col-sm-4 m-auto"><button type="button" (click)="cancel()"
                      class="btn btn-outline-danger btn-block btn-round">Cancelar</button></div>
@@ -212,7 +220,6 @@
             </div>
          </form>
          </div>
-         
       </div>
    </div>
 </div>

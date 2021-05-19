@@ -18,8 +18,6 @@ export class UpdateProductComponent implements OnInit {
   id: string;
   loading: boolean = false;
   product: any;
-  //images = [{key: "products/images90108c45-791e-4bff-8431-0a6258004f6a1.jpg", file_url: "https://estagio-uploads.s3.amazonaws.com/products/images90108c45-791e-4bff-8431-0a6258004f6a1.jpg", new: true}];
-  // files = [];
   imagesToDelete = [];
   filesToDelete = [];
   productForm: FormGroup;
@@ -28,6 +26,7 @@ export class UpdateProductComponent implements OnInit {
   days: any;
   loadingDel = false;
   newAmount = 1;
+  shipping = []
 
   constructor(private userData: LocalStorageService, private correioService: CorreioService, private formBuilder: FormBuilder, private uploadService: UploadService, private activatedRoute: ActivatedRoute, private productService: ProductService, private router: Router) { }
 
@@ -344,6 +343,36 @@ export class UpdateProductComponent implements OnInit {
 
     this.loadingDel = false;
     this.router.navigate(['/']);
+  }
+
+  calcShipping() {
+    this.loadingCor = true;
+    const data = {
+      "cep": this.productForm.value.cepTest,
+      "weight": parseFloat(this.productForm.value.weightPacked),
+      "width": this.productForm.value.widthPacked,
+      "height": this.productForm.value.heightPacked,
+      "length": this.productForm.value.lengthPacked,
+      "quantity": this.productForm.value.amount,
+      "price": this.productForm.value.price
+      }
+      console.log(data)
+    this.correioService.shippingMelhorPreco(data).subscribe((res) => {
+      console.log(res);
+      this.shipping = res.filter(this.filterShipping)
+      this.loadingCor = false;
+    },
+    (err) => {
+      this.loadingCor = false;
+    });
+  }
+
+  filterShipping(s) {
+    if (s["error"]) {
+      return false;
+    } else {
+      return true;
+    }
   }
 
 }

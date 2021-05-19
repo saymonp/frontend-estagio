@@ -18,6 +18,54 @@
                 </div>
             </ng-template>
         </ngb-carousel>
+        <div *ngIf="shipping.length == 0" class="row col-md-12 mt-4 ml-1">
+          <p>Digite o seu cep e cálcule o frete para mais opções de entrega</p>
+        </div>
+        <div *ngIf="shipping" class="row col-md-12 mt-4">
+          <div class="col-md-12 col-sm-6">
+          <h5>Opções de entrega</h5>
+          <ul class="list-unstyled follows">
+             <li *ngFor="let s of shipping let i=index">
+               <div class="row mb-4">
+                 <div class="col-md-4 col-3">
+                   <img src="{{ s.company.picture }}" alt="Circle Image" class="img-responsive">
+                 </div>
+                 <div class="col-md-6 col-2 description">
+                     <h6>{{ s.name }}</h6> 
+                     <h5>{{ s.price | currency: 'BRL' }}
+                     <p *ngIf="s['discount'] && s['discount'] > 0.00" class="text-success">Economia de {{ s.discount | currency: 'BRL' }}</p>
+                   </h5>
+                     <p>{{s.delivery_range.min}} - {{s.delivery_range.max}} dias úteis</p>
+                     <hr/>
+                 </div>
+                 <div class="col-md-2 col-2 mt-3"> 
+                   <button *ngIf="chosenOne == null || chosenOne != i" (click)="chooseShipping(i)" class="btn btn-just-icon btn-round btn-outline-danger btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="fa fa-plus"></i></button>
+                   <button *ngIf="chosenOne == i" class="btn btn-just-icon btn-round btn-outline-success btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="nc-icon nc-check-2"></i></button>
+                 </div>
+               </div>   
+             </li>
+             <li>
+              <div class="row mb-4">
+                <div class="col-md-4 col-3">
+                  <img src="https://estagio-uploads.s3-sa-east-1.amazonaws.com/logo/LOGO.jpg" alt="Circle Image" class="img-responsive">
+                </div>
+                <div class="col-md-6 col-2 description">
+                    <h6>Retirar em mãos</h6> 
+                    <h5 class="text-success">{{0.00 | currency: 'BRL' }}
+                  </h5>
+                  <small>Apenas em Santo Ângelo - RS</small> 
+                    <hr/>
+                </div>
+                <div class="col-md-2 col-2 mt-3">
+                  <button *ngIf="chosenOne == null || chosenOne != shipping.length" (click)="chooseShipping(shipping.length)" class="btn btn-just-icon btn-round btn-outline-danger btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="fa fa-plus"></i></button>
+                  <button *ngIf="chosenOne == shipping.length" class="btn btn-just-icon btn-round btn-outline-success btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="nc-icon nc-check-2"></i></button>
+                </div>
+              </div>
+              
+            </li>
+           </ul>    
+          </div>           
+        </div>
          </div>
          <div class="col-md-6 col-sm-6">
            <h2>{{ product.title }}</h2>
@@ -50,29 +98,17 @@
                 <h6>CEP</h6>
                 <input name="cepDestino" formControlName="cepDestino" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
               </div>
-             
-             <div class="col-md-5 col-sm-6">
-              
-                <h6>Forma de entrega</h6>
-                <select formControlName="cdServico" class="form-control border-input"> 
-                  <option value="04510">PAC</option>
-                  <option value="04014">SEDEX</option>
-                  <option value="40169">SEDEX 12</option>
-                  <option value="40215">SEDEX 10</option>
-                  <option value="Retirar em mãos">Retirar em mãos - Apenas em Santo Ângelo - RS</option>
-                  </select>
-                </div>
                 <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-3 col-sm-6">  
                   <h6>Quantidade</h6> 
                     <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
                   </div>
             <div class="form-group row">
-              <button *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcDelivery()" type="button" class="btn btn-danger btn-block btn-round ml-4">Calcular Frete &nbsp;<i *ngIf="loadingCor==true" class="spin icon nc-icon nc-refresh-69"></i></button>
+              <button *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcShipping()" type="button" class="btn btn-danger btn-block btn-round ml-4">Calcular Frete &nbsp;<i *ngIf="loadingCor==true" class="spin icon nc-icon nc-refresh-69"></i></button>
               <button *ngIf="loadingCor==true" type="button" class="btn btn-danger btn-block btn-round ml-4"><i class="spin icon nc-icon nc-refresh-69"></i></button>
 
             </div>
             </div>
-             <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | numberFormat }}</span> entregue em <span class="price text-success">{{ days }} dias</span></h4>
+             <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | numberFormat }}</span> entregue em <span class="price text-success">{{ days.min }} a {{days.max }} dias úteis</span></h4>
              <h4 *ngIf="frete == 0 && freteError==true" class="mr-auto ml-auto mt-1">Iremos calcular o frete</h4>
            <hr>
            <div class="row">
