@@ -1,131 +1,134 @@
 <div class="page-header page-header-xs" style="background-image: url('./assets/img/productDetail.jpg');">
-   <div class="filter"></div>
- </div>
+  <div class="filter"></div>
+</div>
 
- <div class="main">
-   <div class="section">
-    <div *ngIf="loading==true" id="loading-wrapper">
-      <div id="loading-text">Carregando</div>
-      <div id="loading-content"></div>
-    </div>
-     <div *ngIf="loading==false" class="container">
-       <div *ngIf="product" class="row">
-         <div class="col-md-5 col-sm-6">     
-           <ngb-carousel>
-            <ng-template ngbSlide *ngFor="let img of product.images">
-                <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
-                <div class="carousel-caption">
-                </div>
-            </ng-template>
-        </ngb-carousel>
-        <div *ngIf="shipping.length == 0" class="row col-md-12 mt-4 ml-1">
-          <p>Digite o seu cep e cálcule o frete para mais opções de entrega</p>
-        </div>
-        <div *ngIf="shipping" class="row col-md-12 mt-4">
-          <div class="col-md-12 col-sm-6">
-          <h5>Opções de entrega</h5>
-          <ul class="list-unstyled follows">
-             <li *ngFor="let s of shipping let i=index">
-               <div class="row mb-4">
-                 <div class="col-md-4 col-3">
-                   <img src="{{ s.company.picture }}" alt="Circle Image" class="img-responsive">
-                 </div>
-                 <div class="col-md-6 col-2 description">
-                     <h6>{{ s.name }}</h6> 
-                     <h5>{{ s.price | currency: 'BRL' }}
-                     <p *ngIf="s['discount'] && s['discount'] > 0.00" class="text-success">Economia de {{ s.discount | currency: 'BRL' }}</p>
-                   </h5>
-                     <p>{{s.delivery_range.min}} - {{s.delivery_range.max}} dias úteis</p>
-                     <hr/>
-                 </div>
-                 <div class="col-md-2 col-2 mt-3"> 
-                   <button *ngIf="chosenOne == null || chosenOne != i" (click)="chooseShipping(i)" class="btn btn-just-icon btn-round btn-outline-danger btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="fa fa-plus"></i></button>
-                   <button *ngIf="chosenOne == i" class="btn btn-just-icon btn-round btn-outline-success btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="nc-icon nc-check-2"></i></button>
-                 </div>
-               </div>   
-             </li>
-             <li>
-              <div class="row mb-4">
-                <div class="col-md-4 col-3">
-                  <img src="https://estagio-uploads.s3-sa-east-1.amazonaws.com/logo/LOGO.jpg" alt="Circle Image" class="img-responsive">
-                </div>
-                <div class="col-md-6 col-2 description">
-                    <h6>Retirar em mãos</h6> 
-                    <h5 class="text-success">{{0.00 | currency: 'BRL' }}
-                  </h5>
-                  <small>Apenas em Santo Ângelo - RS</small> 
-                    <hr/>
-                </div>
-                <div class="col-md-2 col-2 mt-3">
-                  <button *ngIf="chosenOne == null || chosenOne != shipping.length" (click)="chooseShipping(shipping.length)" class="btn btn-just-icon btn-round btn-outline-danger btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="fa fa-plus"></i></button>
-                  <button *ngIf="chosenOne == shipping.length" class="btn btn-just-icon btn-round btn-outline-success btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="nc-icon nc-check-2"></i></button>
-                </div>
-              </div>
-              
-            </li>
-           </ul>    
-          </div>           
-        </div>
-         </div>
-         <div class="col-md-6 col-sm-6">
-           <h2>{{ product.title }}</h2>
-           <h4 class="price"><strong>R$ {{ product.price | numberFormat }}</strong></h4>
-           <h6 class="m-1">{{ product.height }} X {{ product.width }} cm</h6>
-           <hr>
-           <p>{{ product.description }}</p>
-           <span class="label label-default shipping mt-3 mb-3">Entrega em todo o Brasil</span>
-           <form class="contact-form" [formGroup]="orderForm" (ngSubmit)="createOrder()">
-           <div class="row">
-             <div class="col-md-4 col-sm-6">
-               <div class="form-group">
-                <h6>Nome</h6>
-                <input name="clientName" formControlName="clientName" type="text" class="form-control border-input" placeholder="Seu Nome">
-              </div>
-             </div>
-             <div class="col-md-4 col-sm-6">
-              <div class="form-group">
-                <h6>E-mail</h6>
-                <input name="clientEmail" formControlName="clientEmail" type="text" class="form-control border-input" placeholder="Seu email">
-              </div>
-             </div>
-             <div class="col-md-4">
-              <h6>Whatsapp</h6>
-                <input name="clientPhone" formControlName="clientPhone" mask="(00) 00000-0000" type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
-          </div>
-        </div>
-              <div class="form-group row">
-                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-4 col-sm-6">
-                <h6>CEP</h6>
-                <input name="cepDestino" formControlName="cepDestino" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
-              </div>
-                <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-3 col-sm-6">  
-                  <h6>Quantidade</h6> 
-                    <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
-                  </div>
-            <div class="form-group row">
-              <button *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcShipping()" type="button" class="btn btn-danger btn-block btn-round ml-4">Calcular Frete &nbsp;<i *ngIf="loadingCor==true" class="spin icon nc-icon nc-refresh-69"></i></button>
-              <button *ngIf="loadingCor==true" type="button" class="btn btn-danger btn-block btn-round ml-4"><i class="spin icon nc-icon nc-refresh-69"></i></button>
-
-            </div>
-            </div>
-             <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | numberFormat }}</span> entregue em <span class="price text-success">{{ days.min }} a {{days.max }} dias úteis</span></h4>
-             <h4 *ngIf="frete == 0 && freteError==true" class="mr-auto ml-auto mt-1">Iremos calcular o frete</h4>
-           <hr>
-           <div class="row">
-             <div class="col-md-7 offset-md-5 col-sm-8 mr-auto ml-auto">
-              <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ (product.price + frete).toFixed(2) | numberFormat }}</strong></h4>
-               <button [disabled]="!orderForm.value.allowContact" type="submit" class="btn btn-danger btn-block btn-round">Encomendar &nbsp;<i class="fa fa-chevron-right"></i></button>
-             </div>
-             <div class="form-check">
-              <label class="form-check-label">
-                  <input name="allowContact" formControlName="allowContact" class="form-check-input" type="checkbox" value=""> De acordo com as Leis 12.965/2014 e 13.709/2018, que regulam o uso da internet e tratamento de dados pessoais no Brasil, ao solicitar o serviço autorizo &lt;BeMaker&gt; a entrar em contato por e-mail e Whatsapp e concordo com a sua política de privacidade.  
-                  <span class="form-check-sign"></span>
-              </label>
-          </div>
-           </div>
-          </form>
-          </div>
-       </div>
-     </div>
+<div class="main">
+  <div class="section">
+   <div *ngIf="loading==true" id="loading-wrapper">
+     <div id="loading-text">Carregando</div>
+     <div id="loading-content"></div>
    </div>
- </div>
+    <div *ngIf="loading==false" class="container">
+      <div *ngIf="product" class="row">
+        <div class="col-md-5 col-sm-6">     
+          <ngb-carousel>
+           <ng-template ngbSlide *ngFor="let img of product.images">
+               <img class="img-responsive" src="{{ img.file_url }}" alt="{{ img.key }}">
+               <div class="carousel-caption">
+               </div>
+           </ng-template>
+       </ngb-carousel>
+        </div>
+        <div class="col-md-6 col-sm-6">
+          <h2>{{ product.title }}</h2>
+          <h4 class="price"><strong>R$ {{ product.price | numberFormat }}</strong></h4>
+          <h6 class="m-1">{{ product.height }} X {{ product.width }} cm</h6>
+          <hr>
+          <p>{{ product.description }}</p>
+          <span class="label label-default shipping mt-3 mb-3">Entrega em todo o Brasil</span>
+          <form class="contact-form" [formGroup]="orderForm" (ngSubmit)="createOrder()">
+          <div class="row">
+            <div class="col-md-4 col-sm-6">
+              <div class="form-group">
+               <h6>Nome</h6>
+               <input name="clientName" formControlName="clientName" type="text" class="form-control border-input" placeholder="Seu Nome">
+             </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+             <div class="form-group">
+               <h6>E-mail</h6>
+               <input name="clientEmail" formControlName="clientEmail" type="text" class="form-control border-input" placeholder="Seu email">
+             </div>
+            </div>
+            <div class="col-md-4">
+             <h6>Whatsapp</h6>
+               <input name="clientPhone" formControlName="clientPhone" mask="(00) 00000-0000" type="text" class="form-control" placeholder="DDD + Número" (focus)="focus1=true" (blur)="focus1=false" >
+         </div>
+       </div>
+             <div class="form-group row">
+               <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-4 col-sm-6">
+               <h6>CEP</h6>
+               <input name="cepDestino" formControlName="cepDestino" mask="00000000" type="text" class="form-control border-input" placeholder="CEP">
+             </div>
+               <div *ngIf="orderForm.value.cdServico != 'Retirar em mãos'" class="col-md-3 col-sm-6">  
+                 <h6>Quantidade</h6> 
+                   <input oninput="validity.valid||(value='');" name="amount" formControlName="amount" type="number" min="1" class="form-control border-input" placeholder="1">
+                 </div>
+           <div class="form-group row">
+             <button *ngIf="loadingCor==false && orderForm.value.cdServico != 'Retirar em mãos'" (click)="calcShipping()" type="button" class="btn btn-danger btn-block btn-round ml-4">Calcular Frete &nbsp;<i *ngIf="loadingCor==true" class="spin icon nc-icon nc-refresh-69"></i></button>
+             <button *ngIf="loadingCor==true" type="button" class="btn btn-danger btn-block btn-round ml-4"><i class="spin icon nc-icon nc-refresh-69"></i></button>
+
+           </div>
+           </div>
+            
+          <hr>
+          <div class="row">
+           <div *ngIf="shipping.length == 0" class="row col-md-12 mt-4 ml-1">
+             <p>Digite o seu cep e cálcule o frete para mais opções de entrega</p>
+           </div>
+           <div *ngIf="shipping" class="row col-md-12 col-sm-12 mt-4">
+             <div class="col-md-12 col-sm-12">
+             <h5 class="mb-4">Opções de entrega</h5>
+             <ul class="list-unstyled follows">
+                <li *ngFor="let s of shipping let i=index">
+                  <div class="row mb-4">
+                    <div class="col-md-3 col-4">
+                      <img src="{{ s.company.picture }}" alt="Circle Image" class="img-responsive">
+                    </div>
+                    <div class="col-md-6 col-6 description">
+                        <h6>{{ s.name }}</h6> 
+                        <h5>{{ s.price | currency: 'BRL' }}
+                        <p *ngIf="s['discount'] && s['discount'] > 0.00" class="text-success">Economia de {{ s.discount | currency: 'BRL' }}</p>
+                      </h5>
+                        <p>{{s.delivery_range.min}} - {{s.delivery_range.max}} dias úteis</p>
+                        <hr/>
+                    </div>
+                    <div class="col-md-2 col-2"> 
+                      <button *ngIf="chosenOne == null || chosenOne != i" (click)="chooseShipping(i)" class="btn btn-just-icon btn-round btn-outline-danger btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="fa fa-plus"></i></button>
+                      <button *ngIf="chosenOne == i" class="btn btn-just-icon btn-round btn-outline-success btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="nc-icon nc-check-2"></i></button>
+                    </div>
+                  </div>   
+                </li>
+                <li>
+                 <div class="row mb-4">
+                   <div class="col-md-3 col-4">
+                     <img src="https://estagio-uploads.s3-sa-east-1.amazonaws.com/logo/LOGO.jpg" alt="Circle Image" class="img-responsive">
+                   </div>
+                   <div class="col-md-6 col-6 description">
+                       <h6>Retirar em mãos</h6> 
+                       <h5 class="text-success">{{0.00 | currency: 'BRL' }}
+                     </h5>
+                     <small>Apenas em Santo Ângelo - RS</small> 
+                       <hr/>
+                   </div>
+                   <div class="col-md-3 col-2 mt-3">
+                     <button *ngIf="chosenOne == null || chosenOne != shipping.length" (click)="chooseShipping(shipping.length)" class="btn btn-just-icon btn-round btn-outline-danger btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="fa fa-plus"></i></button>
+                     <button *ngIf="chosenOne == shipping.length" class="btn btn-just-icon btn-round btn-outline-success btn-tooltip" rel="tooltip" title="" data-original-title="follow"><i class="nc-icon nc-check-2"></i></button>
+                   </div>
+                 </div>
+                 
+               </li>
+              </ul>    
+             </div>           
+           </div>
+           <h4 *ngIf="frete > 0" class="mr-auto ml-auto mt-1">Frete <span class="price text-success">{{ frete | numberFormat }}</span> entregue em <span class="price text-success">{{ days.min }} a {{days.max }} dias úteis</span></h4>
+            <h4 *ngIf="frete == 0 && freteError==true" class="mr-auto ml-auto mt-1">Iremos calcular o frete</h4>
+            
+            <div class="col-md-7 offset-md-5 col-sm-8 mr-auto ml-auto">
+             <hr>
+             <h4 class="price mr-auto ml-auto text-center mb-3 mt-1"><strong>Total {{ (product.price + frete).toFixed(2) | numberFormat }}</strong></h4>
+              <button [disabled]="!orderForm.value.allowContact" type="submit" class="btn btn-danger btn-block btn-round">Encomendar &nbsp;<i class="fa fa-chevron-right"></i></button>
+            </div>
+            <div class="form-check">
+             <label class="form-check-label">
+                 <input name="allowContact" formControlName="allowContact" class="form-check-input" type="checkbox" value=""> De acordo com as Leis 12.965/2014 e 13.709/2018, que regulam o uso da internet e tratamento de dados pessoais no Brasil, ao solicitar o serviço autorizo &lt;BeMaker&gt; a entrar em contato por e-mail e Whatsapp e concordo com a sua política de privacidade.  
+                 <span class="form-check-sign"></span>
+             </label>
+         </div>
+          </div>
+         </form>
+         </div>
+      </div>
+    </div>
+  </div>
+</div>
