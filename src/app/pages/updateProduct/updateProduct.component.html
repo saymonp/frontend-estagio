@@ -199,7 +199,7 @@
                <div *ngIf="shipping.length > 0" class="row col-md-12 mt-4">
                      <div *ngFor="let s of shipping">
                        <div class="col-md-12">
-                         <div class="col-md-12 col-2 description">
+                         <div class="col-md-12 col-12 description">
                              <h6>{{ s.name }}</h6> 
                              <h5>{{ s.price | currency: 'BRL' }}
                              <p *ngIf="s['discount'] && s['discount'] > 0.00" class="text-success">Economia de {{ s.discount | currency: 'BRL' }}</p>
