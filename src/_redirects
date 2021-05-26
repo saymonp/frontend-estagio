@@ -1,1 +1,7 @@
 /*  /index.html 200
+
+# Redirect default Netlify subdomain to primary domain
+
+https://lucid-pare-97555c.netlify.app/* https://bemaker.store/:splat 301!
+
+# Example: https://budi.netlify.app/* https://budidev.com/:splat 301!
