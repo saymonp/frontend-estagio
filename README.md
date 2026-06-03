@@ -1,6 +1,24 @@
 # FrontendEstagio
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 11.0.1.
+# BeMaker - Front-End
+
+Este repositório contém a aplicação de Front-End do projeto **BeMaker**, desenvolvida durante o estágio curricular orientado pela **Unijuí (Universidade Regional do Noroeste do Estado do Rio Grande do Sul)**. 
+
+A interface foi projetada utilizando a arquitetura robusta do **Angular**, focando em componentização estruturada, injeção de dependências e reatividade orientada a dados, servindo como a camada de interação do usuário com um ecossistema baseado em arquitetura Serverless orientada a eventos no Back-End.
+
+---
+
+## Tecnologias e Ferramentas
+
+O ecossistema do Front-End foi construído utilizando as seguintes tecnologias:
+
+* **Framework Principal:** Angular
+* **Linguagem:** TypeScript (Tipagem estática estrita para contratos e payloads)
+* **Gerenciamento de Requisições:** `@angular/common/http`
+* **Programação Reativa:** RxJS (Observables e operadores de fluxo)
+* **Controle de Versão:** Git
+
+---
 
 ## Development server
 
